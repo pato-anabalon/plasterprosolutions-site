@@ -2,8 +2,8 @@ export const siteConfig = {
   name: "PlasterProSolutions",
   url: "https://www.plasterprosolution.co.nz",
   email: "sales@plasterprosolution.co.nz",
-  phone: "+64 27 315 6733",
-  address: "56 Pah Road, Epsom, Auckland",
+  phone: "021 742 300",
+  address: "19 Marywil Crescent, Hauraki, Auckland",
   navigation: [
     { label: "Home", href: "/" },
     { label: "Services", href: "/services" },
@@ -11,6 +11,11 @@ export const siteConfig = {
     { label: "About", href: "/about" },
     { label: "Real Estate", href: "/real-estate" },
     { label: "Contact", href: "/contact" },
+  ],
+  socials: [
+    { label: "Facebook", href: "https://www.facebook.com/plasterprosolution/" },
+    { label: "Instagram", href: "https://www.instagram.com/plasterprosolution/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/plasterprosolution" },
   ],
   metrics: [
     { value: "900+", label: "projects completed since 2021" },

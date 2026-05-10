@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -10,6 +10,12 @@ gsap.registerPlugin(useGSAP);
 export function SitePreloader() {
   const [isVisible, setIsVisible] = useState(true);
   const scope = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fallback = window.setTimeout(() => setIsVisible(false), 3600);
+
+    return () => window.clearTimeout(fallback);
+  }, []);
 
   useGSAP(
     () => {

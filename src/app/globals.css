@@ -123,6 +123,34 @@ button {
   will-change: transform, opacity;
 }
 
+@keyframes service-card-copy-slide {
+  0%,
+  24% {
+    transform: translateY(0);
+  }
+
+  36%,
+  60% {
+    transform: translateY(-7rem);
+  }
+
+  72%,
+  100% {
+    transform: translateY(-14rem);
+  }
+}
+
+.service-card-copy-track {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .service-card:hover .service-card-copy-track,
+  .service-card:focus-within .service-card-copy-track {
+    animation: service-card-copy-slide 8.5s ease-in-out infinite;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
