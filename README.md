@@ -1,6 +1,6 @@
-# PlasterProSolutions Website
+# PlasterProSolution Website
 
-Next.js website for PlasterProSolutions, an Auckland-based plastering, painting, gib stopping, and real estate make-ready company.
+Next.js website for PlasterProSolution, an Auckland-based plastering, painting, gib stopping, and real estate make-ready company.
 
 ## Stack
 

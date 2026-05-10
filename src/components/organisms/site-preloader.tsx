@@ -38,7 +38,11 @@ export function SitePreloader() {
         .fromTo(
           ".preloader-logo-color",
           { clipPath: "inset(100% 0% 0% 0%)" },
-          { clipPath: "inset(0% 0% 0% 0%)", duration: 1.1, ease: "power2.inOut" },
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            duration: 1.1,
+            ease: "power2.inOut",
+          },
           "-=0.1",
         )
         .fromTo(
@@ -61,7 +65,7 @@ export function SitePreloader() {
     <div
       ref={scope}
       className="fixed inset-0 z-50 grid place-items-center bg-surface text-charcoal"
-      aria-label="Loading PlasterProSolutions"
+      aria-label="Loading PlasterProSolution"
       role="status"
     >
       <div className="preloader-mark grid w-[min(78vw,23rem)] gap-7 text-center opacity-0">
@@ -79,7 +83,7 @@ export function SitePreloader() {
             <Image
               className="object-contain"
               src="/assets/ps_edited.png"
-              alt="PlasterProSolutions"
+              alt="PlasterProSolution"
               fill
               sizes="(max-width: 480px) 78vw, 23rem"
               priority

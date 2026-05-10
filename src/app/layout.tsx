@@ -9,8 +9,8 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "PlasterProSolutions | Auckland Plastering & Painting Specialists",
-    template: "%s | PlasterProSolutions",
+    default: "PlasterProSolution | Auckland Plastering & Painting Specialists",
+    template: "%s | PlasterProSolution",
   },
   description:
     "Auckland-based plastering, painting, gib stopping, and real estate make-ready specialists for residential and commercial properties.",
@@ -23,11 +23,11 @@ export const metadata: Metadata = {
     "real estate property maintenance Auckland",
   ],
   openGraph: {
-    title: "PlasterProSolutions",
+    title: "PlasterProSolution",
     description:
       "Premium plastering, painting, and property presentation services across Auckland.",
     url: siteConfig.url,
-    siteName: "PlasterProSolutions",
+    siteName: "PlasterProSolution",
     locale: "en_NZ",
     type: "website",
   },
@@ -60,10 +60,7 @@ export default function RootLayout({
   };
 
   return (
-    <html
-      lang="en"
-      className="h-full scroll-smooth antialiased"
-    >
+    <html lang="en" className="h-full scroll-smooth antialiased">
       <body className="flex min-h-full flex-col">
         <SitePreloader />
         <Header />
@@ -71,7 +68,9 @@ export default function RootLayout({
         <Footer />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd),
+          }}
         />
       </body>
     </html>

@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "PlasterProSolutions",
+  name: "PlasterProSolution",
   url: "https://www.plasterprosolution.co.nz",
   email: "sales@plasterprosolution.co.nz",
   phone: "021 742 300",

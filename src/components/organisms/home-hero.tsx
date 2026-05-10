@@ -81,7 +81,7 @@ export function HomeHero() {
   return (
     <section ref={scope} className="bg-background text-charcoal">
       <div className="relative grid min-h-[calc(100svh-80px)] w-full overflow-hidden border-y border-charcoal/12 bg-surface lg:h-[calc(100svh-80px)] lg:min-h-[38rem] lg:grid-cols-12 lg:grid-rows-[15rem_minmax(0,1fr)_30svh]">
-        <div className="hero-panel group relative grid min-h-40 place-items-center overflow-hidden border-b border-charcoal/10 bg-surface opacity-0 transition duration-500 lg:col-start-1 lg:col-end-7 lg:row-start-1 lg:row-end-2 lg:min-h-0 lg:border-r lg:pb-0">
+        <div className="hero-panel group relative hidden min-h-40 place-items-center overflow-hidden border-b border-charcoal/10 bg-surface opacity-0 transition duration-500 sm:grid lg:col-start-1 lg:col-end-7 lg:row-start-1 lg:row-end-2 lg:min-h-0 lg:border-r lg:pb-0">
           <div
             className="absolute inset-0 grid grid-cols-[repeat(16,minmax(0,1fr))] grid-rows-[repeat(6,minmax(0,1fr))]"
             aria-hidden="true"
@@ -96,7 +96,7 @@ export function HomeHero() {
           <Image
             className="pointer-events-none relative z-10 h-auto w-[min(72vw,23rem)] transition duration-500 group-hover:scale-[1.03]"
             src="/assets/ps_edited.png"
-            alt="PlasterProSolutions"
+            alt="PlasterPro Solution"
             width={402}
             height={124}
             loading="eager"
@@ -140,7 +140,7 @@ export function HomeHero() {
               </span>
             </h1>
             <p className="hero-body pretty mt-6 max-w-2xl text-xl leading-9 text-muted opacity-0">
-              PlasterPro Solutions delivers sharp plastering, painting, gib
+              PlasterPro Solution delivers sharp plastering, painting, gib
               stopping, and real estate make-ready work across Auckland.{" "}
               <strong>Your vision, our commitment to excellence.</strong>
             </p>

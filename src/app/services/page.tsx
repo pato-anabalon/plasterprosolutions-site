@@ -30,17 +30,28 @@ export default function ServicesPage() {
             >
               <div>
                 <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-spicy-orange">
-                  {String(index + 1).padStart(2, "0")} / PlasterProSolutions
+                  {String(index + 1).padStart(2, "0")} / PlasterProSolution
                 </p>
-                <h2 className="balanced mt-4 text-3xl font-black text-charcoal">{service.title}</h2>
-                <p className="pretty mt-5 text-lg leading-8 text-muted">{service.description}</p>
+                <h2 className="balanced mt-4 text-3xl font-black text-charcoal">
+                  {service.title}
+                </h2>
+                <p className="pretty mt-5 text-lg leading-8 text-muted">
+                  {service.description}
+                </p>
                 <p className="mt-6 border-l-2 border-spicy-orange pl-4 text-base font-bold leading-7 text-charcoal">
                   {service.bestFor}
                 </p>
                 <ul className="mt-6 grid gap-3">
                   {service.includes.map((item) => (
-                    <li className="flex gap-3 text-base font-bold text-muted" key={item}>
-                      <CheckCircle2 className="mt-0.5 shrink-0 text-oxide-green" size={18} aria-hidden="true" />
+                    <li
+                      className="flex gap-3 text-base font-bold text-muted"
+                      key={item}
+                    >
+                      <CheckCircle2
+                        className="mt-0.5 shrink-0 text-oxide-green"
+                        size={18}
+                        aria-hidden="true"
+                      />
                       <span>{item}</span>
                     </li>
                   ))}

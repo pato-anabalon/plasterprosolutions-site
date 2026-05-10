@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { Button } from "@/components/atoms/button";
 import { AnimatedReveal } from "@/components/molecules/animated-reveal";
 import { MetricCard } from "@/components/molecules/metric-card";
+import { HomeServiceCards } from "@/components/organisms/home-service-cards";
 import { HomeHero } from "@/components/organisms/home-hero";
 import { SectionHeading } from "@/components/molecules/section-heading";
 import { siteConfig } from "@/data/site";
@@ -16,7 +17,11 @@ export default function Home() {
       <section className="bg-charcoal-brown pb-10 pt-10">
         <div className="site-shell grid gap-4 sm:grid-cols-3">
           {siteConfig.metrics.map((metric) => (
-            <MetricCard key={metric.label} value={metric.value} label={metric.label} />
+            <MetricCard
+              key={metric.label}
+              value={metric.value}
+              label={metric.label}
+            />
           ))}
         </div>
       </section>
@@ -31,72 +36,21 @@ export default function Home() {
             />
             <div className="grid gap-3 border-l-2 border-spicy-orange pl-5">
               {siteConfig.trustPillars.map((pillar) => (
-                <p className="flex items-center gap-3 text-lg font-black text-charcoal" key={pillar}>
-                  <ShieldCheck className="text-oxide-green" size={20} aria-hidden="true" />
+                <p
+                  className="flex items-center gap-3 text-lg font-black text-charcoal"
+                  key={pillar}
+                >
+                  <ShieldCheck
+                    className="text-oxide-green"
+                    size={20}
+                    aria-hidden="true"
+                  />
                   {pillar}
                 </p>
               ))}
             </div>
           </div>
-          <div className="mt-12 grid overflow-hidden rounded-lg border border-charcoal/10 bg-charcoal/10 md:grid-cols-2 lg:grid-cols-4">
-            {siteConfig.services.map((service, index) => (
-              <AnimatedReveal
-                className="service-card group relative min-h-[25rem] overflow-hidden bg-surface transition duration-500 hover:z-10 hover:-translate-y-1 hover:bg-charcoal focus-within:z-10 focus-within:-translate-y-1 focus-within:bg-charcoal"
-                key={service.slug}
-                delay={index * 0.04}
-              >
-                <Link
-                  className="focus-ring relative flex h-full min-h-[25rem] flex-col justify-between p-6 text-charcoal transition duration-500 group-hover:text-white group-focus-within:text-white"
-                  href={`/services#${service.slug}`}
-                  aria-label={`Explore ${service.title}`}
-                >
-                  <span
-                    className="pointer-events-none absolute -right-3 top-4 text-[6.5rem] font-black leading-none text-charcoal/[0.06] transition duration-500 group-hover:text-white/10 group-focus-within:text-white/10 sm:text-[7.5rem] lg:text-[6.5rem] xl:text-[7.25rem]"
-                    aria-hidden="true"
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="relative z-10 flex items-center justify-between gap-4">
-                    <span className="text-xs font-black uppercase tracking-[0.2em] text-spicy-orange">
-                      Service
-                    </span>
-                    <ArrowRight
-                      className="text-charcoal/30 transition duration-300 group-hover:translate-x-1 group-hover:text-spicy-orange group-focus-within:translate-x-1 group-focus-within:text-spicy-orange"
-                      size={20}
-                      aria-hidden="true"
-                    />
-                  </span>
-                  <h3 className="balanced relative z-30 mt-auto max-w-[13rem] text-2xl font-black leading-tight transition duration-700 ease-out group-hover:-translate-y-44 group-hover:text-white group-focus-within:-translate-y-44 group-focus-within:text-white sm:text-3xl lg:text-2xl xl:text-3xl">
-                    {service.title}
-                  </h3>
-                  <span className="absolute inset-x-0 bottom-0 z-20 translate-y-full border-t border-white/10 bg-charcoal p-6 text-white transition duration-700 ease-out group-hover:translate-y-0 group-focus-within:translate-y-0">
-                    <span className="block h-28 overflow-hidden">
-                      <span className="service-card-copy-track block">
-                        <span className="pretty block h-28 text-base leading-7 text-white/76">
-                          {service.description}
-                        </span>
-                        <span className="pretty block h-28 text-base leading-7 text-white/76">
-                          <span className="mb-2 block text-xs font-black uppercase tracking-[0.2em] text-spicy-orange">
-                            Best for
-                          </span>
-                          {service.bestFor}
-                        </span>
-                        <span className="pretty block h-28 text-base leading-7 text-white/76">
-                          <span className="mb-2 block text-xs font-black uppercase tracking-[0.2em] text-spicy-orange">
-                            Includes
-                          </span>
-                          {service.includes.slice(0, 2).join(" / ")}
-                        </span>
-                      </span>
-                    </span>
-                    <span className="mt-5 inline-flex items-center gap-2 text-sm font-black uppercase tracking-[0.14em] text-spicy-orange">
-                      Explore service <ArrowRight size={16} aria-hidden="true" />
-                    </span>
-                  </span>
-                </Link>
-              </AnimatedReveal>
-            ))}
-          </div>
+          <HomeServiceCards services={siteConfig.services} />
         </div>
       </section>
 
@@ -151,7 +105,7 @@ export default function Home() {
                   href="/projects"
                   aria-label={`View project: ${project.title}`}
                 >
-                  <article className="relative min-h-[25rem] overflow-hidden rounded-lg bg-charcoal shadow-[0_18px_54px_rgba(25,23,20,0.16)]">
+                  <article className="relative min-h-[29rem] overflow-hidden rounded-lg bg-charcoal shadow-[0_18px_54px_rgba(25,23,20,0.16)]">
                     <Image
                       className="object-cover opacity-[0.92] transition duration-700 ease-out group-hover:scale-105 group-hover:opacity-100 group-focus-within:scale-105 group-focus-within:opacity-100"
                       src={project.image}
