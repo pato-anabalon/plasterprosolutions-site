@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Footer } from "@/components/organisms/footer";
 import { Header } from "@/components/organisms/header";
 import { SitePreloader } from "@/components/organisms/site-preloader";
@@ -72,6 +73,7 @@ export default function RootLayout({
             __html: JSON.stringify(localBusinessJsonLd),
           }}
         />
+        <SpeedInsights />
       </body>
     </html>
   );
