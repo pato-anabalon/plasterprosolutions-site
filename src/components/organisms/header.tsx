@@ -2,14 +2,56 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, Phone, X } from "lucide-react";
 import { Button } from "@/components/atoms/button";
 import { SocialLinks } from "@/components/molecules/social-links";
 import { siteConfig } from "@/data/site";
 
 export function Header() {
+  const pathname = usePathname();
+  const navRef = useRef<HTMLElement>(null);
+  const navIndicatorRef = useRef<HTMLSpanElement>(null);
+  const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [highlightedHref, setHighlightedHref] = useState<string | null>(null);
+
+  const activeHref =
+    siteConfig.navigation.find((item) =>
+      item.href === "/" ? pathname === "/" : pathname.startsWith(item.href),
+    )?.href ?? "/";
+
+  const moveNavIndicator = useCallback((href: string) => {
+    const nav = navRef.current;
+    const indicator = navIndicatorRef.current;
+    const target = linkRefs.current[href];
+
+    if (!nav || !indicator || !target) {
+      return;
+    }
+
+    const navRect = nav.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+
+    indicator.style.left = `${targetRect.left - navRect.left}px`;
+    indicator.style.width = `${targetRect.width}px`;
+    indicator.style.opacity = "1";
+  }, []);
+
+  useLayoutEffect(() => {
+    moveNavIndicator(activeHref);
+  }, [activeHref, moveNavIndicator]);
+
+  useEffect(() => {
+    const handleResize = () => moveNavIndicator(activeHref);
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [activeHref, moveNavIndicator]);
 
   useEffect(() => {
     if (!isMobileMenuOpen) {
@@ -100,14 +142,49 @@ export function Header() {
         </Link>
 
         <nav
-          className="hidden items-center gap-1 justify-self-center rounded-full border border-charcoal/10 bg-white/74 p-1 lg:flex"
+          className="relative hidden items-center gap-1 justify-self-center rounded-full border border-charcoal/10 bg-white/74 p-1 lg:flex"
           aria-label="Primary navigation"
+          ref={navRef}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              setHighlightedHref(null);
+              moveNavIndicator(activeHref);
+            }
+          }}
+          onMouseLeave={() => {
+            setHighlightedHref(null);
+            moveNavIndicator(activeHref);
+          }}
         >
+          <span
+            className="pointer-events-none absolute bottom-1 top-1 rounded-full bg-charcoal-brown shadow-[0_10px_28px_rgba(65,63,61,0.18)] transition-[left,width,opacity] duration-300 ease-out"
+            ref={navIndicatorRef}
+            style={{ left: 0, opacity: 0, width: 0 }}
+            aria-hidden="true"
+          />
           {siteConfig.navigation.map((item) => (
             <Link
-              className="focus-ring rounded-full px-3 py-2 text-sm font-extrabold text-charcoal/72 transition hover:bg-surface-strong hover:text-charcoal"
+              className={`focus-ring relative z-10 rounded-full px-3 py-2 text-sm font-extrabold transition duration-300 ${
+                item.href === (highlightedHref ?? activeHref)
+                  ? "text-white"
+                  : item.href === activeHref
+                    ? "text-spicy-orange"
+                  : "text-charcoal/72 hover:text-white focus:text-white"
+              }`}
               href={item.href}
               key={item.href}
+              ref={(node) => {
+                linkRefs.current[item.href] = node;
+              }}
+              aria-current={item.href === activeHref ? "page" : undefined}
+              onFocus={() => {
+                setHighlightedHref(item.href);
+                moveNavIndicator(item.href);
+              }}
+              onMouseEnter={() => {
+                setHighlightedHref(item.href);
+                moveNavIndicator(item.href);
+              }}
             >
               {item.label}
             </Link>
