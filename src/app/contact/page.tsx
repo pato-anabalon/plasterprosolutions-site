@@ -17,6 +17,10 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Tell us about the property, timeline, and finish you need."
         body={`Quote requests are prepared to route to ${siteConfig.email}. Email delivery will be connected through the production provider before launch.`}
+        imageSrc={siteConfig.projectGallery[5].image}
+        imageAlt="Exterior make-good plaster repair and repainting work"
+        meta="Fast scoping and clear next steps"
+        pageNumber="05"
       />
       <section className="py-20 sm:py-28">
         <div className="site-shell grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">

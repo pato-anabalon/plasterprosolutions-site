@@ -17,6 +17,10 @@ export default function ProjectsPage() {
         eyebrow="Projects"
         title="Auckland plastering and painting work with finish detail in focus."
         body="A curated gallery of surface preparation, plastering, painting, and property presentation work across residential, commercial, and real estate timelines."
+        imageSrc={siteConfig.projectGallery[0].image}
+        imageAlt="Finished exterior plastering on an Auckland residential property"
+        meta="Recent work across Auckland"
+        pageNumber="02"
       />
       <section className="py-20 sm:py-28">
         <div className="site-shell grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

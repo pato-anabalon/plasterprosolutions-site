@@ -32,6 +32,10 @@ export default function RealEstatePage() {
         eyebrow="Real Estate"
         title="Property presentation support for agents and property managers."
         body="A focused landing page for teams who need homes, rentals, and listings to look sharp before photography, viewings, inspections, and tenant handover."
+        imageSrc={siteConfig.projectGallery[2].image}
+        imageAlt="Photo-ready exterior presentation for an Auckland residential property"
+        meta="Pre-listing · rental · handover"
+        pageNumber="04"
       />
       <section className="py-20 sm:py-28">
         <div className="site-shell grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">

@@ -18,6 +18,10 @@ export default function AboutPage() {
         eyebrow="About"
         title="A practical, experienced crew focused on finish quality."
         body="Auckland plastering, painting, and gib stopping support for people who need steady communication, clean preparation, and a finish that holds up in person and on camera."
+        imageSrc={siteConfig.projectGallery[4].image}
+        imageAlt="Premium residential exterior coating work by PlasterPro Solution"
+        meta="20+ years industry experience"
+        pageNumber="03"
       />
       <section className="py-20 sm:py-28">
         <div className="site-shell grid gap-12 lg:grid-cols-[1fr_0.85fr] lg:items-start">

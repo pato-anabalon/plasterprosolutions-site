@@ -18,6 +18,10 @@ export default function ServicesPage() {
         eyebrow="Services"
         title="Plastering and painting services built for Auckland properties."
         body="A practical service structure for commercial teams, homeowners, agents, and property managers who need dependable preparation and clean finishes."
+        imageSrc={siteConfig.projectGallery[3].image}
+        imageAlt="Commercial plastering work in progress on an Auckland site"
+        meta="Commercial · residential · make-ready"
+        pageNumber="01"
       />
       <section className="py-20 sm:py-28">
         <div className="site-shell grid gap-6 md:grid-cols-2">
