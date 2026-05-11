@@ -80,8 +80,8 @@ export function HomeHero() {
 
   return (
     <section ref={scope} className="bg-background text-charcoal">
-      <div className="relative grid min-h-[calc(100svh-80px)] w-full overflow-hidden border-y border-charcoal/12 bg-surface lg:h-[calc(100svh-80px)] lg:min-h-[38rem] lg:grid-cols-12 lg:grid-rows-[15rem_minmax(0,1fr)_30svh]">
-        <div className="hero-panel group relative hidden min-h-40 place-items-center overflow-hidden border-b border-charcoal/10 bg-surface opacity-0 transition duration-500 sm:grid lg:col-start-1 lg:col-end-7 lg:row-start-1 lg:row-end-2 lg:min-h-0 lg:border-r lg:pb-0">
+      <div className="relative grid min-h-[calc(100svh-80px)] w-full overflow-hidden border-y border-charcoal/12 bg-surface md:grid-cols-2 lg:h-[calc(100svh-80px)] lg:min-h-[38rem] lg:grid-cols-12 lg:grid-rows-[15rem_minmax(0,1fr)_30svh]">
+        <div className="hero-panel group relative hidden min-h-40 place-items-center overflow-hidden border-b border-charcoal/10 bg-surface opacity-0 transition duration-500 lg:col-start-1 lg:col-end-7 lg:row-start-1 lg:row-end-2 lg:grid lg:min-h-0 lg:border-r lg:pb-0">
           <div
             className="absolute inset-0 grid grid-cols-[repeat(16,minmax(0,1fr))] grid-rows-[repeat(6,minmax(0,1fr))]"
             aria-hidden="true"
@@ -95,7 +95,7 @@ export function HomeHero() {
           </div>
           <Image
             className="pointer-events-none relative z-10 h-auto w-[min(72vw,23rem)] transition duration-500 group-hover:scale-[1.03]"
-            src="/assets/ps_edited.png"
+            src="/assets/logo-short.png"
             alt="PlasterPro Solution"
             width={402}
             height={124}
@@ -103,7 +103,7 @@ export function HomeHero() {
           />
         </div>
 
-        <div className="hero-panel group relative min-h-[17rem] overflow-hidden border-b border-charcoal/10 bg-charcoal opacity-0 lg:col-start-7 lg:col-end-13 lg:row-start-1 lg:row-end-3 lg:min-h-0">
+        <div className="hero-panel group relative min-h-[17rem] overflow-hidden border-b border-charcoal/10 bg-charcoal opacity-0 md:col-span-2 lg:col-start-7 lg:col-end-13 lg:row-start-1 lg:row-end-3 lg:min-h-0">
           <video
             className="h-full min-h-[17rem] w-full object-cover transition duration-700 group-hover:scale-[1.025] lg:min-h-0"
             src="/assets/home-video.mp4"
@@ -120,7 +120,7 @@ export function HomeHero() {
           </div>
         </div>
 
-        <div className="hero-panel flex min-h-[27rem] flex-col justify-end overflow-hidden border-b border-charcoal/10 p-6 opacity-0 sm:p-8 lg:col-start-1 lg:col-end-7 lg:row-start-2 lg:row-end-4 lg:min-h-0 lg:border-r lg:border-b-0 lg:p-8 xl:p-9">
+        <div className="hero-panel flex min-h-[27rem] flex-col justify-end overflow-hidden border-b border-charcoal/10 p-6 opacity-0 sm:p-8 md:col-span-2 lg:col-start-1 lg:col-end-7 lg:row-start-2 lg:row-end-4 lg:min-h-0 lg:border-r lg:border-b-0 lg:p-8 xl:p-9">
           <div>
             <p className="text-sm font-extrabold uppercase tracking-[0.22em] text-spicy-orange">
               Auckland plastering and painting specialists
@@ -156,7 +156,7 @@ export function HomeHero() {
         </div>
 
         <Link
-          className="focus-ring hero-panel group relative flex min-h-52 flex-col justify-between overflow-hidden border-b border-charcoal/10 p-6 opacity-0 transition duration-500 hover:border-spicy-orange/35 hover:bg-[rgba(227,65,15,0.08)] sm:p-8 lg:col-start-7 lg:col-end-10 lg:row-start-3 lg:row-end-4 lg:min-h-0 lg:border-r lg:border-b-0"
+          className="focus-ring hero-panel group relative flex min-h-52 flex-col justify-between overflow-hidden border-b border-charcoal/10 p-6 opacity-0 transition duration-500 hover:border-spicy-orange/35 hover:bg-[rgba(227,65,15,0.08)] sm:p-8 md:col-span-1 md:border-b-0 md:border-r lg:col-start-7 lg:col-end-10 lg:row-start-3 lg:row-end-4 lg:min-h-0"
           href="/projects"
         >
           <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-spicy-orange transition duration-500 group-hover:scale-x-100" />
@@ -178,7 +178,7 @@ export function HomeHero() {
         </Link>
 
         <Link
-          className="focus-ring hero-panel group relative flex min-h-52 flex-col justify-between overflow-hidden bg-charcoal p-6 text-white opacity-0 transition duration-500 hover:bg-charcoal-brown sm:p-8 lg:col-start-10 lg:col-end-13 lg:row-start-3 lg:row-end-4 lg:min-h-0"
+          className="focus-ring hero-panel group relative flex min-h-52 flex-col justify-between overflow-hidden bg-charcoal p-6 text-white opacity-0 transition duration-500 hover:bg-charcoal-brown sm:p-8 md:col-span-1 lg:col-start-10 lg:col-end-13 lg:row-start-3 lg:row-end-4 lg:min-h-0"
           href="/contact"
         >
           <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-spicy-orange transition duration-500 group-hover:scale-x-100" />

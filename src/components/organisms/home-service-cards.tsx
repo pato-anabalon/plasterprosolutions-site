@@ -126,7 +126,49 @@ export function HomeServiceCards({ services }: HomeServiceCardsProps) {
         })}
       </div>
 
-      <div className="mt-12 hidden overflow-hidden rounded-lg border border-charcoal/10 bg-charcoal/10 sm:grid md:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-12 hidden grid-cols-2 gap-4 sm:grid lg:hidden">
+        {services.map((service, index) => (
+          <AnimatedReveal
+            className="group relative overflow-hidden rounded-lg border border-charcoal/10 bg-surface shadow-[0_18px_54px_rgba(25,23,20,0.08)] transition duration-300 hover:-translate-y-1 hover:border-spicy-orange/35 hover:shadow-[0_22px_60px_rgba(227,65,15,0.12)]"
+            key={service.slug}
+            delay={index * 0.04}
+          >
+            <Link
+              className="focus-ring relative flex min-h-[23rem] flex-col justify-between p-6 text-charcoal"
+              href={`/services#${service.slug}`}
+              aria-label={`Explore ${service.title}`}
+            >
+              <span
+                className="pointer-events-none absolute -right-4 top-5 text-[7.5rem] font-black leading-none text-charcoal/[0.055] transition duration-300 group-hover:text-spicy-orange/[0.08]"
+                aria-hidden="true"
+              >
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span className="relative z-10 flex items-center justify-between gap-4">
+                <span className="text-xs font-black uppercase tracking-[0.2em] text-spicy-orange">
+                  Service
+                </span>
+                <span className="grid size-10 place-items-center rounded-full border border-charcoal/10 bg-white text-charcoal/40 transition duration-300 group-hover:border-spicy-orange/40 group-hover:text-spicy-orange">
+                  <ArrowRight size={18} aria-hidden="true" />
+                </span>
+              </span>
+              <span className="relative z-10 mt-auto grid gap-5">
+                <h3 className="balanced max-w-[15rem] text-3xl font-black leading-[0.98]">
+                  {service.title}
+                </h3>
+                <p className="pretty max-w-[24rem] text-base font-medium leading-7 text-muted">
+                  {service.description}
+                </p>
+                <span className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-[0.14em] text-spicy-orange">
+                  Explore service <ArrowRight size={16} aria-hidden="true" />
+                </span>
+              </span>
+            </Link>
+          </AnimatedReveal>
+        ))}
+      </div>
+
+      <div className="mt-12 hidden overflow-hidden rounded-lg border border-charcoal/10 bg-charcoal/10 lg:grid lg:grid-cols-4">
         {services.map((service, index) => (
           <AnimatedReveal
             className="service-card group relative min-h-[25rem] overflow-hidden bg-surface transition duration-500 hover:z-10 hover:-translate-y-1 hover:bg-charcoal focus-within:z-10 focus-within:-translate-y-1 focus-within:bg-charcoal"

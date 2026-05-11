@@ -26,7 +26,7 @@ export function Header() {
 
   const mobileMenu = (
     <div
-      className={`fixed inset-x-0 bottom-0 top-20 z-30 overflow-hidden bg-charcoal text-white transition duration-500 ease-out sm:hidden ${
+      className={`fixed inset-x-0 bottom-0 top-20 z-30 overflow-hidden bg-charcoal text-white transition duration-500 ease-out lg:hidden ${
         isMobileMenuOpen
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-full opacity-100"
@@ -35,7 +35,7 @@ export function Header() {
       aria-hidden={!isMobileMenuOpen}
     >
       <div className="flex min-h-full flex-col justify-between px-6 pb-8 pt-7">
-        <nav className="grid" aria-label="Mobile navigation">
+        <nav className="grid" aria-label="Mobile and tablet navigation">
           {siteConfig.navigation.map((item, index) => (
             <Link
               className={`flex items-end justify-between gap-5 border-b border-white/10 py-4 text-4xl font-black leading-none text-white transition duration-300 ease-out ${
@@ -81,10 +81,10 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-charcoal/10 bg-surface/92 backdrop-blur-xl">
-      <div className="grid min-h-20 grid-cols-[2.75rem_1fr_2.75rem] items-center gap-4 px-5 sm:grid-cols-[1fr_auto] sm:px-8 lg:grid-cols-[minmax(13rem,1fr)_auto_minmax(13rem,1fr)] lg:px-10 xl:px-12">
-        <span className="h-11 sm:hidden" aria-hidden="true" />
+      <div className="grid min-h-20 grid-cols-[2.75rem_1fr_2.75rem] items-center gap-4 px-5 sm:px-8 lg:grid-cols-[minmax(13rem,1fr)_auto_minmax(13rem,1fr)] lg:px-10 xl:px-12">
+        <span className="h-11 lg:hidden" aria-hidden="true" />
         <Link
-          className="focus-ring col-start-2 inline-flex w-fit items-center justify-self-center sm:col-start-auto sm:justify-self-start"
+          className="focus-ring col-start-2 inline-flex w-fit items-center justify-self-center lg:col-start-auto lg:justify-self-start"
           href="/"
           aria-label="PlasterPro Solution home"
           onClick={() => setIsMobileMenuOpen(false)}
@@ -125,7 +125,7 @@ export function Header() {
           <Button href="/contact">Request a Quote</Button>
         </div>
 
-        <div className="col-start-3 justify-self-end sm:hidden">
+        <div className="col-start-3 justify-self-end lg:hidden">
           <button
             className="focus-ring relative z-50 grid size-11 place-items-center rounded-full border border-charcoal/15 bg-white text-charcoal transition hover:border-spicy-orange hover:text-spicy-orange"
             type="button"
@@ -142,28 +142,6 @@ export function Header() {
           </button>
         </div>
 
-        <details className="group relative hidden justify-self-end sm:block lg:hidden">
-          <summary className="focus-ring grid size-11 cursor-pointer list-none place-items-center rounded-full border border-charcoal/15 bg-white text-charcoal [&::-webkit-details-marker]:hidden">
-            <Menu size={20} aria-hidden="true" />
-            <span className="sr-only">Open menu</span>
-          </summary>
-          <div className="absolute right-0 top-14 w-[min(20rem,calc(100vw-2rem))] rounded-lg border border-charcoal/10 bg-surface p-4 shadow-2xl">
-            <nav className="grid gap-2" aria-label="Mobile navigation">
-              {siteConfig.navigation.map((item) => (
-                <Link
-                  className="rounded-md px-3 py-3 text-base font-extrabold text-charcoal transition hover:bg-surface-strong"
-                  href={item.href}
-                  key={item.href}
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <Button className="mt-2 w-full" href="/contact">
-                Request a Quote
-              </Button>
-            </nav>
-          </div>
-        </details>
         </div>
       </header>
       {mobileMenu}

@@ -112,10 +112,14 @@ export const siteConfig = {
       image: "/assets/a46a48_bb809f9602fc47748012d66ef5cc671c~mv2.jpg",
     },
   ],
-  certifications: [
-    { name: "Licensed Building Practitioner", src: "/assets/licensed-building-practitioner-logo.avif" },
-    { name: "Site Safe Member", src: "/assets/site-safe-member-logo.avif" },
-    { name: "Dulux", src: "/assets/dulux-logo.avif" },
-    { name: "Resene", src: "/assets/resene-logo.avif" },
+  qualifications: [
+    { name: "Licensed Building Practitioner", src: "/assets/qualifications/licensed-building-practitioner-logo.avif" },
+    { name: "Site Safe Member", src: "/assets/qualifications/site-safe-member-logo.png" },
+    { name: "Dulux", src: "/assets/qualifications/dulux-logo.png" },
+    { name: "Resene Construction Systems", src: "/assets/qualifications/resene-construction-logo.png" },
+    { name: "Resene", src: "/assets/qualifications/resene-logo.jpg" },
+    { name: "Alto Paints", src: "/assets/qualifications/altopaint-logo.png" },
+    { name: "Specialized Construction Products", src: "/assets/qualifications/specialized-logo.png" },
+    { name: "NoCowboys", src: "/assets/qualifications/no-cowboys-logo.png" },
   ],
 };

@@ -4,7 +4,7 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react";
 type ButtonProps = {
   children: ReactNode;
   href?: string;
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "dark" | "ghost";
   className?: string;
 } & ComponentPropsWithoutRef<"button">;
 
@@ -13,6 +13,8 @@ const variants = {
     "bg-spicy-orange text-white shadow-[0_18px_48px_rgba(227,65,15,0.28)] hover:-translate-y-0.5 hover:bg-charcoal-brown hover:shadow-[0_18px_54px_rgba(65,63,61,0.22)]",
   secondary:
     "border border-charcoal/15 bg-surface text-charcoal shadow-[0_12px_34px_rgba(25,23,20,0.08)] hover:-translate-y-0.5 hover:border-spicy-orange hover:text-spicy-orange",
+  dark:
+    "border border-charcoal bg-charcoal text-white shadow-[0_18px_48px_rgba(25,23,20,0.18)] hover:-translate-y-0.5 hover:border-charcoal hover:bg-white hover:text-charcoal",
   ghost: "text-charcoal hover:-translate-y-0.5 hover:text-spicy-orange",
 };
 

@@ -68,7 +68,7 @@ export default function AboutPage() {
               Qualifications and partners
             </h2>
             <div className="mt-6 grid grid-cols-2 gap-4">
-              {siteConfig.certifications.map((item) => (
+              {siteConfig.qualifications.slice(0, 4).map((item) => (
                 <div
                   className="grid min-h-28 place-items-center rounded-md bg-white p-4"
                   key={item.name}

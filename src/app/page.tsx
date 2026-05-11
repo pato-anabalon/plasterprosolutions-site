@@ -6,6 +6,7 @@ import { AnimatedReveal } from "@/components/molecules/animated-reveal";
 import { MetricCard } from "@/components/molecules/metric-card";
 import { HomeServiceCards } from "@/components/organisms/home-service-cards";
 import { HomeHero } from "@/components/organisms/home-hero";
+import { QualificationsCarousel } from "@/components/organisms/qualifications-carousel";
 import { SectionHeading } from "@/components/molecules/section-heading";
 import { siteConfig } from "@/data/site";
 
@@ -140,17 +141,19 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-charcoal-brown py-16 text-white">
+      <QualificationsCarousel qualifications={siteConfig.qualifications} />
+
+      <section className="bg-spicy-orange py-16 text-white">
         <div className="site-shell grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <p className="text-sm font-extrabold uppercase tracking-[0.22em] text-white/60">
+            <p className="text-sm font-extrabold uppercase tracking-[0.22em] text-white/72">
               Ready to talk scope?
             </p>
             <h2 className="balanced mt-4 text-4xl font-black leading-tight sm:text-5xl">
               Send the job details and the team will come back with next steps.
             </h2>
           </div>
-          <Button href="/contact" variant="secondary">
+          <Button href="/contact" variant="dark">
             Contact the Team
           </Button>
         </div>
