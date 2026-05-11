@@ -18,7 +18,7 @@ export default function ServicesPage() {
         eyebrow="Services"
         title="Plastering and painting services built for Auckland properties."
         body="A practical service structure for commercial teams, homeowners, agents, and property managers who need dependable preparation and clean finishes."
-        imageSrc={siteConfig.projectGallery[3].image}
+        imageSrc="/assets/671154060_1612262470629938_5620068256015942789_n.jpg"
         imageAlt="Commercial plastering work in progress on an Auckland site"
         meta="Commercial · residential · make-ready"
         pageNumber="01"

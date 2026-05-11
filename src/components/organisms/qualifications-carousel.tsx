@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { AnimatedReveal } from "@/components/molecules/animated-reveal";
+import { LogoMarquee } from "@/components/molecules/logo-marquee";
 
 type Qualification = {
   name: string;
@@ -32,36 +32,10 @@ export function QualificationsCarousel({
 
       <AnimatedReveal className="site-shell mt-10" delay={0.08}>
         <div className="mx-auto max-w-[55.5rem] border-y border-white/10 py-5">
-          <div className="qualifications-marquee group relative -my-8 py-8">
-            <div
-              className="qualifications-marquee-track flex w-max items-center"
-              aria-label="PlasterPro Solution qualifications and supplier logos"
-            >
-              {[0, 1].map((setIndex) => (
-                <div
-                  className="qualifications-marquee-set flex items-center gap-6 pr-6"
-                  key={setIndex}
-                  aria-hidden={setIndex === 1}
-                >
-                  {qualifications.map((qualification) => (
-                    <div
-                      className="qualification-logo-card group/card relative grid size-28 shrink-0 place-items-center overflow-hidden rounded-md border border-white/12 bg-white shadow-[0_18px_48px_rgba(0,0,0,0.18)] transition-colors duration-300 sm:size-36"
-                      key={`${qualification.name}-${setIndex}`}
-                      title={qualification.name}
-                    >
-                      <Image
-                        className="object-cover opacity-70 grayscale transition duration-500 ease-out group-hover/card:scale-105 group-hover/card:opacity-100 group-hover/card:grayscale-0"
-                        src={qualification.src}
-                        alt={setIndex === 0 ? qualification.name : ""}
-                        fill
-                        sizes="(max-width: 640px) 7rem, 9rem"
-                      />
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
+          <LogoMarquee
+            ariaLabel="PlasterPro Solution qualifications and supplier logos"
+            items={qualifications}
+          />
         </div>
       </AnimatedReveal>
     </section>
