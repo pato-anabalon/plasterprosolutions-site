@@ -1,4 +1,5 @@
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { ContactPersonCard } from "@/components/molecules/contact-person-card";
 import { siteConfig } from "@/data/site";
 
 export function ContactDetails() {
@@ -21,6 +22,18 @@ export function ContactDetails() {
           <span>{siteConfig.address}</span>
         </li>
       </ul>
+
+      <div className="mt-8 border-t border-charcoal/10 pt-6">
+        <h3 className="text-sm font-black uppercase tracking-[0.16em] text-spicy-orange">
+          Direct contacts
+        </h3>
+        <div className="mt-4 grid gap-3">
+          {siteConfig.directContacts.map((contact) => (
+            <ContactPersonCard key={contact.email} {...contact} />
+          ))}
+        </div>
+      </div>
+
       <div className="mt-8 border-t border-charcoal/10 pt-6">
         <div className="flex gap-3">
           <Clock

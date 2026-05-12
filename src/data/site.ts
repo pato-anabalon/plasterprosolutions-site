@@ -17,6 +17,20 @@ export const siteConfig = {
     { label: "Instagram", href: "https://www.instagram.com/plasterprosolution/" },
     { label: "LinkedIn", href: "https://www.linkedin.com/company/plasterprosolution" },
   ],
+  directContacts: [
+    {
+      name: "Rolando Reveco",
+      role: "Managing Director",
+      phone: "021 742 300",
+      email: "rolando@plasterprosolution.co.nz",
+    },
+    {
+      name: "Regan O'keefe",
+      role: "Sales Representative",
+      phone: "028 431 6180",
+      email: "regan@plasterprosolution.co.nz",
+    },
+  ],
   metrics: [
     { value: "900+", label: "projects completed since 2021" },
     { value: "20+", label: "years of industry experience" },
