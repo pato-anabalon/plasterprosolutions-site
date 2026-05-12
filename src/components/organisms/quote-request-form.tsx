@@ -155,7 +155,7 @@ export function QuoteRequestForm() {
       <label className="field-label">
         Add files
         <input
-          className="field-control cursor-not-allowed py-3 text-muted file:mr-4 file:rounded-full file:border-0 file:bg-charcoal file:px-4 file:py-2 file:text-sm file:font-extrabold file:text-white"
+          className="field-control cursor-not-allowed py-3 text-muted file:mr-4 file:rounded-full file:border-0 file:bg-spicy-orange file:px-4 file:py-2 file:text-sm file:font-extrabold file:text-white file:shadow-[0_10px_24px_rgba(227,65,15,0.18)]"
           disabled
           multiple
           name="files"
