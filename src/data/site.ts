@@ -111,6 +111,12 @@ export const siteConfig = {
       location: "Auckland property",
       image: "/assets/a46a48_bb809f9602fc47748012d66ef5cc671c~mv2.jpg",
     },
+    {
+      title: "Freemans Bay interior finish",
+      service: "Interior plastering and painting",
+      location: "Freemans Bay, Auckland",
+      image: "/assets/projects/freemans-bay-04.avif",
+    },
   ],
   qualifications: [
     { name: "Licensed Building Practitioner", src: "/assets/qualifications/licensed-building-practitioner-logo.avif" },

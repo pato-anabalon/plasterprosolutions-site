@@ -17,8 +17,8 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Tell us about the property, timeline, and finish you need."
         body={`Quote requests are prepared to route to ${siteConfig.email}. Email delivery will be connected through the production provider before launch.`}
-        imageSrc={siteConfig.projectGallery[5].image}
-        imageAlt="Exterior make-good plaster repair and repainting work"
+        imageSrc={siteConfig.projectGallery[6].image}
+        imageAlt="Freemans Bay interior plastering and painting finish"
         meta="Fast scoping and clear next steps"
         pageNumber="05"
       />
