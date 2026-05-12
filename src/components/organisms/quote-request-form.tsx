@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/atoms/button";
 
@@ -182,6 +183,16 @@ export function QuoteRequestForm() {
       <Button className="w-full sm:w-fit" disabled={isSubmitting} type="submit">
         {isSubmitting ? "Sending..." : "Send Request"}
       </Button>
+      <p className="text-xs font-bold leading-5 text-muted">
+        By submitting this request, you acknowledge our{" "}
+        <Link
+          className="font-black text-spicy-orange underline-offset-4 hover:underline"
+          href="/terms-of-service"
+        >
+          Terms of Service
+        </Link>
+        .
+      </p>
     </form>
   );
 }

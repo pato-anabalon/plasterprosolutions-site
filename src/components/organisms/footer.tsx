@@ -65,6 +65,9 @@ export function Footer() {
                 {item.label}
               </Link>
             ))}
+            <Link className="hover:text-white" href="/terms-of-service">
+              Terms of Service
+            </Link>
           </nav>
         </div>
       </div>
