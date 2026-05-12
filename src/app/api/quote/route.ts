@@ -26,6 +26,11 @@ type QuotePayload = {
   submittedAt: string;
 };
 
+type RateLimitEntry = {
+  count: number;
+  resetAt: number;
+};
+
 const requiredFields: Array<keyof QuotePayload> = [
   "subject",
   "message",
@@ -36,19 +41,122 @@ const requiredFields: Array<keyof QuotePayload> = [
   "phone",
 ];
 
+const fieldLimits = {
+  address: 240,
+  company: 120,
+  email: 160,
+  firstName: 80,
+  lastName: 80,
+  message: 3000,
+  page: 120,
+  phone: 40,
+  source: 80,
+  subject: 140,
+} satisfies Record<keyof Omit<QuotePayload, "submittedAt">, number>;
+
+const maxBodySize = 16 * 1024;
+const rateLimitWindowMs = 10 * 60 * 1000;
+const rateLimitMaxRequests = 5;
+const webhookTimeoutMs = 10_000;
+const rateLimitStore = new Map<string, RateLimitEntry>();
+
 function asCleanString(value: unknown) {
-  return typeof value === "string" ? value.trim() : "";
+  return typeof value === "string" ? value.replace(/\0/g, "").trim() : "";
 }
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+function isValidPhone(value: string) {
+  return /^[0-9+()\s-]{7,40}$/.test(value);
+}
+
+function getClientKey(request: Request) {
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  const forwardedIp = forwardedFor?.split(",")[0]?.trim();
+
+  return (
+    forwardedIp ||
+    request.headers.get("x-real-ip") ||
+    request.headers.get("cf-connecting-ip") ||
+    "unknown"
+  );
+}
+
+function isRateLimited(clientKey: string) {
+  const now = Date.now();
+  const current = rateLimitStore.get(clientKey);
+
+  if (!current || current.resetAt <= now) {
+    rateLimitStore.set(clientKey, {
+      count: 1,
+      resetAt: now + rateLimitWindowMs,
+    });
+    return false;
+  }
+
+  current.count += 1;
+
+  return current.count > rateLimitMaxRequests;
+}
+
+function isOversized(request: Request) {
+  const contentLength = Number(request.headers.get("content-length") ?? 0);
+
+  return contentLength > maxBodySize;
+}
+
+function parseWebhookUrl(value: string | undefined) {
+  if (!value) {
+    return null;
+  }
+
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
+function isTooLong(payload: QuotePayload) {
+  return Object.entries(fieldLimits).some(([field, limit]) => {
+    const value = payload[field as keyof typeof fieldLimits];
+    return value.length > limit;
+  });
+}
+
 export async function POST(request: Request) {
   let body: QuoteRequestBody;
 
+  if (isOversized(request)) {
+    return Response.json(
+      { error: "The quote request is too large." },
+      { status: 413 },
+    );
+  }
+
+  const clientKey = getClientKey(request);
+
+  if (isRateLimited(clientKey)) {
+    return Response.json(
+      { error: "Too many quote requests. Please try again later." },
+      { status: 429 },
+    );
+  }
+
   try {
-    body = (await request.json()) as QuoteRequestBody;
+    const text = await request.text();
+
+    if (text.length > maxBodySize) {
+      return Response.json(
+        { error: "The quote request is too large." },
+        { status: 413 },
+      );
+    }
+
+    body = JSON.parse(text) as QuoteRequestBody;
   } catch {
     return Response.json(
       { error: "The quote request could not be read." },
@@ -83,6 +191,13 @@ export async function POST(request: Request) {
     );
   }
 
+  if (isTooLong(payload)) {
+    return Response.json(
+      { error: "Please shorten the quote request details." },
+      { status: 400 },
+    );
+  }
+
   if (!isValidEmail(payload.email)) {
     return Response.json(
       { error: "Please enter a valid email address." },
@@ -90,7 +205,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const webhookUrl = process.env.ZAPIER_QUOTE_WEBHOOK_URL;
+  if (!isValidPhone(payload.phone)) {
+    return Response.json(
+      { error: "Please enter a valid phone number." },
+      { status: 400 },
+    );
+  }
+
+  const webhookUrl = parseWebhookUrl(process.env.ZAPIER_QUOTE_WEBHOOK_URL);
 
   if (!webhookUrl) {
     return Response.json(
@@ -99,14 +221,24 @@ export async function POST(request: Request) {
     );
   }
 
-  const response = await fetch(webhookUrl, {
-    body: JSON.stringify(payload),
-    cache: "no-store",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-  });
+  let response: Response;
+
+  try {
+    response = await fetch(webhookUrl, {
+      body: JSON.stringify(payload),
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      signal: AbortSignal.timeout(webhookTimeoutMs),
+    });
+  } catch {
+    return Response.json(
+      { error: "The quote request could not be sent. Please try again." },
+      { status: 502 },
+    );
+  }
 
   if (!response.ok) {
     return Response.json(

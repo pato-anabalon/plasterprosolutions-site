@@ -41,7 +41,7 @@ export function CustomerReviewsSection({
             <a
               className={`group ml-auto grid max-w-sm gap-5 rounded-lg border p-5 transition duration-300 hover:-translate-y-1 ${sourceCardClasses}`}
               href={siteConfig.reviewSource.href}
-              rel="noreferrer"
+              rel="noreferrer noopener"
               target="_blank"
             >
               <span className="flex items-center justify-between gap-5">
