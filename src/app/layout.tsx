@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Footer } from "@/components/organisms/footer";
@@ -41,6 +41,11 @@ export const metadata: Metadata = {
     icon: "/assets/shortcut-icon.png",
     shortcut: "/assets/shortcut-icon.png",
   },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#fffdfa",
 };
 
 export default function RootLayout({

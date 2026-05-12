@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   --background: #f7f5ef;
   --foreground: #191714;
   --muted: #6f6b63;
@@ -37,12 +38,14 @@
 
 html {
   background: var(--background);
+  color-scheme: light;
 }
 
 body {
   min-width: 320px;
   background: linear-gradient(180deg, #fffdfa 0%, var(--background) 42%, #f1eee7 100%);
   color: var(--foreground);
+  color-scheme: light;
   font-family: "Manrope Variable", Arial, Helvetica, sans-serif;
 }
 
