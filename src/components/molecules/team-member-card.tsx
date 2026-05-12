@@ -15,7 +15,7 @@ export function TeamMemberCard({ index, member }: TeamMemberCardProps) {
   const memberNumber = String(index + 1).padStart(2, "0");
 
   return (
-    <article className="group relative min-h-[34rem] overflow-hidden rounded-lg border border-charcoal/10 bg-charcoal shadow-[0_24px_70px_rgba(25,23,20,0.12)] transition duration-500 hover:-translate-y-1 hover:border-spicy-orange/70 hover:shadow-[0_30px_90px_rgba(25,23,20,0.2)]">
+    <article className="group relative min-h-[34rem] overflow-hidden rounded-lg border border-charcoal/10 bg-[var(--charcoal-panel)] shadow-[0_24px_70px_rgba(25,23,20,0.12)] transition duration-500 hover:-translate-y-1 hover:border-spicy-orange/70 hover:shadow-[0_30px_90px_rgba(25,23,20,0.2)]">
       <Image
         className={`object-cover transition duration-700 ease-out ${
           isOpen
@@ -72,7 +72,7 @@ export function TeamMemberCard({ index, member }: TeamMemberCardProps) {
       </div>
 
       <div
-        className={`absolute inset-0 z-20 flex flex-col justify-end bg-charcoal/84 p-5 text-white backdrop-blur-md transition duration-500 ${
+        className={`absolute inset-0 z-20 flex flex-col justify-end bg-[rgb(21_19_17/0.9)] p-5 text-white backdrop-blur-md transition duration-500 ${
           isOpen
             ? "translate-y-0 opacity-100"
             : "pointer-events-none translate-y-8 opacity-0"
