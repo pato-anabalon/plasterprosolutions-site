@@ -23,7 +23,7 @@ export function PersonCard({
 }: PersonCardProps) {
   return (
     <AnimatedReveal
-      className="group grid gap-5 rounded-lg border border-charcoal/10 bg-surface p-5 shadow-[0_18px_50px_rgba(25,23,20,0.06)] transition duration-300 hover:-translate-y-1 hover:border-spicy-orange/40 hover:bg-white sm:grid-cols-[auto_1fr]"
+      className="group grid gap-5 rounded-lg border border-charcoal/10 bg-surface p-5 shadow-[0_18px_50px_rgba(25,23,20,0.06)] transition duration-300 hover:-translate-y-1 hover:border-spicy-orange/40 hover:bg-surface-strong sm:grid-cols-[auto_1fr]"
       delay={delay}
     >
       <div className="grid size-16 shrink-0 place-items-center rounded-full bg-charcoal text-xl font-black text-white transition duration-300 group-hover:bg-spicy-orange">

@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { BrandLogo } from "@/components/atoms/brand-logo";
 
 gsap.registerPlugin(useGSAP);
 
@@ -93,13 +93,11 @@ export function HomeHero() {
               />
             ))}
           </div>
-          <Image
-            className="pointer-events-none relative z-10 h-auto w-[min(72vw,23rem)] transition duration-500 group-hover:scale-[1.03]"
-            src="/assets/logo-short.png"
-            alt="PlasterPro Solution"
-            width={402}
-            height={124}
-            loading="eager"
+          <BrandLogo
+            className="relative z-10 w-[min(72vw,23rem)] transition duration-500 group-hover:scale-[1.03]"
+            priority
+            sizes="(max-width: 1024px) 72vw, 23rem"
+            variant="short"
           />
         </div>
 

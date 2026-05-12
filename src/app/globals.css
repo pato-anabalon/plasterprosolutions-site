@@ -1,19 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: only light;
+  color-scheme: light;
   --background: #f7f5ef;
   --foreground: #191714;
   --muted: #6f6b63;
   --surface: #fffdfa;
   --surface-strong: #ece7dc;
   --charcoal: #191714;
+  --charcoal-panel: #191714;
   --concrete: #d8d2c7;
   --spicy-orange: #e3410f;
   --charcoal-brown: #413f3d;
   --rosy-taupe: #c89483;
   --oxide-green: #59685d;
   --cool-grey: #b9c0bb;
+  --body-gradient-start: #fffdfa;
+  --body-gradient-end: #f1eee7;
+  --surface-panel-border: rgb(25 23 20 / 0.14);
+  --surface-panel-start: rgb(255 253 250 / 0.98);
+  --surface-panel-end: rgb(241 237 228 / 0.96);
+  --surface-panel-accent: rgb(227 65 15 / 0.05);
+  --surface-panel-shadow: rgb(25 23 20 / 0.1);
+  --field-border: rgb(65 63 61 / 0.28);
+  --field-background: #fffdfa;
+  --field-shadow: rgb(255 255 255 / 0.9);
 }
 
 @theme inline {
@@ -38,14 +49,14 @@
 
 html {
   background: var(--background);
-  color-scheme: only light;
+  color-scheme: inherit;
 }
 
 body {
   min-width: 320px;
-  background: linear-gradient(180deg, #fffdfa 0%, var(--background) 42%, #f1eee7 100%);
+  background: linear-gradient(180deg, var(--body-gradient-start) 0%, var(--background) 42%, var(--body-gradient-end) 100%);
   color: var(--foreground);
-  color-scheme: only light;
+  color-scheme: inherit;
   font-family: "Manrope Variable", Arial, Helvetica, sans-serif;
 }
 
@@ -57,6 +68,18 @@ body {
 img,
 video {
   max-width: 100%;
+}
+
+.theme-logo-dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-logo-light {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-logo-dark {
+  display: block;
 }
 
 a,
@@ -78,25 +101,30 @@ button {
 }
 
 .surface-panel {
-  border: 1px solid rgb(25 23 20 / 0.14);
+  border: 1px solid var(--surface-panel-border);
   background:
-    linear-gradient(135deg, rgb(255 253 250 / 0.98), rgb(241 237 228 / 0.96)),
-    linear-gradient(90deg, rgb(227 65 15 / 0.05), transparent 46%);
-  box-shadow: 0 24px 70px rgb(25 23 20 / 0.1);
+    linear-gradient(135deg, var(--surface-panel-start), var(--surface-panel-end)),
+    linear-gradient(90deg, var(--surface-panel-accent), transparent 46%);
+  box-shadow: 0 24px 70px var(--surface-panel-shadow);
 }
 
 .field-control {
   min-height: 3.25rem;
   width: 100%;
   border-radius: 0.5rem;
-  border: 1px solid rgb(65 63 61 / 0.28);
-  background: #fffdfa;
+  border: 1px solid var(--field-border);
+  background: var(--field-background);
+  color: var(--foreground);
   padding-inline: 1rem;
   font-weight: 400;
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9);
+  box-shadow: inset 0 1px 0 var(--field-shadow);
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease;
+}
+
+.field-control::placeholder {
+  color: var(--muted);
 }
 
 .field-control:focus {
@@ -228,6 +256,43 @@ button {
   .service-card:focus-within .service-card-copy-track {
     animation: service-card-copy-slide 8.5s ease-in-out infinite;
   }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #12100e;
+  --foreground: #f6f0e7;
+  --muted: #b9afa4;
+  --surface: #1d1a17;
+  --surface-strong: #28231f;
+  --charcoal: #f6f0e7;
+  --charcoal-panel: #151311;
+  --concrete: #4f4942;
+  --spicy-orange: #ff6a3d;
+  --charcoal-brown: #151311;
+  --rosy-taupe: #d6a18f;
+  --oxide-green: #9cae9f;
+  --cool-grey: #8d9692;
+  --body-gradient-start: #171411;
+  --body-gradient-end: #211d19;
+  --surface-panel-border: rgb(255 255 255 / 0.12);
+  --surface-panel-start: rgb(35 31 27 / 0.98);
+  --surface-panel-end: rgb(25 22 19 / 0.96);
+  --surface-panel-accent: rgb(255 106 61 / 0.08);
+  --surface-panel-shadow: rgb(0 0 0 / 0.28);
+  --field-border: rgb(255 255 255 / 0.18);
+  --field-background: #171411;
+  --field-shadow: rgb(255 255 255 / 0.05);
+}
+
+:root[data-theme="dark"] .bg-charcoal {
+  background-color: var(--charcoal-panel) !important;
+}
+
+:root[data-theme="dark"] .hover\:bg-charcoal:hover,
+:root[data-theme="dark"] .group:hover .group-hover\:bg-charcoal,
+:root[data-theme="dark"] .group:focus-within .group-focus-within\:bg-charcoal {
+  background-color: var(--charcoal-panel) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

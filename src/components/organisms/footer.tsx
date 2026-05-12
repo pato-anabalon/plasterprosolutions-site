@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { BrandLogo } from "@/components/atoms/brand-logo";
 import { SocialLinks } from "@/components/molecules/social-links";
 import { siteConfig } from "@/data/site";
 
@@ -9,13 +9,7 @@ export function Footer() {
     <footer className="border-t border-charcoal/10 bg-charcoal text-white">
       <div className="site-shell grid gap-10 py-12 lg:grid-cols-[1.3fr_0.7fr_0.7fr]">
         <div>
-          <Image
-            className="brightness-0 invert"
-            src="/assets/ps_edited.png"
-            alt="PlasterPro Solution"
-            width={176}
-            height={54}
-          />
+          <BrandLogo className="w-44" theme="dark" />
           <p className="mt-5 max-w-md text-base leading-7 text-white/70">
             Auckland plastering, painting, gib stopping, and property
             presentation specialists trusted by homeowners, builders, agents,

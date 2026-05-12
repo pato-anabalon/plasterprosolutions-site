@@ -19,7 +19,7 @@ export function StatementCard({
   const cardClasses =
     tone === "dark"
       ? "bg-charcoal text-white"
-      : "border border-charcoal/10 bg-white text-charcoal shadow-[0_24px_70px_rgba(25,23,20,0.08)]";
+      : "border border-charcoal/10 bg-surface text-charcoal shadow-[0_24px_70px_rgba(25,23,20,0.08)]";
   const bodyClasses = tone === "dark" ? "text-white/68" : "text-muted";
 
   return (

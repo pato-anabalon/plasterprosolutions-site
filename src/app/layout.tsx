@@ -44,8 +44,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "only light",
-  themeColor: "#fffdfa",
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fffdfa" },
+    { media: "(prefers-color-scheme: dark)", color: "#151311" },
+  ],
 };
 
 export default function RootLayout({
@@ -71,8 +74,19 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="h-full scroll-smooth antialiased">
+    <html
+      lang="en"
+      className="h-full scroll-smooth antialiased"
+      data-theme="light"
+      suppressHydrationWarning
+    >
       <body className="flex min-h-full flex-col">
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var t=localStorage.getItem('plasterpro-theme');var theme=t==='dark'?'dark':'light';document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;}catch(e){document.documentElement.dataset.theme='light';document.documentElement.style.colorScheme='light';}",
+          }}
+        />
         <SitePreloader />
         <Header />
         <main className="flex-1">{children}</main>

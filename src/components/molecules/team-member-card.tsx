@@ -41,7 +41,7 @@ export function TeamMemberCard({ index, member }: TeamMemberCardProps) {
       </div>
 
       <button
-        className="focus-ring absolute right-5 top-5 z-30 grid size-11 place-items-center rounded-full border border-white/20 bg-white text-charcoal shadow-[0_16px_42px_rgba(0,0,0,0.18)] transition duration-300 hover:bg-spicy-orange hover:text-white"
+        className="focus-ring absolute right-5 top-5 z-30 grid size-11 place-items-center rounded-full border border-white/20 bg-surface text-charcoal shadow-[0_16px_42px_rgba(0,0,0,0.18)] transition duration-300 hover:bg-spicy-orange hover:text-white"
         type="button"
         aria-label={`${isOpen ? "Close" : "Open"} ${member.name} profile`}
         aria-expanded={isOpen}

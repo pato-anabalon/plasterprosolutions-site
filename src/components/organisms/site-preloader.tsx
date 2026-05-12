@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { BrandLogo } from "@/components/atoms/brand-logo";
 
 gsap.registerPlugin(useGSAP);
 
@@ -69,24 +69,19 @@ export function SitePreloader() {
       role="status"
     >
       <div className="preloader-mark grid w-[min(78vw,23rem)] gap-7 text-center opacity-0">
-        <div className="relative mx-auto aspect-[402/124] w-full">
-          <Image
-            className="object-contain opacity-55 [filter:grayscale(1)_contrast(0.08)]"
-            src="/assets/ps_edited.png"
+        <div className="relative mx-auto aspect-[1023/376] w-full">
+          <BrandLogo
             alt=""
-            fill
-            sizes="(max-width: 480px) 78vw, 23rem"
+            className="absolute inset-0 w-full"
+            imageClassName="opacity-55 [filter:grayscale(1)_contrast(0.08)]"
             priority
-            aria-hidden="true"
+            sizes="(max-width: 480px) 78vw, 23rem"
           />
           <div className="preloader-logo-color absolute inset-0 overflow-hidden [clip-path:inset(100%_0%_0%_0%)]">
-            <Image
-              className="object-contain"
-              src="/assets/ps_edited.png"
-              alt="PlasterProSolution"
-              fill
-              sizes="(max-width: 480px) 78vw, 23rem"
+            <BrandLogo
+              className="w-full"
               priority
+              sizes="(max-width: 480px) 78vw, 23rem"
             />
           </div>
         </div>

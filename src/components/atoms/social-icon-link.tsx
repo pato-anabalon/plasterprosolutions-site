@@ -46,7 +46,7 @@ const socialIcons = {
 const tones = {
   dark: "border-white/12 bg-white/[0.03] text-white/66 hover:border-spicy-orange/55 hover:bg-spicy-orange/10 hover:text-spicy-orange",
   light:
-    "border-charcoal/12 bg-white/80 text-charcoal/70 hover:border-spicy-orange/55 hover:bg-spicy-orange/10 hover:text-spicy-orange",
+    "border-charcoal/12 bg-surface/80 text-charcoal/70 hover:border-spicy-orange/55 hover:bg-spicy-orange/10 hover:text-spicy-orange",
 };
 
 export function SocialIconLink({

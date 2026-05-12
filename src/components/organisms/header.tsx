@@ -1,12 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, Phone, X } from "lucide-react";
+import { BrandLogo } from "@/components/atoms/brand-logo";
 import { Button } from "@/components/atoms/button";
 import { SocialLinks } from "@/components/molecules/social-links";
+import { ThemeToggle } from "@/components/molecules/theme-toggle";
 import { siteConfig } from "@/data/site";
 
 export function Header() {
@@ -102,7 +103,7 @@ export function Header() {
           ))}
         </nav>
         <div
-          className={`transition duration-300 ease-out ${
+          className={`flex items-end justify-between gap-6 transition duration-300 ease-out ${
             isMobileMenuOpen
               ? "translate-y-0 opacity-100"
               : "translate-y-3 opacity-0"
@@ -111,10 +112,18 @@ export function Header() {
             transitionDelay: isMobileMenuOpen ? "430ms" : "0ms",
           }}
         >
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-white/45">
-            Social networks
-          </p>
-          <SocialLinks className="mt-4" />
+          <div>
+            <p className="mb-4 text-xs font-black uppercase tracking-[0.2em] text-white/45">
+              Theme
+            </p>
+            <ThemeToggle tone="dark" />
+          </div>
+          <div className="text-right">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-white/45">
+              Social networks
+            </p>
+            <SocialLinks className="mt-4 justify-end" />
+          </div>
         </div>
       </div>
     </div>
@@ -126,23 +135,16 @@ export function Header() {
       <div className="grid min-h-20 grid-cols-[2.75rem_1fr_2.75rem] items-center gap-4 px-5 sm:px-8 lg:grid-cols-[minmax(13rem,1fr)_auto_minmax(13rem,1fr)] lg:px-10 xl:px-12">
         <span className="h-11 lg:hidden" aria-hidden="true" />
         <Link
-          className="focus-ring col-start-2 inline-flex w-fit items-center justify-self-center lg:col-start-auto lg:justify-self-start"
+          className="focus-ring col-start-2 inline-flex w-fit items-center justify-self-center transition lg:col-start-auto lg:justify-self-start"
           href="/"
           aria-label="PlasterPro Solution home"
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          <Image
-            className="h-auto w-[142px] sm:w-[162px]"
-            src="/assets/ps_edited.png"
-            alt="PlasterPro Solution"
-            width={162}
-            height={50}
-            priority
-          />
+          <BrandLogo className="w-[142px] sm:w-[162px]" priority />
         </Link>
 
         <nav
-          className="relative hidden items-center gap-1 justify-self-center rounded-full border border-charcoal/10 bg-white/74 p-1 lg:flex"
+          className="relative hidden items-center gap-1 justify-self-center rounded-full border border-charcoal/10 bg-surface/78 p-1 lg:flex"
           aria-label="Primary navigation"
           ref={navRef}
           onBlur={(event) => {
@@ -192,8 +194,9 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center justify-self-end gap-3 lg:flex">
+          <ThemeToggle />
           <a
-            className="focus-ring inline-flex size-12 items-center justify-center rounded-full border border-charcoal/12 bg-white text-charcoal transition hover:border-spicy-orange hover:text-spicy-orange"
+            className="focus-ring inline-flex size-12 items-center justify-center rounded-full border border-charcoal/12 bg-surface text-charcoal transition hover:border-spicy-orange hover:text-spicy-orange"
             href={`tel:${siteConfig.phone.replaceAll(" ", "")}`}
             aria-label={`Call PlasterPro Solution at ${siteConfig.phone}`}
           >
@@ -204,7 +207,7 @@ export function Header() {
 
         <div className="col-start-3 justify-self-end lg:hidden">
           <button
-            className="focus-ring relative z-50 grid size-11 place-items-center rounded-full border border-charcoal/15 bg-white text-charcoal transition hover:border-spicy-orange hover:text-spicy-orange"
+            className="focus-ring relative z-50 grid size-11 place-items-center rounded-full border border-charcoal/15 bg-surface text-charcoal transition hover:border-spicy-orange hover:text-spicy-orange"
             type="button"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
