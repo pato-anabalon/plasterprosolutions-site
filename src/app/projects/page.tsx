@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { AnimatedReveal } from "@/components/molecules/animated-reveal";
+import { ProjectMosaicGallery } from "@/components/organisms/project-mosaic-gallery";
 import { InnerPageHero } from "@/components/templates/inner-page-hero";
 import { siteConfig } from "@/data/site";
 
@@ -78,6 +79,7 @@ export default function ProjectsPage() {
           ))}
         </div>
       </section>
+      <ProjectMosaicGallery photos={siteConfig.projectPhotoGallery} />
     </>
   );
 }
