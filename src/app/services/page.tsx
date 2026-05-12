@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/atoms/button";
 import { AnimatedReveal } from "@/components/molecules/animated-reveal";
+import { CustomerReviewsSection } from "@/components/organisms/customer-reviews-section";
 import { InnerPageHero } from "@/components/templates/inner-page-hero";
 import { siteConfig } from "@/data/site";
 
@@ -68,6 +69,7 @@ export default function ServicesPage() {
           ))}
         </div>
       </section>
+      <CustomerReviewsSection className="sm:py-24" tone="light" />
     </>
   );
 }

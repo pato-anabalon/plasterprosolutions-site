@@ -31,6 +31,36 @@ export const siteConfig = {
       email: "regan@plasterprosolution.co.nz",
     },
   ],
+  reviewSource: {
+    label: "NoCowboys authenticated ratings",
+    href: "https://www.nocowboys.co.nz/businesses/plasterpro-solution",
+    logo: "/assets/qualifications/no-cowboys-logo.png",
+    approval: "97.3%",
+    count: "109",
+  },
+  customerReviews: [
+    {
+      name: "Nicholas",
+      date: "Jan 2026",
+      rating: "100%",
+      title: "Quality control from start to finish",
+      body: "Interior plastering, painting, and exterior painting were coordinated with regular site checks, flexible scheduling, and a collaborative approach.",
+    },
+    {
+      name: "Bill",
+      date: "Mar 2026",
+      rating: "100%",
+      title: "Tidy work from an approachable crew",
+      body: "The crew delivered a smooth job with clear communication, a pleasant site experience, and careful attention to how the work area was left.",
+    },
+    {
+      name: "Bruce",
+      date: "Nov 2025",
+      rating: "100%",
+      title: "Renovation walls finished cleanly",
+      body: "After a kitchen strip-out, the team brought the walls back to a polished finish ready for the next stage of the renovation.",
+    },
+  ],
   metrics: [
     { value: "900+", label: "projects completed since 2021" },
     { value: "20+", label: "years of industry experience" },

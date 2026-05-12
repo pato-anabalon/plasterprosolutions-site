@@ -4,6 +4,7 @@ import { ShieldCheck } from "lucide-react";
 import { Button } from "@/components/atoms/button";
 import { AnimatedReveal } from "@/components/molecules/animated-reveal";
 import { MetricCard } from "@/components/molecules/metric-card";
+import { CustomerReviewsSection } from "@/components/organisms/customer-reviews-section";
 import { HomeServiceCards } from "@/components/organisms/home-service-cards";
 import { HomeHero } from "@/components/organisms/home-hero";
 import { QualificationsCarousel } from "@/components/organisms/qualifications-carousel";
@@ -142,6 +143,8 @@ export default function Home() {
       </section>
 
       <QualificationsCarousel qualifications={siteConfig.qualifications} />
+
+      <CustomerReviewsSection />
 
       <section className="bg-spicy-orange py-16 text-white">
         <div className="site-shell grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
