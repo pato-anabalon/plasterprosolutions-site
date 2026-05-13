@@ -1,6 +1,7 @@
 "use client";
 
 import { upload } from "@vercel/blob/client";
+import { X } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { Button } from "@/components/atoms/button";
@@ -20,11 +21,63 @@ const initialStatus: FormStatus = {
   type: "idle",
 };
 
+function getFileKey(file: File) {
+  return `${file.name}-${file.size}-${file.lastModified}`;
+}
+
+function formatFileSize(size: number) {
+  if (size < 1024 * 1024) {
+    return `${Math.max(1, Math.round(size / 1024))} KB`;
+  }
+
+  return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 export function QuoteRequestForm() {
   const formRef = useRef<HTMLFormElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitLabel, setSubmitLabel] = useState("Send Request");
   const [status, setStatus] = useState<FormStatus>(initialStatus);
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const newFiles = Array.from(event.currentTarget.files ?? []);
+
+    if (!newFiles.length) {
+      return;
+    }
+
+    const nextFilesByKey = new Map(
+      selectedFiles.map((file) => [getFileKey(file), file]),
+    );
+
+    newFiles.forEach((file) => {
+      nextFilesByKey.set(getFileKey(file), file);
+    });
+
+    const nextFiles = Array.from(nextFilesByKey.values());
+    const fileValidationError = validateQuoteFiles(nextFiles);
+
+    if (fileValidationError) {
+      setStatus({
+        message: fileValidationError,
+        type: "error",
+      });
+    } else {
+      setSelectedFiles(nextFiles);
+      setStatus(initialStatus);
+    }
+
+    event.currentTarget.value = "";
+  }
+
+  function handleRemoveFile(fileKey: string) {
+    setSelectedFiles((currentFiles) =>
+      currentFiles.filter((file) => getFileKey(file) !== fileKey),
+    );
+    setStatus(initialStatus);
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -33,10 +86,7 @@ export function QuoteRequestForm() {
     setStatus(initialStatus);
 
     const formData = new FormData(form);
-    const files = formData
-      .getAll("files")
-      .filter((value): value is File => value instanceof File && value.size > 0);
-    const fileValidationError = validateQuoteFiles(files);
+    const fileValidationError = validateQuoteFiles(selectedFiles);
 
     if (fileValidationError) {
       setIsSubmitting(false);
@@ -48,10 +98,10 @@ export function QuoteRequestForm() {
     }
 
     try {
-      setSubmitLabel(files.length ? "Uploading files..." : "Sending...");
+      setSubmitLabel(selectedFiles.length ? "Uploading files..." : "Sending...");
 
       const uploadedFiles = await Promise.all(
-        files.map(async (file) => {
+        selectedFiles.map(async (file) => {
           const blob = await upload(getQuoteUploadPath(file.name), file, {
             access: "public",
             contentType: file.type || undefined,
@@ -96,6 +146,7 @@ export function QuoteRequestForm() {
       }
 
       formRef.current?.reset();
+      setSelectedFiles([]);
       setStatus({
         message: "Thanks. Your quote request has been sent.",
         type: "success",
@@ -205,14 +256,51 @@ export function QuoteRequestForm() {
         <input
           accept={acceptedQuoteFileTypes}
           className="field-control cursor-pointer py-3 text-muted file:mr-4 file:rounded-full file:border-0 file:bg-spicy-orange file:px-4 file:py-2 file:text-sm file:font-extrabold file:text-white file:shadow-[0_10px_24px_rgba(227,65,15,0.18)]"
+          disabled={isSubmitting}
           multiple
           name="files"
+          onChange={handleFileChange}
+          ref={fileInputRef}
           type="file"
         />
         <span className="text-xs font-bold leading-5 text-muted">
-          Upload photos, plans, or PDFs. Up to 5 files, 10 MB each.
+          Add photos, plans, or PDFs one batch at a time. Up to 5 files, 10 MB
+          each.
         </span>
       </label>
+
+      {selectedFiles.length ? (
+        <div className="grid gap-2" aria-live="polite">
+          {selectedFiles.map((file) => {
+            const fileKey = getFileKey(file);
+
+            return (
+              <div
+                className="flex items-center justify-between gap-3 rounded-md border border-[var(--field-border)] bg-[var(--field-background)] px-3 py-2 text-sm text-foreground shadow-sm"
+                key={fileKey}
+              >
+                <span className="min-w-0">
+                  <span className="block truncate font-extrabold">
+                    {sanitizeQuoteFileName(file.name)}
+                  </span>
+                  <span className="text-xs font-bold text-muted">
+                    {formatFileSize(file.size)}
+                  </span>
+                </span>
+                <button
+                  aria-label={`Remove ${file.name}`}
+                  className="grid size-9 shrink-0 place-items-center rounded-full border border-[var(--field-border)] text-muted transition hover:border-spicy-orange hover:text-spicy-orange disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={isSubmitting}
+                  onClick={() => handleRemoveFile(fileKey)}
+                  type="button"
+                >
+                  <X aria-hidden="true" size={16} strokeWidth={2.4} />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      ) : null}
 
       {status.message ? (
         <p
