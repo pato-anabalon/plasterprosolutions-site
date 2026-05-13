@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { Button } from "@/components/atoms/button";
 import {
   acceptedQuoteFileTypes,
+  getQuoteUploadFolder,
   getQuoteUploadPath,
   sanitizeQuoteFileName,
   validateQuoteFiles,
@@ -86,6 +87,14 @@ export function QuoteRequestForm() {
     setStatus(initialStatus);
 
     const formData = new FormData(form);
+    const address = String(formData.get("address") ?? "");
+    const company = String(formData.get("company") ?? "");
+    const email = String(formData.get("email") ?? "");
+    const firstName = String(formData.get("firstName") ?? "");
+    const lastName = String(formData.get("lastName") ?? "");
+    const message = String(formData.get("message") ?? "");
+    const phone = String(formData.get("phone") ?? "");
+    const subject = String(formData.get("subject") ?? "");
     const fileValidationError = validateQuoteFiles(selectedFiles);
 
     if (fileValidationError) {
@@ -99,14 +108,25 @@ export function QuoteRequestForm() {
 
     try {
       setSubmitLabel(selectedFiles.length ? "Uploading files..." : "Sending...");
+      const uploadFolder = selectedFiles.length
+        ? getQuoteUploadFolder({
+            address,
+            firstName,
+            lastName,
+          })
+        : "";
 
       const uploadedFiles = await Promise.all(
         selectedFiles.map(async (file) => {
-          const blob = await upload(getQuoteUploadPath(file.name), file, {
-            access: "public",
-            contentType: file.type || undefined,
-            handleUploadUrl: "/api/quote/upload",
-          });
+          const blob = await upload(
+            getQuoteUploadPath(uploadFolder, file.name),
+            file,
+            {
+              access: "public",
+              contentType: file.type || undefined,
+              handleUploadUrl: "/api/quote/upload",
+            },
+          );
 
           return {
             name: sanitizeQuoteFileName(file.name),
@@ -121,17 +141,18 @@ export function QuoteRequestForm() {
 
       const response = await fetch("/api/quote", {
         body: JSON.stringify({
-          address: String(formData.get("address") ?? ""),
-          company: String(formData.get("company") ?? ""),
-          email: String(formData.get("email") ?? ""),
+          address,
+          company,
+          email,
           files: uploadedFiles,
-          firstName: String(formData.get("firstName") ?? ""),
-          lastName: String(formData.get("lastName") ?? ""),
-          message: String(formData.get("message") ?? ""),
+          firstName,
+          lastName,
+          message,
           page: "/contact",
-          phone: String(formData.get("phone") ?? ""),
+          phone,
           source: "Website",
-          subject: String(formData.get("subject") ?? ""),
+          subject,
+          uploadFolder,
           website: String(formData.get("website") ?? ""),
         }),
         headers: {

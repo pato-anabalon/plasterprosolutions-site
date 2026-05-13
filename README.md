@@ -179,7 +179,8 @@ If port `3000` is busy, Next.js may use `3001`.
 - Connect Vercel Blob to the project so `BLOB_READ_WRITE_TOKEN` is available in Production, Preview, and Development as needed.
 - Quote file uploads use direct client uploads to avoid Vercel Function body-size limits.
 - Quote file uploads accept JPG, PNG, WebP, HEIC, HEIF, and PDF files, up to 5 files, 10 MB each, and 25 MB total.
-- Map the `fileUrls` field from Zapier into Quotient notes or attachment fields, depending on the Quotient Zap action options.
+- Quote attachments are grouped in Blob paths such as `quote-requests/YYYY-MM-DD/first-last-address-a1b2c3/file.pdf`.
+- Map the `fileUrls` and `uploadFolder` fields from Zapier into Quotient notes or attachment fields, depending on the Quotient Zap action options.
 
 ## Brand Notes
 

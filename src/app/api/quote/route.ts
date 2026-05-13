@@ -17,6 +17,7 @@ type QuoteRequestBody = {
   phone?: string;
   source?: string;
   subject?: string;
+  uploadFolder?: string;
   website?: string;
 };
 
@@ -37,6 +38,7 @@ type QuotePayload = QuoteTextPayload & {
   files: QuoteFileAttachment[];
   fileUrls: string;
   submittedAt: string;
+  uploadFolder: string;
 };
 
 type RateLimitEntry = {
@@ -181,6 +183,48 @@ function parseFileAttachments(value: unknown) {
   };
 }
 
+function parseUploadFolder(value: unknown, files: QuoteFileAttachment[]) {
+  const uploadFolder = asCleanString(value);
+
+  if (!uploadFolder) {
+    return {
+      error: null,
+      uploadFolder: "",
+    };
+  }
+
+  const safeFolderPattern =
+    /^quote-requests\/\d{4}-\d{2}-\d{2}\/[a-z0-9-]{3,180}$/;
+
+  if (!safeFolderPattern.test(uploadFolder)) {
+    return {
+      error: "The uploaded file folder could not be verified.",
+      uploadFolder: "",
+    };
+  }
+
+  const folderMismatch = files.find((file) => {
+    try {
+      const url = new URL(file.url);
+      return !decodeURIComponent(url.pathname).includes(`/${uploadFolder}/`);
+    } catch {
+      return true;
+    }
+  });
+
+  if (folderMismatch) {
+    return {
+      error: "The uploaded files do not match the quote folder.",
+      uploadFolder: "",
+    };
+  }
+
+  return {
+    error: null,
+    uploadFolder,
+  };
+}
+
 export async function POST(request: Request) {
   let body: QuoteRequestBody;
 
@@ -218,6 +262,15 @@ export async function POST(request: Request) {
     return Response.json({ error: fileError }, { status: 400 });
   }
 
+  const { uploadFolder, error: uploadFolderError } = parseUploadFolder(
+    body.uploadFolder,
+    files,
+  );
+
+  if (uploadFolderError) {
+    return Response.json({ error: uploadFolderError }, { status: 400 });
+  }
+
   const payload: QuotePayload = {
     address: asCleanString(body.address),
     company: asCleanString(body.company),
@@ -232,6 +285,7 @@ export async function POST(request: Request) {
     files,
     fileUrls: files.map((file) => `${file.name}: ${file.url}`).join("\n"),
     submittedAt: new Date().toISOString(),
+    uploadFolder,
   };
 
   const missingField = requiredFields.find((field) => !payload[field]);

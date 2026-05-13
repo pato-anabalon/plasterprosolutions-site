@@ -5,6 +5,12 @@ export type QuoteFileAttachment = {
   url: string;
 };
 
+export type QuoteUploadFolderInput = {
+  address: string;
+  firstName: string;
+  lastName: string;
+};
+
 type QuoteFileLike = {
   name: string;
   size: number;
@@ -104,11 +110,41 @@ function getRandomId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
-export function getQuoteUploadPath(fileName: string) {
-  const safeName = sanitizeQuoteFileName(fileName);
-  const datePath = new Date().toISOString().slice(0, 10);
+function getShortRandomId() {
+  return getRandomId().replace(/-/g, "").slice(0, 8);
+}
 
-  return `quote-requests/${datePath}/${getRandomId()}-${safeName}`;
+function slugifyQuotePart(value: string, fallback: string) {
+  const slug = value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60);
+
+  return slug || fallback;
+}
+
+export function getQuoteUploadFolder({
+  address,
+  firstName,
+  lastName,
+}: QuoteUploadFolderInput) {
+  const datePath = new Date().toISOString().slice(0, 10);
+  const personSlug = slugifyQuotePart(
+    [firstName, lastName].filter(Boolean).join(" "),
+    "unknown-contact",
+  );
+  const addressSlug = slugifyQuotePart(address, "unknown-address");
+
+  return `quote-requests/${datePath}/${personSlug}-${addressSlug}-${getShortRandomId()}`;
+}
+
+export function getQuoteUploadPath(folder: string, fileName: string) {
+  const safeName = sanitizeQuoteFileName(fileName);
+
+  return `${folder}/${safeName}`;
 }
 
 export function isQuoteUploadPath(pathname: string) {
@@ -118,7 +154,8 @@ export function isQuoteUploadPath(pathname: string) {
   return (
     parts[0] === "quote-requests" &&
     /^\d{4}-\d{2}-\d{2}$/.test(parts[1] ?? "") &&
-    parts.length === 3 &&
+    parts.length === 4 &&
+    /^[a-z0-9-]{3,180}$/.test(parts[2] ?? "") &&
     isAllowedQuoteFileType({
       name: fileName,
       size: 0,
