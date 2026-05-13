@@ -141,6 +141,7 @@ public/assets/
 - Added best-effort rate limiting to `/api/quote`.
 - Added payload size limits, field length limits, phone validation, and stricter webhook URL validation.
 - Added a timeout around the Zapier webhook request.
+- Added Vercel Blob client uploads for quote request attachments before forwarding file URLs to Zapier.
 - Added `noopener` to external review links.
 
 ## Environment Variables
@@ -149,9 +150,10 @@ The quote form expects this variable when the Zapier integration is ready:
 
 ```bash
 ZAPIER_QUOTE_WEBHOOK_URL=
+BLOB_READ_WRITE_TOKEN=
 ```
 
-If the variable is not configured, the API route will return an error instead of silently losing quote requests.
+If `ZAPIER_QUOTE_WEBHOOK_URL` is not configured, the API route will return an error instead of silently losing quote requests. `BLOB_READ_WRITE_TOKEN` is required for the browser-to-Blob upload token route used by file attachments.
 
 ## Commands
 
@@ -174,8 +176,10 @@ If port `3000` is busy, Next.js may use `3001`.
 
 - Target platform: Vercel.
 - Ensure `ZAPIER_QUOTE_WEBHOOK_URL` is configured in Vercel before testing live quote submissions.
-- The Quotient/Zapier workflow is currently on standby until the PlasterPro Solution Quotient credentials are available.
-- File uploads in the quote form are currently disabled until storage is connected.
+- Connect Vercel Blob to the project so `BLOB_READ_WRITE_TOKEN` is available in Production, Preview, and Development as needed.
+- Quote file uploads use direct client uploads to avoid Vercel Function body-size limits.
+- Quote file uploads accept JPG, PNG, WebP, HEIC, HEIF, and PDF files, up to 5 files, 10 MB each, and 25 MB total.
+- Map the `fileUrls` field from Zapier into Quotient notes or attachment fields, depending on the Quotient Zap action options.
 
 ## Brand Notes
 

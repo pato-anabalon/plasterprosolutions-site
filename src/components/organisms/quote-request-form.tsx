@@ -1,8 +1,15 @@
 "use client";
 
+import { upload } from "@vercel/blob/client";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { Button } from "@/components/atoms/button";
+import {
+  acceptedQuoteFileTypes,
+  getQuoteUploadPath,
+  sanitizeQuoteFileName,
+  validateQuoteFiles,
+} from "@/lib/quote-files";
 
 type FormStatus =
   | { message: string; type: "error" | "success" }
@@ -16,6 +23,7 @@ const initialStatus: FormStatus = {
 export function QuoteRequestForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitLabel, setSubmitLabel] = useState("Send Request");
   const [status, setStatus] = useState<FormStatus>(initialStatus);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -25,23 +33,57 @@ export function QuoteRequestForm() {
     setStatus(initialStatus);
 
     const formData = new FormData(form);
-    const payload = {
-      address: String(formData.get("address") ?? ""),
-      company: String(formData.get("company") ?? ""),
-      email: String(formData.get("email") ?? ""),
-      firstName: String(formData.get("firstName") ?? ""),
-      lastName: String(formData.get("lastName") ?? ""),
-      message: String(formData.get("message") ?? ""),
-      page: "/contact",
-      phone: String(formData.get("phone") ?? ""),
-      source: "Website",
-      subject: String(formData.get("subject") ?? ""),
-      website: String(formData.get("website") ?? ""),
-    };
+    const files = formData
+      .getAll("files")
+      .filter((value): value is File => value instanceof File && value.size > 0);
+    const fileValidationError = validateQuoteFiles(files);
+
+    if (fileValidationError) {
+      setIsSubmitting(false);
+      setStatus({
+        message: fileValidationError,
+        type: "error",
+      });
+      return;
+    }
 
     try {
+      setSubmitLabel(files.length ? "Uploading files..." : "Sending...");
+
+      const uploadedFiles = await Promise.all(
+        files.map(async (file) => {
+          const blob = await upload(getQuoteUploadPath(file.name), file, {
+            access: "public",
+            contentType: file.type || undefined,
+            handleUploadUrl: "/api/quote/upload",
+          });
+
+          return {
+            name: sanitizeQuoteFileName(file.name),
+            size: file.size,
+            type: file.type || "application/octet-stream",
+            url: blob.url,
+          };
+        }),
+      );
+
+      setSubmitLabel("Sending...");
+
       const response = await fetch("/api/quote", {
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          address: String(formData.get("address") ?? ""),
+          company: String(formData.get("company") ?? ""),
+          email: String(formData.get("email") ?? ""),
+          files: uploadedFiles,
+          firstName: String(formData.get("firstName") ?? ""),
+          lastName: String(formData.get("lastName") ?? ""),
+          message: String(formData.get("message") ?? ""),
+          page: "/contact",
+          phone: String(formData.get("phone") ?? ""),
+          source: "Website",
+          subject: String(formData.get("subject") ?? ""),
+          website: String(formData.get("website") ?? ""),
+        }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -68,12 +110,14 @@ export function QuoteRequestForm() {
       });
     } finally {
       setIsSubmitting(false);
+      setSubmitLabel("Send Request");
     }
   }
 
   return (
     <form
       className="surface-panel grid gap-5 rounded-lg p-6 sm:p-8"
+      encType="multipart/form-data"
       onSubmit={handleSubmit}
       ref={formRef}
     >
@@ -159,14 +203,14 @@ export function QuoteRequestForm() {
       <label className="field-label">
         Add files
         <input
-          className="field-control cursor-not-allowed py-3 text-muted file:mr-4 file:rounded-full file:border-0 file:bg-spicy-orange file:px-4 file:py-2 file:text-sm file:font-extrabold file:text-white file:shadow-[0_10px_24px_rgba(227,65,15,0.18)]"
-          disabled
+          accept={acceptedQuoteFileTypes}
+          className="field-control cursor-pointer py-3 text-muted file:mr-4 file:rounded-full file:border-0 file:bg-spicy-orange file:px-4 file:py-2 file:text-sm file:font-extrabold file:text-white file:shadow-[0_10px_24px_rgba(227,65,15,0.18)]"
           multiple
           name="files"
           type="file"
         />
         <span className="text-xs font-bold leading-5 text-muted">
-          File uploads will be connected after storage is enabled.
+          Upload photos, plans, or PDFs. Up to 5 files, 10 MB each.
         </span>
       </label>
 
@@ -184,7 +228,7 @@ export function QuoteRequestForm() {
       ) : null}
 
       <Button className="w-full sm:w-fit" disabled={isSubmitting} type="submit">
-        {isSubmitting ? "Sending..." : "Send Request"}
+        {isSubmitting ? submitLabel : "Send Request"}
       </Button>
       <p className="text-xs font-bold leading-5 text-muted">
         By submitting this request, you acknowledge our{" "}

@@ -1,7 +1,15 @@
+import {
+  type QuoteFileAttachment,
+  isSafeQuoteBlobUrl,
+  sanitizeQuoteFileName,
+  validateQuoteFiles,
+} from "@/lib/quote-files";
+
 type QuoteRequestBody = {
   address?: string;
   company?: string;
   email?: string;
+  files?: unknown;
   firstName?: string;
   lastName?: string;
   message?: string;
@@ -12,7 +20,7 @@ type QuoteRequestBody = {
   website?: string;
 };
 
-type QuotePayload = {
+type QuoteTextPayload = {
   address: string;
   company: string;
   email: string;
@@ -23,6 +31,11 @@ type QuotePayload = {
   phone: string;
   source: string;
   subject: string;
+};
+
+type QuotePayload = QuoteTextPayload & {
+  files: QuoteFileAttachment[];
+  fileUrls: string;
   submittedAt: string;
 };
 
@@ -31,7 +44,7 @@ type RateLimitEntry = {
   resetAt: number;
 };
 
-const requiredFields: Array<keyof QuotePayload> = [
+const requiredFields: Array<keyof QuoteTextPayload> = [
   "subject",
   "message",
   "firstName",
@@ -52,9 +65,9 @@ const fieldLimits = {
   phone: 40,
   source: 80,
   subject: 140,
-} satisfies Record<keyof Omit<QuotePayload, "submittedAt">, number>;
+} satisfies Record<keyof QuoteTextPayload, number>;
 
-const maxBodySize = 16 * 1024;
+const maxJsonBodySize = 32 * 1024;
 const rateLimitWindowMs = 10 * 60 * 1000;
 const rateLimitMaxRequests = 5;
 const webhookTimeoutMs = 10_000;
@@ -101,12 +114,6 @@ function isRateLimited(clientKey: string) {
   return current.count > rateLimitMaxRequests;
 }
 
-function isOversized(request: Request) {
-  const contentLength = Number(request.headers.get("content-length") ?? 0);
-
-  return contentLength > maxBodySize;
-}
-
 function parseWebhookUrl(value: string | undefined) {
   if (!value) {
     return null;
@@ -127,15 +134,55 @@ function isTooLong(payload: QuotePayload) {
   });
 }
 
+async function readQuoteRequest(request: Request) {
+  const text = await request.text();
+
+  if (text.length > maxJsonBodySize) {
+    throw new Error("oversized-json");
+  }
+
+  return JSON.parse(text) as QuoteRequestBody;
+}
+
+function parseFileAttachments(value: unknown) {
+  if (!Array.isArray(value)) {
+    return {
+      files: [],
+      error: null,
+    };
+  }
+
+  const files = value.map((item) => {
+    const record = item && typeof item === "object" ? item : {};
+
+    return {
+      name: sanitizeQuoteFileName("name" in record ? record.name : ""),
+      size:
+        "size" in record && typeof record.size === "number" ? record.size : 0,
+      type: asCleanString("type" in record ? record.type : ""),
+      url: asCleanString("url" in record ? record.url : ""),
+    };
+  });
+
+  const unsafeUrl = files.find((file) => !isSafeQuoteBlobUrl(file.url));
+
+  if (unsafeUrl) {
+    return {
+      files: [],
+      error: "The uploaded file links could not be verified.",
+    };
+  }
+
+  const validationError = validateQuoteFiles(files);
+
+  return {
+    files,
+    error: validationError,
+  };
+}
+
 export async function POST(request: Request) {
   let body: QuoteRequestBody;
-
-  if (isOversized(request)) {
-    return Response.json(
-      { error: "The quote request is too large." },
-      { status: 413 },
-    );
-  }
 
   const clientKey = getClientKey(request);
 
@@ -147,17 +194,14 @@ export async function POST(request: Request) {
   }
 
   try {
-    const text = await request.text();
-
-    if (text.length > maxBodySize) {
+    body = await readQuoteRequest(request);
+  } catch (error) {
+    if (error instanceof Error && error.message === "oversized-json") {
       return Response.json(
         { error: "The quote request is too large." },
         { status: 413 },
       );
     }
-
-    body = JSON.parse(text) as QuoteRequestBody;
-  } catch {
     return Response.json(
       { error: "The quote request could not be read." },
       { status: 400 },
@@ -166,6 +210,12 @@ export async function POST(request: Request) {
 
   if (asCleanString(body.website)) {
     return Response.json({ ok: true });
+  }
+
+  const { files, error: fileError } = parseFileAttachments(body.files);
+
+  if (fileError) {
+    return Response.json({ error: fileError }, { status: 400 });
   }
 
   const payload: QuotePayload = {
@@ -179,6 +229,8 @@ export async function POST(request: Request) {
     phone: asCleanString(body.phone),
     source: asCleanString(body.source) || "Website",
     subject: asCleanString(body.subject),
+    files,
+    fileUrls: files.map((file) => `${file.name}: ${file.url}`).join("\n"),
     submittedAt: new Date().toISOString(),
   };
 
