@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/atoms/button";
 
 type FormStatus =
@@ -14,15 +14,17 @@ const initialStatus: FormStatus = {
 };
 
 export function QuoteRequestForm() {
+  const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<FormStatus>(initialStatus);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
     setIsSubmitting(true);
     setStatus(initialStatus);
 
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(form);
     const payload = {
       address: String(formData.get("address") ?? ""),
       company: String(formData.get("company") ?? ""),
@@ -51,7 +53,7 @@ export function QuoteRequestForm() {
         throw new Error(result.error ?? "The quote request could not be sent.");
       }
 
-      event.currentTarget.reset();
+      formRef.current?.reset();
       setStatus({
         message: "Thanks. Your quote request has been sent.",
         type: "success",
@@ -73,6 +75,7 @@ export function QuoteRequestForm() {
     <form
       className="surface-panel grid gap-5 rounded-lg p-6 sm:p-8"
       onSubmit={handleSubmit}
+      ref={formRef}
     >
       <label className="sr-only">
         Website
