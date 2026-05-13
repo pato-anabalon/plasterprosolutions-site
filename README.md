@@ -160,9 +160,14 @@ If `ZAPIER_QUOTE_WEBHOOK_URL` is not configured, the API route will return an er
 ```bash
 npm run dev
 npm run lint
+npm run test
+npm run test:watch
+npm run test:coverage
 npm run build
 npm run start
 ```
+
+Husky runs `npm run test -- --runInBand` before each commit.
 
 Local development usually runs on:
 
