@@ -147,6 +147,12 @@ export function getQuoteUploadPath(folder: string, fileName: string) {
   return `${folder}/${safeName}`;
 }
 
+export function getQuoteUploadFileName(fileName: string, index: number) {
+  const extension = getQuoteFileExtension(fileName);
+
+  return `file-${index + 1}${extension}`;
+}
+
 export function isQuoteUploadPath(pathname: string) {
   const parts = pathname.split("/");
   const fileName = parts.at(-1) ?? "";

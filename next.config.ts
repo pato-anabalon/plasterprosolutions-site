@@ -12,8 +12,8 @@ const contentSecurityPolicy = [
   "font-src 'self'",
   "media-src 'self'",
   isProduction
-    ? "connect-src 'self' https://vitals.vercel-insights.com"
-    : "connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https://vitals.vercel-insights.com",
+    ? "connect-src 'self' https://vitals.vercel-insights.com https://vercel.com https://*.blob.vercel-storage.com"
+    : "connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https://vitals.vercel-insights.com https://vercel.com https://*.blob.vercel-storage.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { Button } from "@/components/atoms/button";
 import {
   acceptedQuoteFileTypes,
+  getQuoteUploadFileName,
   getQuoteUploadFolder,
   getQuoteUploadPath,
   sanitizeQuoteFileName,
@@ -117,9 +118,10 @@ export function QuoteRequestForm() {
         : "";
 
       const uploadedFiles = await Promise.all(
-        selectedFiles.map(async (file) => {
+        selectedFiles.map(async (file, index) => {
+          const uploadFileName = getQuoteUploadFileName(file.name, index);
           const blob = await upload(
-            getQuoteUploadPath(uploadFolder, file.name),
+            getQuoteUploadPath(uploadFolder, uploadFileName),
             file,
             {
               access: "public",
@@ -129,7 +131,7 @@ export function QuoteRequestForm() {
           );
 
           return {
-            name: sanitizeQuoteFileName(file.name),
+            name: uploadFileName,
             size: file.size,
             type: file.type || "application/octet-stream",
             url: blob.url,
