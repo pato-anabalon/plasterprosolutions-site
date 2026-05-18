@@ -104,7 +104,7 @@ export function HomeHero() {
         <div className="hero-panel group relative min-h-[17rem] overflow-hidden border-b border-charcoal/10 bg-charcoal opacity-0 md:col-span-2 lg:col-start-7 lg:col-end-13 lg:row-start-1 lg:row-end-3 lg:min-h-0">
           <video
             className="h-full min-h-[17rem] w-full object-cover transition duration-700 group-hover:scale-[1.025] lg:min-h-0"
-            src="/assets/home-video.mp4"
+            src="/assets/plasterpro-solution-home-video-720.mp4"
             autoPlay
             muted
             loop

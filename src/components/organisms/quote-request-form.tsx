@@ -108,7 +108,9 @@ export function QuoteRequestForm() {
     }
 
     try {
-      setSubmitLabel(selectedFiles.length ? "Uploading files..." : "Sending...");
+      setSubmitLabel(
+        selectedFiles.length ? "Uploading files..." : "Sending...",
+      );
       const uploadFolder = selectedFiles.length
         ? getQuoteUploadFolder({
             address,
@@ -162,7 +164,10 @@ export function QuoteRequestForm() {
         },
         method: "POST",
       });
-      const result = (await response.json()) as { error?: string; ok?: boolean };
+      const result = (await response.json()) as {
+        error?: string;
+        ok?: boolean;
+      };
 
       if (!response.ok || !result.ok) {
         throw new Error(result.error ?? "The quote request could not be sent.");
@@ -341,16 +346,6 @@ export function QuoteRequestForm() {
       <Button className="w-full sm:w-fit" disabled={isSubmitting} type="submit">
         {isSubmitting ? submitLabel : "Send Request"}
       </Button>
-      <p className="text-xs font-bold leading-5 text-muted">
-        By submitting this request, you acknowledge our{" "}
-        <Link
-          className="font-black text-spicy-orange underline-offset-4 hover:underline"
-          href="/terms-of-service"
-        >
-          Terms of Service
-        </Link>
-        .
-      </p>
     </form>
   );
 }
