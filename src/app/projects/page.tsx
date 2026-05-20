@@ -38,10 +38,10 @@ export default async function ProjectsPage() {
             </h2>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post, index) => (
               <AnimatedReveal
-                className={index === 0 ? "sm:col-span-2" : ""}
+                className={index === 0 ? "h-full sm:col-span-2" : "h-full"}
                 delay={(index % 4) * 0.04}
                 key={post.slug}
               >
