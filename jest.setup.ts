@@ -1,5 +1,11 @@
 import "@testing-library/jest-dom";
 import React from "react";
+import { TextDecoder, TextEncoder } from "node:util";
+
+Object.assign(global, {
+  TextDecoder,
+  TextEncoder,
+});
 
 jest.mock("next/image", () => ({
   __esModule: true,
@@ -61,6 +67,11 @@ jest.mock("gsap/ScrollTrigger", () => ({
 jest.mock("@vercel/blob/client", () => ({
   handleUpload: jest.fn(),
   upload: jest.fn(),
+}));
+
+jest.mock("@vercel/analytics", () => ({
+  Analytics: () => null,
+  track: jest.fn(),
 }));
 
 if (typeof window !== "undefined") {

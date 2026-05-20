@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "prepare": "husky",
+    "seed:project-posts": "node scripts/seed-project-posts.mjs",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
@@ -15,6 +16,7 @@
   "dependencies": {
     "@fontsource-variable/manrope": "^5.2.8",
     "@gsap/react": "^2.1.2",
+    "@neondatabase/serverless": "^1.1.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.3.3",
     "@vercel/speed-insights": "^2.0.0",

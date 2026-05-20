@@ -1,0 +1,112 @@
+[
+  {
+    "slug": "bathroom-renovation-and-exterior-refresh-project-in-avondale",
+    "markdownFile": "bathroom-renovation-and-exterior-refresh-project-in-avondale.md",
+    "imageFolder": "avondale",
+    "location": "Avondale, Auckland",
+    "service": "Bathroom renovation and exterior refresh",
+    "category": "Residential renovation",
+    "layoutVariant": "feature-left",
+    "publishedAt": "2026-05-20T00:00:00.000Z",
+    "status": "published"
+  },
+  {
+    "slug": "coastal-new-build-plastering-and-painting-project-on-waiheke-island",
+    "markdownFile": "coastal-new-build-plastering-and-painting-project-on-waiheke-island.md",
+    "imageFolder": "waiheke",
+    "location": "Waiheke Island, Auckland",
+    "service": "New build plastering and painting",
+    "category": "Coastal new build",
+    "layoutVariant": "gallery-led",
+    "publishedAt": "2026-05-19T00:00:00.000Z",
+    "status": "published"
+  },
+  {
+    "slug": "coastal-plastering-and-painting-project-in-maraetai",
+    "markdownFile": "coastal-plastering-and-painting-project-in-maraetai.md",
+    "imageFolder": "maraetai",
+    "location": "Maraetai, Auckland",
+    "service": "Coastal plastering and painting",
+    "category": "Exterior finish",
+    "layoutVariant": "editorial-split",
+    "publishedAt": "2026-05-18T00:00:00.000Z",
+    "status": "published"
+  },
+  {
+    "slug": "commercial-exterior-plastering-and-painting-project-in-otahuhu",
+    "markdownFile": "commercial-exterior-plastering-and-painting-project-in-otahuhu.md",
+    "imageFolder": "otahuhu",
+    "location": "Otahuhu, Auckland",
+    "service": "Commercial exterior plastering and painting",
+    "category": "Commercial",
+    "layoutVariant": "feature-left",
+    "publishedAt": "2026-05-17T00:00:00.000Z",
+    "status": "published"
+  },
+  {
+    "slug": "exterior-crack-repairs-and-full-repainting-project-in-remuera",
+    "markdownFile": "exterior-crack-repairs-and-full-repainting-project-in-remuera.md",
+    "imageFolder": "remuera",
+    "location": "Remuera, Auckland",
+    "service": "Exterior crack repairs and repainting",
+    "category": "Restoration",
+    "layoutVariant": "editorial-split",
+    "publishedAt": "2026-05-16T00:00:00.000Z",
+    "status": "published"
+  },
+  {
+    "slug": "exterior-plastering-and-painting-renovation-in-ellerslie",
+    "markdownFile": "exterior-plastering-and-painting-renovation-in-ellerslie.md",
+    "imageFolder": "ellerslie",
+    "location": "Ellerslie, Auckland",
+    "service": "Exterior plastering and painting renovation",
+    "category": "Residential renovation",
+    "layoutVariant": "gallery-led",
+    "publishedAt": "2026-05-15T00:00:00.000Z",
+    "status": "published"
+  },
+  {
+    "slug": "exterior-plastering-and-painting-renovation-in-wainui",
+    "markdownFile": "exterior-plastering-and-painting-renovation-in-wainui.md",
+    "imageFolder": "wainui",
+    "location": "Wainui, Auckland",
+    "service": "Exterior plastering and painting renovation",
+    "category": "Exterior renovation",
+    "layoutVariant": "feature-left",
+    "publishedAt": "2026-05-14T00:00:00.000Z",
+    "status": "published"
+  },
+  {
+    "slug": "full-exterior-house-repaint-and-surface-restoration-in-northcote",
+    "markdownFile": "full-exterior-house-repaint-and-surface-restoration-in-northcote.md",
+    "imageFolder": "northcote",
+    "location": "Northcote, Auckland",
+    "service": "Exterior repaint and surface restoration",
+    "category": "Surface restoration",
+    "layoutVariant": "editorial-split",
+    "publishedAt": "2026-05-13T00:00:00.000Z",
+    "status": "published"
+  },
+  {
+    "slug": "full-home-plastering-and-painting-transformation-in-parnell",
+    "markdownFile": "full-home-plastering-and-painting-transformation-in-parnell.md",
+    "imageFolder": "parnell",
+    "location": "Parnell, Auckland",
+    "service": "Full home plastering and painting",
+    "category": "Home transformation",
+    "layoutVariant": "gallery-led",
+    "publishedAt": "2026-05-12T00:00:00.000Z",
+    "status": "published"
+  },
+  {
+    "slug": "timber-surface-restoration-and-exterior-repainting-project-in-milford",
+    "markdownFile": "timber-surface-restoration-and-exterior-repainting-project-in-milford.md",
+    "imageFolder": "milford",
+    "location": "Milford, Auckland",
+    "service": "Timber surface restoration and exterior repainting",
+    "category": "Exterior repainting",
+    "layoutVariant": "feature-left",
+    "publishedAt": "2026-05-11T00:00:00.000Z",
+    "status": "published"
+  }
+]

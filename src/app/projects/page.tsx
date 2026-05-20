@@ -1,85 +1,56 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 import { AnimatedReveal } from "@/components/molecules/animated-reveal";
-import { ProjectMosaicGallery } from "@/components/organisms/project-mosaic-gallery";
+import { ProjectPostCard } from "@/components/molecules/project-post-card";
 import { InnerPageHero } from "@/components/templates/inner-page-hero";
-import { siteConfig } from "@/data/site";
+import { getPublishedProjectPosts } from "@/lib/project-posts";
+
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Recent plastering and painting project work from PlasterProSolution across Auckland.",
+    "Project stories from PlasterPro Solution, showing plastering, painting, preparation, and finishing work across Auckland.",
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const posts = await getPublishedProjectPosts();
+  const heroPost = posts[0];
+
   return (
     <>
       <InnerPageHero
         eyebrow="Projects"
-        title="Auckland plastering and painting work with finish detail in focus."
-        body="A curated gallery of surface preparation, plastering, painting, and property presentation work across residential, commercial, and real estate timelines."
-        imageSrc={siteConfig.projectGallery[0].image}
-        imageAlt="Finished exterior plastering on an Auckland residential property"
-        meta="Recent work across Auckland"
+        title="Behind the finish on Auckland plastering and painting projects."
+        body="Explore the preparation, coordination, repair work, coating systems, and finish detail behind selected PlasterPro Solution projects."
+        imageSrc={heroPost?.heroImage || "/assets/projects/other-projects/freemans-bay-04.avif"}
+        imageAlt="Finished PlasterPro Solution project exterior"
+        meta="Project stories across Auckland"
         pageNumber="02"
       />
       <section className="py-20 sm:py-28">
-        <div className="site-shell grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {siteConfig.projectGallery.map((project, index) => (
-            <AnimatedReveal
-              className={
-                index === 0
-                  ? "overflow-hidden rounded-lg bg-charcoal text-white sm:col-span-2"
-                  : "surface-panel overflow-hidden rounded-lg"
-              }
-              key={project.title}
-              delay={(index % 4) * 0.04}
-            >
-              <Image
-                className={
-                  index === 0
-                    ? "aspect-[16/9] w-full object-cover opacity-90"
-                    : "aspect-[4/3] w-full object-cover"
-                }
-                src={project.image}
-                alt={project.title}
-                width={720}
-                height={540}
-              />
-              <div className="p-5">
-                <p
-                  className={
-                    index === 0
-                      ? "text-xs font-black uppercase tracking-[0.16em] text-spicy-orange"
-                      : "text-xs font-black uppercase tracking-[0.16em] text-spicy-orange"
-                  }
-                >
-                  {project.service}
-                </p>
-                <h2
-                  className={
-                    index === 0
-                      ? "mt-3 text-3xl font-black"
-                      : "mt-3 text-xl font-black text-charcoal"
-                  }
-                >
-                  {project.title}
-                </h2>
-                <p
-                  className={
-                    index === 0
-                      ? "mt-2 text-sm font-bold uppercase tracking-[0.14em] text-white/62"
-                      : "mt-2 text-sm font-bold uppercase tracking-[0.14em] text-muted"
-                  }
-                >
-                  {project.location}
-                </p>
-              </div>
-            </AnimatedReveal>
-          ))}
+        <div className="site-shell">
+          <div className="mb-12 max-w-3xl">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-spicy-orange">
+              Case studies
+            </p>
+            <h2 className="mt-4 text-4xl font-black leading-tight text-foreground sm:text-6xl">
+              A closer look at the work behind each finish.
+            </h2>
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post, index) => (
+              <AnimatedReveal
+                className={index === 0 ? "sm:col-span-2" : ""}
+                delay={(index % 4) * 0.04}
+                key={post.slug}
+              >
+                <ProjectPostCard featured={index === 0} post={post} />
+              </AnimatedReveal>
+            ))}
+          </div>
         </div>
       </section>
-      <ProjectMosaicGallery photos={siteConfig.projectPhotoGallery} />
     </>
   );
 }

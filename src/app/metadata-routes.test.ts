@@ -13,10 +13,10 @@ describe("metadata routes", () => {
     });
   });
 
-  it("should include all public pages in the sitemap", () => {
-    const entries = sitemap();
+  it("should include all public pages and project posts in the sitemap", async () => {
+    const entries = await sitemap();
 
-    expect(entries).toHaveLength(7);
+    expect(entries.length).toBeGreaterThan(7);
     expect(entries).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -28,6 +28,11 @@ describe("metadata routes", () => {
           changeFrequency: "monthly",
           priority: 0.8,
           url: `${siteConfig.url}/terms-of-service`,
+        }),
+        expect.objectContaining({
+          changeFrequency: "weekly",
+          priority: 0.7,
+          url: `${siteConfig.url}/projects/exterior-crack-repairs-and-full-repainting-project-in-remuera`,
         }),
       ]),
     );

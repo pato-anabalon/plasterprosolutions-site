@@ -14,6 +14,7 @@ The project is a modern rebuild of the previous site, focused on stronger visual
 - Lucide React icons
 - Manrope via `@fontsource-variable/manrope`
 - Vercel Analytics and Speed Insights
+- Neon Postgres via `@neondatabase/serverless` for project stories and likes
 
 ## Project Structure
 
@@ -33,12 +34,14 @@ Shared content and structured business data live in:
 src/data/site.ts
 src/data/team.ts
 src/data/terms.ts
+src/data/project-post-seeds.json
 ```
 
 Static media lives in:
 
 ```txt
 public/assets/
+public/assets/docs/
 ```
 
 ## Pages
@@ -46,7 +49,8 @@ public/assets/
 - `/` - Home
 - `/services` - Service overview
 - `/about` - Company story, strengths, mission, qualifications, and team
-- `/projects` - Project gallery
+- `/projects` - Editorial project story index
+- `/projects/[slug]` - Individual project blog/case study
 - `/real-estate` - Landing page for agents and property managers
 - `/contact` - Quote request form and direct contact details
 - `/terms-of-service` - Legal terms for plastering and painting services
@@ -133,6 +137,15 @@ public/assets/
 - Added sitemap and robots routes.
 - Prepared the site for Vercel deployment.
 
+### Projects Blog
+
+- Rebuilt Projects as an editorial case-study index.
+- Added `/projects/[slug]` pages with SEO metadata, Article JSON-LD, breadcrumbs, reading time, share action, likes, CTA, and project galleries.
+- Added Neon Postgres schema for editable project posts, project images, likes, and like events.
+- Added Markdown seed support using the first 10 entries in `public/assets/docs`.
+- Kept `ProjectMosaicGallery` unchanged and adapted project image data to its existing contract.
+- Added `npm run seed:project-posts` to load the Markdown seeds into Neon.
+
 ### Security Hardening
 
 - Added global security headers in `next.config.ts`.
@@ -151,9 +164,10 @@ The quote form expects this variable when the Zapier integration is ready:
 ```bash
 ZAPIER_QUOTE_WEBHOOK_URL=
 BLOB_READ_WRITE_TOKEN=
+DATABASE_URL=
 ```
 
-If `ZAPIER_QUOTE_WEBHOOK_URL` is not configured, the API route will return an error instead of silently losing quote requests. `BLOB_READ_WRITE_TOKEN` is required for the browser-to-Blob upload token route used by file attachments.
+If `ZAPIER_QUOTE_WEBHOOK_URL` is not configured, the API route will return an error instead of silently losing quote requests. `BLOB_READ_WRITE_TOKEN` is required for the browser-to-Blob upload token route used by file attachments. `DATABASE_URL` is required for editable project posts and persistent project likes; without it, project pages fall back to the versioned Markdown seeds and the like button is disabled.
 
 ## Commands
 
@@ -163,6 +177,7 @@ npm run lint
 npm run test
 npm run test:watch
 npm run test:coverage
+npm run seed:project-posts
 npm run build
 npm run start
 ```
@@ -186,6 +201,7 @@ If port `3000` is busy, Next.js may use `3001`.
 - Quote file uploads accept JPG, PNG, WebP, HEIC, HEIF, and PDF files, up to 5 files, 10 MB each, and 25 MB total.
 - Quote attachments are grouped in Blob paths such as `quote-requests/YYYY-MM-DD/first-last-address-a1b2c3/file.pdf`.
 - Map the `fileUrls` and `uploadFolder` fields from Zapier into Quotient notes or attachment fields, depending on the Quotient Zap action options.
+- Connect Neon Postgres to the Vercel project and run `npm run seed:project-posts` locally or from a trusted environment with `DATABASE_URL` available before relying on DB-backed project content.
 
 ## Brand Notes
 
