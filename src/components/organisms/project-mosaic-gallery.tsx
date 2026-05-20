@@ -12,9 +12,9 @@ export function ProjectMosaicGallery({ photos }: ProjectMosaicGalleryProps) {
       <div className="site-shell">
         <div className="max-w-3xl">
           <SectionHeading
-            eyebrow="Project gallery"
-            title="A living archive of finishes, details, and site progress."
-            body="A more visual space for project photography as new work is completed across Auckland."
+            eyebrow="More from this project"
+            title="Details, progress, and finished surfaces from the same job."
+            body="A closer visual look at the preparation, site conditions, and finishing work behind this project."
             tone="dark"
           />
         </div>

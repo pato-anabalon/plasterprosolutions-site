@@ -1,15 +1,14 @@
-import type { Metadata } from "next";
-import { CheckCircle2 } from "lucide-react";
-import { Button } from "@/components/atoms/button";
-import { AnimatedReveal } from "@/components/molecules/animated-reveal";
-import { CustomerReviewsSection } from "@/components/organisms/customer-reviews-section";
-import { InnerPageHero } from "@/components/templates/inner-page-hero";
-import { siteConfig } from "@/data/site";
+import type { Metadata } from 'next';
+import { CheckCircle2 } from 'lucide-react';
+import { Button } from '@/components/atoms/button';
+import { AnimatedReveal } from '@/components/molecules/animated-reveal';
+import { CustomerReviewsSection } from '@/components/organisms/customer-reviews-section';
+import { InnerPageHero } from '@/components/templates/inner-page-hero';
+import { siteConfig } from '@/data/site';
 
 export const metadata: Metadata = {
-  title: "Services",
-  description:
-    "Commercial plastering, residential plastering, painting, and gib stopping services across Auckland.",
+  title: 'Services',
+  description: 'Commercial plastering, residential plastering, painting, and gib stopping services across Auckland.'
 };
 
 export default function ServicesPage() {
@@ -19,7 +18,7 @@ export default function ServicesPage() {
         eyebrow="Services"
         title="Plastering and painting services built for Auckland properties."
         body="From commercial scopes to tight real estate turnarounds, every project is built around clean preparation, reliable communication, and a finish that photographs beautifully."
-        imageSrc="/assets/service-hero.jpeg"
+        imageSrc="/assets/hero-service.jpeg"
         imageAlt="Commercial plastering work in progress on an Auckland site"
         meta="Commercial · residential · make-ready"
         pageNumber="01"
@@ -35,14 +34,10 @@ export default function ServicesPage() {
             >
               <div>
                 <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-spicy-orange">
-                  {String(index + 1).padStart(2, "0")} / PlasterProSolution
+                  {String(index + 1).padStart(2, '0')} / PlasterProSolution
                 </p>
-                <h2 className="balanced mt-4 text-3xl font-black text-charcoal">
-                  {service.title}
-                </h2>
-                <p className="pretty mt-5 text-lg leading-8 text-muted">
-                  {service.description}
-                </p>
+                <h2 className="balanced mt-4 text-3xl font-black text-charcoal">{service.title}</h2>
+                <p className="pretty mt-5 text-lg leading-8 text-muted">{service.description}</p>
                 <p className="mt-6 border-l-2 border-spicy-orange pl-4 text-base font-bold leading-7 text-charcoal">
                   {service.bestFor}
                 </p>
@@ -51,15 +46,8 @@ export default function ServicesPage() {
                 </h3>
                 <ul className="mt-4 grid gap-3">
                   {service.includes.map((item) => (
-                    <li
-                      className="flex gap-3 text-base font-bold text-muted"
-                      key={item}
-                    >
-                      <CheckCircle2
-                        className="mt-0.5 shrink-0 text-oxide-green"
-                        size={18}
-                        aria-hidden="true"
-                      />
+                    <li className="flex gap-3 text-base font-bold text-muted" key={item}>
+                      <CheckCircle2 className="mt-0.5 shrink-0 text-oxide-green" size={18} aria-hidden="true" />
                       <span>{item}</span>
                     </li>
                   ))}

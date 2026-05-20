@@ -53,10 +53,10 @@ export function ProjectMosaicGrid({ photos }: ProjectMosaicGridProps) {
 
   return (
     <>
-      <div className="mt-12 grid auto-rows-[18rem] grid-cols-1 gap-3 md:grid-cols-4 md:auto-rows-[16rem] lg:grid-cols-8 lg:auto-rows-[17rem]">
+      <div className="mt-12 grid auto-rows-[18rem] grid-cols-1 md:grid-cols-4 md:auto-rows-[16rem] lg:grid-cols-8 lg:auto-rows-[17rem]">
         {photos.map((photo, index) => (
           <AnimatedReveal
-            className={`relative overflow-hidden rounded-lg border border-white/10 bg-white/5 ${getTileClass(
+            className={`relative overflow-hidden bg-white/5 ${getTileClass(
               photo.layout,
             )}`}
             delay={(index % 6) * 0.035}
@@ -80,17 +80,6 @@ export function ProjectMosaicGrid({ photos }: ProjectMosaicGridProps) {
               <span className="absolute right-4 top-4 grid size-10 translate-y-1 place-items-center rounded-full border border-white/16 bg-white/10 text-white opacity-0 backdrop-blur transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
                 <Expand size={18} aria-hidden="true" />
               </span>
-              <div className="absolute inset-x-0 bottom-0 p-5">
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-spicy-orange">
-                  {photo.category}
-                </p>
-                <h3 className="balanced mt-2 max-w-lg text-2xl font-black leading-tight text-white drop-shadow-[0_3px_20px_rgb(0_0_0/0.32)]">
-                  {photo.title}
-                </h3>
-                <p className="mt-3 text-xs font-extrabold uppercase tracking-[0.16em] text-white/58">
-                  {photo.location}
-                </p>
-              </div>
             </button>
           </AnimatedReveal>
         ))}

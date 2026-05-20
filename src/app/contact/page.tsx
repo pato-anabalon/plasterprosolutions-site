@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
-import { ContactDetails } from "@/components/organisms/contact-details";
-import { QuoteRequestForm } from "@/components/organisms/quote-request-form";
-import { InnerPageHero } from "@/components/templates/inner-page-hero";
-import { siteConfig } from "@/data/site";
+import type { Metadata } from 'next';
+import { ContactDetails } from '@/components/organisms/contact-details';
+import { QuoteRequestForm } from '@/components/organisms/quote-request-form';
+import { InnerPageHero } from '@/components/templates/inner-page-hero';
+import { siteConfig } from '@/data/site';
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: 'Contact',
   description:
-    "Request a plastering, painting, gib stopping, or real estate property presentation quote from PlasterProSolution.",
+    'Request a plastering, painting, gib stopping, or real estate property presentation quote from PlasterProSolution.'
 };
 
 export default function ContactPage() {
@@ -17,7 +17,7 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Tell us about the property, timeline, and finish you need."
         body="Share the key details and our team will review your request, check the scope, and get back to you with clear next steps."
-        imageSrc={siteConfig.projectGallery[6].image}
+        imageSrc={'/assets/hero-contact.jpeg'}
         imageAlt="Freemans Bay interior plastering and painting finish"
         meta="Fast scoping and clear next steps"
         pageNumber="05"

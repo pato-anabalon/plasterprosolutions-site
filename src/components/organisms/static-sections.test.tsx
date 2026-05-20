@@ -168,7 +168,11 @@ describe("static site sections", () => {
   it("should render ProjectMosaicGallery heading and image buttons", () => {
     render(<ProjectMosaicGallery photos={galleryPhotos} />);
 
-    expect(screen.getByRole("heading", { name: /a living archive/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: /details, progress, and finished surfaces/i,
+      }),
+    ).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /open project image: freemans bay interior prep/i }),
     ).toBeInTheDocument();

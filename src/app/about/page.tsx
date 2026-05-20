@@ -46,7 +46,7 @@ export default function AboutPage() {
         eyebrow="About"
         title="Auckland finishing specialists built on craft, clarity, and care."
         body="For over 20 years, PlasterPro Solution has supported Auckland homes, builders, commercial teams, agents, and property managers with precise plastering, painting, and gib stopping work."
-        imageSrc={siteConfig.projectGallery[4].image}
+        imageSrc={'/assets/hero-about.jpeg'}
         imageAlt="Premium residential exterior coating work by PlasterPro Solution"
         meta="20+ years industry experience"
         pageNumber="03"
