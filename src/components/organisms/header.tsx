@@ -10,6 +10,10 @@ import { SocialLinks } from "@/components/molecules/social-links";
 import { ThemeToggle } from "@/components/molecules/theme-toggle";
 import { siteConfig } from "@/data/site";
 
+const visibleNavigation = siteConfig.navigation.filter(
+  (item) => item.href !== "/real-estate",
+);
+
 export function Header() {
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
@@ -19,16 +23,29 @@ export function Header() {
   const [highlightedHref, setHighlightedHref] = useState<string | null>(null);
 
   const activeHref =
-    siteConfig.navigation.find((item) =>
+    visibleNavigation.find((item) =>
       item.href === "/" ? pathname === "/" : pathname.startsWith(item.href),
-    )?.href ?? "/";
+    )?.href ?? null;
 
-  const moveNavIndicator = useCallback((href: string) => {
+  const moveNavIndicator = useCallback((href: string | null) => {
     const nav = navRef.current;
     const indicator = navIndicatorRef.current;
+
+    if (!nav || !indicator) {
+      return;
+    }
+
+    if (!href) {
+      indicator.style.opacity = "0";
+      indicator.style.width = "0";
+      return;
+    }
+
     const target = linkRefs.current[href];
 
-    if (!nav || !indicator || !target) {
+    if (!target) {
+      indicator.style.opacity = "0";
+      indicator.style.width = "0";
       return;
     }
 
@@ -79,7 +96,7 @@ export function Header() {
     >
       <div className="flex min-h-full flex-col justify-between px-6 pb-8 pt-7">
         <nav className="grid" aria-label="Mobile and tablet navigation">
-          {siteConfig.navigation.map((item, index) => (
+          {visibleNavigation.map((item, index) => (
             <Link
               className={`flex items-end justify-between gap-5 border-b border-white/10 py-4 text-4xl font-black leading-none text-white transition duration-300 ease-out ${
                 isMobileMenuOpen
@@ -164,7 +181,7 @@ export function Header() {
             style={{ left: 0, opacity: 0, width: 0 }}
             aria-hidden="true"
           />
-          {siteConfig.navigation.map((item) => (
+          {visibleNavigation.map((item) => (
             <Link
               className={`focus-ring relative z-10 rounded-full px-3 py-2 text-sm font-extrabold transition duration-300 ${
                 item.href === (highlightedHref ?? activeHref)

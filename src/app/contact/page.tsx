@@ -16,7 +16,7 @@ export default function ContactPage() {
       <InnerPageHero
         eyebrow="Contact"
         title="Tell us about the property, timeline, and finish you need."
-        body={`Quote requests are prepared to route to ${siteConfig.email}. Email delivery will be connected through the production provider before launch.`}
+        body="Share the key details and our team will review your request, check the scope, and get back to you with clear next steps."
         imageSrc={siteConfig.projectGallery[6].image}
         imageAlt="Freemans Bay interior plastering and painting finish"
         meta="Fast scoping and clear next steps"

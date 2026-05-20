@@ -18,8 +18,8 @@ export default function ServicesPage() {
       <InnerPageHero
         eyebrow="Services"
         title="Plastering and painting services built for Auckland properties."
-        body="A practical service structure for commercial teams, homeowners, agents, and property managers who need dependable preparation and clean finishes."
-        imageSrc="/assets/671154060_1612262470629938_5620068256015942789_n.jpg"
+        body="From commercial scopes to tight real estate turnarounds, every project is built around clean preparation, reliable communication, and a finish that photographs beautifully."
+        imageSrc="/assets/service-hero.jpeg"
         imageAlt="Commercial plastering work in progress on an Auckland site"
         meta="Commercial · residential · make-ready"
         pageNumber="01"
@@ -46,7 +46,10 @@ export default function ServicesPage() {
                 <p className="mt-6 border-l-2 border-spicy-orange pl-4 text-base font-bold leading-7 text-charcoal">
                   {service.bestFor}
                 </p>
-                <ul className="mt-6 grid gap-3">
+                <h3 className="mt-7 text-sm font-extrabold uppercase tracking-[0.18em] text-charcoal">
+                  Services Include
+                </h3>
+                <ul className="mt-4 grid gap-3">
                   {service.includes.map((item) => (
                     <li
                       className="flex gap-3 text-base font-bold text-muted"

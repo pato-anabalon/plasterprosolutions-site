@@ -138,7 +138,7 @@ export function HomeHero() {
               </span>
             </h1>
             <p className="hero-body pretty mt-6 max-w-2xl text-xl leading-9 text-muted opacity-0">
-              PlasterPro Solution delivers sharp plastering, painting, gib
+              PlasterPro Solution delivers quality plastering, painting, gib
               stopping, and real estate make-ready work across Auckland.{" "}
               <strong>Your vision, our commitment to excellence.</strong>
             </p>

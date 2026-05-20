@@ -15,10 +15,9 @@ describe("presentational components", () => {
   it("should render Button as a link when href is provided", () => {
     render(<Button href="/contact">Request a Quote</Button>);
 
-    expect(screen.getByRole("link", { name: /request a quote/i })).toHaveAttribute(
-      "href",
-      "/contact",
-    );
+    expect(
+      screen.getByRole("link", { name: /request a quote/i }),
+    ).toHaveAttribute("href", "/contact");
   });
 
   it("should render BrandLogo with accessible light logo text", () => {
@@ -43,7 +42,7 @@ describe("presentational components", () => {
       <SectionHeading
         eyebrow="Services"
         title="Premium finishes"
-        body="Sharp plastering and painting."
+        body="Quality plastering and painting."
       />,
     );
 
@@ -51,7 +50,9 @@ describe("presentational components", () => {
     expect(
       screen.getByRole("heading", { name: /premium finishes/i }),
     ).toBeInTheDocument();
-    expect(screen.getByText(/sharp plastering and painting/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/quality plastering and painting/i),
+    ).toBeInTheDocument();
   });
 
   it("should render ContactPersonCard phone and email links", () => {
@@ -64,7 +65,9 @@ describe("presentational components", () => {
       />,
     );
 
-    expect(screen.getByRole("heading", { name: /rolando reveco/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /rolando reveco/i }),
+    ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /021 742 300/i })).toHaveAttribute(
       "href",
       "tel:021742300",
@@ -100,8 +103,12 @@ describe("presentational components", () => {
       />,
     );
 
-    expect(screen.getByRole("heading", { name: /quality work/i })).toBeInTheDocument();
-    expect(screen.getByText(/the crew was tidy and clear/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /quality work/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/the crew was tidy and clear/i),
+    ).toBeInTheDocument();
     expect(screen.getByText(/nocowboys · jan 2026/i)).toBeInTheDocument();
   });
 
@@ -109,7 +116,9 @@ describe("presentational components", () => {
     render(<MetricCard value="900+" label="projects completed since 2021" />);
 
     expect(screen.getByText("0+")).toBeInTheDocument();
-    expect(screen.getByText(/projects completed since 2021/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/projects completed since 2021/i),
+    ).toBeInTheDocument();
   });
 
   it("should render ContactDetails from site config", () => {
@@ -118,14 +127,12 @@ describe("presentational components", () => {
     expect(
       screen.getByRole("heading", { name: /contact details/i }),
     ).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: siteConfig.phone })[0]).toHaveAttribute(
-      "href",
-      `tel:${siteConfig.phone.replaceAll(" ", "")}`,
-    );
-    expect(screen.getByRole("link", { name: siteConfig.email })).toHaveAttribute(
-      "href",
-      `mailto:${siteConfig.email}`,
-    );
+    expect(
+      screen.getAllByRole("link", { name: siteConfig.phone })[0],
+    ).toHaveAttribute("href", `tel:${siteConfig.phone.replaceAll(" ", "")}`);
+    expect(
+      screen.getByRole("link", { name: siteConfig.email }),
+    ).toHaveAttribute("href", `mailto:${siteConfig.email}`);
   });
 
   it("should render InnerPageHero with CTA and optional image", () => {
@@ -142,13 +149,11 @@ describe("presentational components", () => {
     expect(
       screen.getByRole("heading", { name: /premium plastering/i }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /request a quote/i })).toHaveAttribute(
-      "href",
-      "/contact",
-    );
-    expect(screen.getByRole("img", { name: /finished plastering/i })).toHaveAttribute(
-      "src",
-      "/hero.jpg",
-    );
+    expect(
+      screen.getByRole("link", { name: /request a quote/i }),
+    ).toHaveAttribute("href", "/contact");
+    expect(
+      screen.getByRole("img", { name: /finished plastering/i }),
+    ).toHaveAttribute("src", "/hero.jpg");
   });
 });

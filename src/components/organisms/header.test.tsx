@@ -21,6 +21,23 @@ describe("Header", () => {
     );
   });
 
+  it("should hide Real Estate from the header navigation", async () => {
+    const user = setupUser();
+    render(<Header />);
+
+    expect(screen.queryByRole("link", { name: "Real Estate" })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /open menu/i }));
+
+    const mobileNav = screen.getByRole("navigation", {
+      name: /mobile and tablet navigation/i,
+    });
+
+    expect(
+      within(mobileNav).queryByRole("link", { name: "Real Estate" }),
+    ).not.toBeInTheDocument();
+  });
+
   it("should open and close the mobile menu from the hamburger button", async () => {
     const user = setupUser();
     render(<Header />);

@@ -32,7 +32,7 @@ export function CustomerReviewsSection({
             <SectionHeading
               eyebrow="Customer reviews"
               title="Proof from Auckland properties, not just promises."
-              body="A few high-scoring review highlights from authenticated NoCowboys ratings. Each one is summarised and linked back to the original public profile."
+              body="See why Auckland clients trust PlasterPro Solution for clear communication, tidy sites, and finishes that are ready for handover, sale, or everyday use."
               tone={tone}
             />
           </AnimatedReveal>

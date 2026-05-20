@@ -2,7 +2,6 @@
 
 import { upload } from "@vercel/blob/client";
 import { X } from "lucide-react";
-import Link from "next/link";
 import { useRef, useState } from "react";
 import { Button } from "@/components/atoms/button";
 import {
