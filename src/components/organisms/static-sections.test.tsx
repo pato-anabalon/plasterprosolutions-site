@@ -74,21 +74,16 @@ describe("static site sections", () => {
   });
 
   it("should render AboutStorySection values and images", () => {
-    render(
-      <AboutStorySection
-        completedProjectImage="/completed.jpg"
-        values={["Tidy site practice", "Clear communication"]}
-      />,
-    );
+    render(<AboutStorySection />);
 
     expect(
       screen.getByRole("heading", { name: /the finish matters/i }),
     ).toBeInTheDocument();
-    expect(screen.getByText(/tidy site practice/i)).toBeInTheDocument();
-    expect(screen.getByText(/clear communication/i)).toBeInTheDocument();
+    expect(screen.getByText(/professional and reliable service/i)).toBeInTheDocument();
+    expect(screen.getByText(/customer-focused project delivery/i)).toBeInTheDocument();
     expect(
       screen.getByRole("img", { name: /completed exterior plastering project/i }),
-    ).toHaveAttribute("src", "/completed.jpg");
+    ).toHaveAttribute("src", "/assets/about-second-section-2.jpeg");
   });
 
   it("should render AboutStrengthsSection cards", () => {

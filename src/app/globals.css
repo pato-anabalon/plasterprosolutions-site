@@ -160,24 +160,62 @@ button {
   will-change: transform, opacity;
 }
 
-@keyframes service-card-copy-slide {
+@keyframes service-card-copy-first {
   0%,
-  24% {
+  30% {
+    opacity: 1;
     transform: translateY(0);
   }
 
   36%,
-  60% {
-    transform: translateY(-7rem);
+  100% {
+    opacity: 0;
+    transform: translateY(-0.45rem);
+  }
+}
+
+@keyframes service-card-copy-second {
+  0%,
+  30%,
+  66%,
+  100% {
+    opacity: 0;
+    transform: translateY(0.45rem);
   }
 
-  72%,
+  36%,
+  60% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes service-card-copy-third {
+  0%,
+  63%,
   100% {
-    transform: translateY(-14rem);
+    opacity: 0;
+    transform: translateY(0.45rem);
+  }
+
+  70%,
+  94% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .service-card-copy-track {
+  position: relative;
+}
+
+.service-card-copy-slide {
+  opacity: 0;
+  transform: translateY(0.45rem);
+}
+
+.service-card-copy-slide:first-child {
+  opacity: 1;
   transform: translateY(0);
 }
 
@@ -258,9 +296,19 @@ button {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .service-card:hover .service-card-copy-track,
-  .service-card:focus-within .service-card-copy-track {
-    animation: service-card-copy-slide 8.5s ease-in-out infinite;
+  .service-card:hover .service-card-copy-slide:first-child,
+  .service-card:focus-within .service-card-copy-slide:first-child {
+    animation: service-card-copy-first 9s ease-in-out infinite both;
+  }
+
+  .service-card:hover .service-card-copy-slide:nth-child(2),
+  .service-card:focus-within .service-card-copy-slide:nth-child(2) {
+    animation: service-card-copy-second 9s ease-in-out infinite both;
+  }
+
+  .service-card:hover .service-card-copy-slide:nth-child(3),
+  .service-card:focus-within .service-card-copy-slide:nth-child(3) {
+    animation: service-card-copy-third 9s ease-in-out infinite both;
   }
 }
 

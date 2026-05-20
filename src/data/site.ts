@@ -74,7 +74,7 @@ export const siteConfig = {
       description:
         'Reliable interior and exterior plastering solutions delivered with strong site coordination, consistent workmanship, and attention to programme requirements.',
       bestFor:
-        'We work alongside builders, project managers, fit-out teams, and commercial property owners across retail, office, hospitality, and large-scale commercial environments.',
+        'We work alongside builders, project managers, fit-out teams, and commercial property owners across retail, office, hospitality, and large-scale projects.',
       includes: [
         'Interior and exterior plaster systems',
         'Commercial fit-out plastering',
@@ -134,18 +134,12 @@ export const siteConfig = {
     }
   ],
   process: ['Site review', 'Surface preparation', 'Plaster or paint application', 'Finish detailing', 'Handover'],
-  projectImages: [
-    '/assets/a46a48_b7934af479ff4252a047931e053e3dcdf000.jpg',
-    '/assets/a46a48_398500fe98134ce6a16874006268d43c~mv2.png',
-    '/assets/a46a48_bb4caaa8e05d4a09a8fc271eaa6f5d6b~mv2.png',
-    '/assets/a46a48_572582ad8c124024bc4601453e3152ad~mv2.png'
-  ],
   projectGallery: [
     {
       title: 'New build exterior finish',
       service: 'Residential plastering',
       location: 'Coastal Auckland property',
-      image: '/assets/a46a48_572582ad8c124024bc4601453e3152ad~mv2.png'
+      image: '/assets/home-projects-1.jpeg'
     },
     {
       title: 'Character home preparation',
@@ -157,7 +151,7 @@ export const siteConfig = {
       title: 'Photo-ready exterior presentation',
       service: 'Painting and finish detailing',
       location: 'Residential property',
-      image: '/assets/a46a48_bb4caaa8e05d4a09a8fc271eaa6f5d6b~mv2.png'
+      image: '/assets/home-projects-3.jpeg'
     },
     {
       title: 'Commercial site preparation',
@@ -181,7 +175,7 @@ export const siteConfig = {
       title: 'Freemans Bay interior finish',
       service: 'Interior plastering and painting',
       location: 'Freemans Bay, Auckland',
-      image: '/assets/projects/freemans-bay-04.avif'
+      image: '/assets/projects/other-projects/freemans-bay-04.avif'
     }
   ],
   projectPhotoGallery: [
@@ -189,112 +183,112 @@ export const siteConfig = {
       title: 'Freemans Bay interior prep',
       location: 'Freemans Bay',
       category: 'Interior finish',
-      image: '/assets/projects/freemans-bay-01.avif',
+      image: '/assets/projects/other-projects/freemans-bay-01.avif',
       layout: 'featured'
     },
     {
       title: 'Freemans Bay coating detail',
       location: 'Freemans Bay',
       category: 'Painting',
-      image: '/assets/projects/freemans-bay-02.avif',
+      image: '/assets/projects/other-projects/freemans-bay-02.avif',
       layout: 'small'
     },
     {
       title: 'Whitford exterior system',
       location: 'Whitford',
       category: 'Exterior plastering',
-      image: '/assets/projects/whitford-01.avif',
+      image: '/assets/projects/other-projects/whitford-01.avif',
       layout: 'wide'
     },
     {
       title: 'Paerata wall finish',
       location: 'Paerata',
       category: 'Residential',
-      image: '/assets/projects/paerata-01.avif',
+      image: '/assets/projects/other-projects/paerata-01.avif',
       layout: 'small'
     },
     {
       title: 'Before and after repair',
       location: 'Auckland',
       category: 'Make-good',
-      image: '/assets/projects/before-after-01.avif',
+      image: '/assets/projects/other-projects/before-after-01.avif',
       layout: 'tall'
     },
     {
       title: 'Whitford cladding prep',
       location: 'Whitford',
       category: 'Site progress',
-      image: '/assets/projects/whitford-02.avif',
+      image: '/assets/projects/other-projects/whitford-02.avif',
       layout: 'wide'
     },
     {
       title: 'Paerata exterior detail',
       location: 'Paerata',
       category: 'Exterior finish',
-      image: '/assets/projects/paerata-02.avif',
+      image: '/assets/projects/other-projects/paerata-02.avif',
       layout: 'small'
     },
     {
       title: 'Freemans Bay final finish',
       location: 'Freemans Bay',
       category: 'Interior finish',
-      image: '/assets/projects/freemans-bay-03.avif',
+      image: '/assets/projects/other-projects/freemans-bay-03.avif',
       layout: 'small'
     },
     {
       title: 'Whitford surface work',
       location: 'Whitford',
       category: 'Plastering',
-      image: '/assets/projects/whitford-03.avif',
+      image: '/assets/projects/other-projects/whitford-03.avif',
       layout: 'wide'
     },
     {
       title: 'Paerata finishing stage',
       location: 'Paerata',
       category: 'Painting',
-      image: '/assets/projects/paerata-03.avif',
+      image: '/assets/projects/other-projects/paerata-03.avif',
       layout: 'small'
     },
     {
       title: 'Before and after close-up',
       location: 'Auckland',
       category: 'Repair',
-      image: '/assets/projects/before-after-02.avif',
+      image: '/assets/projects/other-projects/before-after-02.avif',
       layout: 'small'
     },
     {
       title: 'Whitford final presentation',
       location: 'Whitford',
       category: 'Completed work',
-      image: '/assets/projects/whitford-04.avif',
+      image: '/assets/projects/other-projects/whitford-04.avif',
       layout: 'wide'
     },
     {
       title: 'Paerata prepared surfaces',
       location: 'Paerata',
       category: 'Preparation',
-      image: '/assets/projects/paerata-04.avif',
+      image: '/assets/projects/other-projects/paerata-04.avif',
       layout: 'small'
     },
     {
       title: 'Freemans Bay photo-ready room',
       location: 'Freemans Bay',
       category: 'Final detailing',
-      image: '/assets/projects/freemans-bay-04.avif',
+      image: '/assets/projects/other-projects/freemans-bay-04.avif',
       layout: 'wide'
     },
     {
       title: 'Before and after finish',
       location: 'Auckland',
       category: 'Restoration',
-      image: '/assets/projects/before-after-03.avif',
+      image: '/assets/projects/other-projects/before-after-03.avif',
       layout: 'small'
     },
     {
       title: 'Before and after handover',
       location: 'Auckland',
       category: 'Handover',
-      image: '/assets/projects/before-after-04.avif',
+      image: '/assets/projects/other-projects/before-after-04.avif',
       layout: 'small'
     }
   ],
