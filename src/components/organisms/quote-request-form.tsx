@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { upload } from "@vercel/blob/client";
-import { X } from "lucide-react";
-import { useRef, useState } from "react";
-import { Button } from "@/components/atoms/button";
+import { upload } from '@vercel/blob/client';
+import { X } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { Button } from '@/components/atoms/button';
 import {
   acceptedQuoteFileTypes,
   getQuoteUploadContentType,
@@ -11,16 +11,14 @@ import {
   getQuoteUploadFolder,
   getQuoteUploadPath,
   sanitizeQuoteFileName,
-  validateQuoteFiles,
-} from "@/lib/quote-files";
+  validateQuoteFiles
+} from '@/lib/quote-files';
 
-type FormStatus =
-  | { message: string; type: "error" | "success" }
-  | { message: ""; type: "idle" };
+type FormStatus = { message: string; type: 'error' | 'success' } | { message: ''; type: 'idle' };
 
 const initialStatus: FormStatus = {
-  message: "",
-  type: "idle",
+  message: '',
+  type: 'idle'
 };
 
 const quoteFileUploadTimeoutMs = 45_000;
@@ -44,8 +42,8 @@ async function withUploadTimeout<T>(uploadPromise: Promise<T>, fileName: string)
     timeoutId = setTimeout(() => {
       reject(
         new Error(
-          `The upload timed out while sending ${sanitizeQuoteFileName(fileName)}. Please try again or send fewer files.`,
-        ),
+          `The upload timed out while sending ${sanitizeQuoteFileName(fileName)}. Please try again or send fewer files.`
+        )
       );
     }, quoteFileUploadTimeoutMs);
   });
@@ -64,7 +62,7 @@ export function QuoteRequestForm() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitLabel, setSubmitLabel] = useState("Send Request");
+  const [submitLabel, setSubmitLabel] = useState('Send Request');
   const [status, setStatus] = useState<FormStatus>(initialStatus);
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -74,9 +72,7 @@ export function QuoteRequestForm() {
       return;
     }
 
-    const nextFilesByKey = new Map(
-      selectedFiles.map((file) => [getFileKey(file), file]),
-    );
+    const nextFilesByKey = new Map(selectedFiles.map((file) => [getFileKey(file), file]));
 
     newFiles.forEach((file) => {
       nextFilesByKey.set(getFileKey(file), file);
@@ -88,20 +84,18 @@ export function QuoteRequestForm() {
     if (fileValidationError) {
       setStatus({
         message: fileValidationError,
-        type: "error",
+        type: 'error'
       });
     } else {
       setSelectedFiles(nextFiles);
       setStatus(initialStatus);
     }
 
-    event.currentTarget.value = "";
+    event.currentTarget.value = '';
   }
 
   function handleRemoveFile(fileKey: string) {
-    setSelectedFiles((currentFiles) =>
-      currentFiles.filter((file) => getFileKey(file) !== fileKey),
-    );
+    setSelectedFiles((currentFiles) => currentFiles.filter((file) => getFileKey(file) !== fileKey));
     setStatus(initialStatus);
   }
 
@@ -112,61 +106,59 @@ export function QuoteRequestForm() {
     setStatus(initialStatus);
 
     const formData = new FormData(form);
-    const address = String(formData.get("address") ?? "");
-    const company = String(formData.get("company") ?? "");
-    const email = String(formData.get("email") ?? "");
-    const firstName = String(formData.get("firstName") ?? "");
-    const lastName = String(formData.get("lastName") ?? "");
-    const message = String(formData.get("message") ?? "");
-    const phone = String(formData.get("phone") ?? "");
-    const subject = String(formData.get("subject") ?? "");
+    const address = String(formData.get('address') ?? '');
+    const company = String(formData.get('company') ?? '');
+    const email = String(formData.get('email') ?? '');
+    const firstName = String(formData.get('firstName') ?? '');
+    const lastName = String(formData.get('lastName') ?? '');
+    const message = String(formData.get('message') ?? '');
+    const phone = String(formData.get('phone') ?? '');
+    const subject = String(formData.get('subject') ?? '');
     const fileValidationError = validateQuoteFiles(selectedFiles);
 
     if (fileValidationError) {
       setIsSubmitting(false);
       setStatus({
         message: fileValidationError,
-        type: "error",
+        type: 'error'
       });
       return;
     }
 
     try {
-      setSubmitLabel(
-        selectedFiles.length ? "Uploading files..." : "Sending...",
-      );
+      setSubmitLabel(selectedFiles.length ? 'Uploading files...' : 'Sending...');
       const uploadFolder = selectedFiles.length
         ? getQuoteUploadFolder({
             address,
             firstName,
-            lastName,
+            lastName
           })
-        : "";
+        : '';
 
       const uploadedFiles = await Promise.all(
         selectedFiles.map(async (file, index) => {
           const uploadFileName = getQuoteUploadFileName(file.name, index);
           const blob = await withUploadTimeout(
             upload(getQuoteUploadPath(uploadFolder, uploadFileName), file, {
-              access: "public",
+              access: 'public',
               contentType: getQuoteUploadContentType(file),
-              handleUploadUrl: "/api/quote/upload",
+              handleUploadUrl: '/api/quote/upload'
             }),
-            file.name,
+            file.name
           );
 
           return {
             name: uploadFileName,
             size: file.size,
-            type: file.type || "application/octet-stream",
-            url: blob.url,
+            type: file.type || 'application/octet-stream',
+            url: blob.url
           };
-        }),
+        })
       );
 
-      setSubmitLabel("Sending...");
+      setSubmitLabel('Sending...');
 
-      const response = await fetch("/api/quote", {
+      const response = await fetch('/api/quote', {
         body: JSON.stringify({
           address,
           company,
@@ -175,17 +167,17 @@ export function QuoteRequestForm() {
           firstName,
           lastName,
           message,
-          page: "/contact",
+          page: '/contact',
           phone,
-          source: "Website",
+          source: 'Website',
           subject,
           uploadFolder,
-          website: String(formData.get("website") ?? ""),
+          website: String(formData.get('website') ?? '')
         }),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        method: "POST",
+        method: 'POST'
       });
       const result = (await response.json()) as {
         error?: string;
@@ -193,26 +185,23 @@ export function QuoteRequestForm() {
       };
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.error ?? "The quote request could not be sent.");
+        throw new Error(result.error ?? 'The quote request could not be sent.');
       }
 
       formRef.current?.reset();
       setSelectedFiles([]);
       setStatus({
-        message: "Thanks. Your quote request has been sent.",
-        type: "success",
+        message: 'Thanks. Your quote request has been sent.',
+        type: 'success'
       });
     } catch (error) {
       setStatus({
-        message:
-          error instanceof Error
-            ? error.message
-            : "The quote request could not be sent.",
-        type: "error",
+        message: error instanceof Error ? error.message : 'The quote request could not be sent.',
+        type: 'error'
       });
     } finally {
       setIsSubmitting(false);
-      setSubmitLabel("Send Request");
+      setSubmitLabel('Send Request');
     }
   }
 
@@ -263,12 +252,7 @@ export function QuoteRequestForm() {
         </label>
         <label className="field-label" data-testid="quote-request-form-last-name-field">
           Last name
-          <input
-            className="field-control"
-            data-testid="quote-request-form-last-name-input"
-            name="lastName"
-            required
-          />
+          <input className="field-control" data-testid="quote-request-form-last-name-input" name="lastName" required />
         </label>
       </div>
 
@@ -333,8 +317,7 @@ export function QuoteRequestForm() {
           type="file"
         />
         <span className="text-xs font-bold leading-5 text-muted">
-          Add photos, plans, or PDFs one batch at a time. Up to 5 files, 10 MB
-          each.
+          Add photos, plans, or PDFs one batch at a time. Up to 5 files, 10 MB each.
         </span>
       </label>
 
@@ -350,12 +333,8 @@ export function QuoteRequestForm() {
                 key={fileKey}
               >
                 <span className="min-w-0">
-                  <span className="block truncate font-extrabold">
-                    {sanitizeQuoteFileName(file.name)}
-                  </span>
-                  <span className="text-xs font-bold text-muted">
-                    {formatFileSize(file.size)}
-                  </span>
+                  <span className="block truncate font-extrabold">{sanitizeQuoteFileName(file.name)}</span>
+                  <span className="text-xs font-bold text-muted">{formatFileSize(file.size)}</span>
                 </span>
                 <button
                   aria-label={`Remove ${file.name}`}
@@ -376,9 +355,7 @@ export function QuoteRequestForm() {
       {status.message ? (
         <p
           className={`rounded-md px-4 py-3 text-sm font-extrabold ${
-            status.type === "success"
-              ? "bg-oxide-green/12 text-oxide-green"
-              : "bg-spicy-orange/12 text-spicy-orange"
+            status.type === 'success' ? 'bg-oxide-green/12 text-oxide-green' : 'bg-spicy-orange/12 text-spicy-orange'
           }`}
           data-testid="quote-request-form-status"
           role="status"
@@ -387,13 +364,8 @@ export function QuoteRequestForm() {
         </p>
       ) : null}
 
-      <Button
-        className="w-full sm:w-fit"
-        data-testid="quote-request-form-submit"
-        disabled={isSubmitting}
-        type="submit"
-      >
-        {isSubmitting ? submitLabel : "Send Request"}
+      <Button className="w-full sm:w-fit" data-testid="quote-request-form-submit" disabled={isSubmitting} type="submit">
+        {isSubmitting ? submitLabel : 'Send Request'}
       </Button>
     </form>
   );
