@@ -58,6 +58,7 @@ export function SocialIconLink({
   return (
     <a
       className={`focus-ring grid size-11 place-items-center rounded-full border transition duration-300 hover:-translate-y-0.5 ${tones[tone]} ${className}`}
+      data-testid={`social-icon-link-${label.toLowerCase()}`}
       href={href}
       target="_blank"
       rel="noreferrer noopener"
@@ -65,6 +66,7 @@ export function SocialIconLink({
     >
       <svg
         className="size-5"
+        data-testid={`social-icon-${label.toLowerCase()}`}
         viewBox="0 0 32 32"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

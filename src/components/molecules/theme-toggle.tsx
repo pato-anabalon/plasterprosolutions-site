@@ -34,6 +34,7 @@ export function ThemeToggle({ tone = "light" }: ThemeToggleProps) {
   return (
     <button
       className={`focus-ring inline-grid h-12 grid-cols-2 items-center rounded-full border p-1 text-xs font-black uppercase tracking-[0.12em] shadow-[0_14px_38px_rgba(25,23,20,0.08)] transition hover:border-spicy-orange ${trackClasses}`}
+      data-testid="theme-toggle"
       type="button"
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
       aria-pressed={isDark}

@@ -83,11 +83,17 @@ export function MetricCard({ value, label }: MetricCardProps) {
     <div
       ref={scope}
       className="surface-panel rounded-lg p-6 opacity-0"
+      data-testid="metric-card"
     >
       <p className="text-4xl font-black text-charcoal">
-        <span ref={numberRef}>0{metric.suffix}</span>
+        <span ref={numberRef} data-testid="metric-card-value">
+          0{metric.suffix}
+        </span>
       </p>
-      <p className="mt-2 text-sm font-extrabold uppercase tracking-[0.12em] text-spicy-orange">
+      <p
+        className="mt-2 text-sm font-extrabold uppercase tracking-[0.12em] text-spicy-orange"
+        data-testid="metric-card-label"
+      >
         {label}
       </p>
     </div>

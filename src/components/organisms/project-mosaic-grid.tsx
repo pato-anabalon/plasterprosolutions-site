@@ -53,24 +53,30 @@ export function ProjectMosaicGrid({ photos }: ProjectMosaicGridProps) {
 
   return (
     <>
-      <div className="mt-12 grid auto-rows-[18rem] grid-cols-1 md:grid-cols-4 md:auto-rows-[16rem] lg:grid-cols-8 lg:auto-rows-[17rem]">
+      <div
+        className="mt-12 grid auto-rows-[18rem] grid-cols-1 md:grid-cols-4 md:auto-rows-[16rem] lg:grid-cols-8 lg:auto-rows-[17rem]"
+        data-testid="project-mosaic-grid"
+      >
         {photos.map((photo, index) => (
           <AnimatedReveal
             className={`relative overflow-hidden bg-white/5 ${getTileClass(
               photo.layout,
             )}`}
+            data-testid="project-mosaic-grid-item"
             delay={(index % 6) * 0.035}
             key={`${photo.image}-${photo.title}`}
           >
             <button
               aria-label={`Open project image: ${photo.title}`}
               className="focus-ring group relative block h-full w-full overflow-hidden text-left"
+              data-testid="project-mosaic-grid-button"
               onClick={() => setActiveIndex(index)}
               type="button"
             >
               <Image
                 alt={photo.title}
                 className="object-cover opacity-88 transition duration-700 ease-out group-hover:scale-105 group-hover:opacity-100 group-focus-visible:scale-105 group-focus-visible:opacity-100"
+                data-testid="project-mosaic-grid-image"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 src={photo.image}

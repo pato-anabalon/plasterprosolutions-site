@@ -22,7 +22,7 @@ export function HomeServiceCards({ services }: HomeServiceCardsProps) {
 
   return (
     <>
-      <div className="mt-12 grid gap-3 sm:hidden">
+      <div className="mt-12 grid gap-3 sm:hidden" data-testid="home-service-cards-mobile">
         {services.map((service, index) => {
           const isOpen = openIndex === index;
           const panelId = `home-service-panel-${service.slug}`;
@@ -32,6 +32,7 @@ export function HomeServiceCards({ services }: HomeServiceCardsProps) {
               className={`relative overflow-hidden rounded-lg border transition duration-300 ${
                 isOpen ? 'border-charcoal bg-charcoal text-white' : 'border-charcoal/10 bg-surface text-charcoal'
               }`}
+              data-testid="home-service-card-mobile"
               key={service.slug}
               delay={index * 0.04}
             >
@@ -45,6 +46,7 @@ export function HomeServiceCards({ services }: HomeServiceCardsProps) {
               </span>
               <button
                 className="focus-ring relative z-10 grid w-full gap-8 p-6 text-left"
+                data-testid="home-service-card-mobile-toggle"
                 type="button"
                 aria-expanded={isOpen}
                 aria-controls={panelId}
@@ -74,6 +76,7 @@ export function HomeServiceCards({ services }: HomeServiceCardsProps) {
                 className={`relative z-10 grid overflow-hidden transition-all duration-500 ease-out ${
                   isOpen ? 'max-h-[34rem] opacity-100' : 'max-h-0 opacity-0'
                 }`}
+                data-testid="home-service-card-mobile-panel"
                 id={panelId}
               >
                 <div className="grid gap-5 border-t border-white/10 px-6 pb-6 pt-5">
@@ -110,15 +113,20 @@ export function HomeServiceCards({ services }: HomeServiceCardsProps) {
         })}
       </div>
 
-      <div className="mt-12 hidden grid-cols-2 gap-4 sm:grid lg:hidden">
+      <div
+        className="mt-12 hidden grid-cols-2 gap-4 sm:grid lg:hidden"
+        data-testid="home-service-cards-tablet"
+      >
         {services.map((service, index) => (
           <AnimatedReveal
             className="group relative overflow-hidden rounded-lg border border-charcoal/10 bg-surface shadow-[0_18px_54px_rgba(25,23,20,0.08)] transition duration-300 hover:-translate-y-1 hover:border-spicy-orange/35 hover:shadow-[0_22px_60px_rgba(227,65,15,0.12)]"
+            data-testid="home-service-card-tablet"
             key={service.slug}
             delay={index * 0.04}
           >
             <Link
               className="focus-ring relative flex min-h-[23rem] flex-col justify-between p-6 text-charcoal"
+              data-testid="home-service-card-tablet-link"
               href={`/services#${service.slug}`}
               aria-label={`Explore ${service.title}`}
             >
@@ -146,15 +154,20 @@ export function HomeServiceCards({ services }: HomeServiceCardsProps) {
         ))}
       </div>
 
-      <div className="mt-12 hidden overflow-hidden rounded-lg border border-charcoal/10 bg-charcoal/10 lg:grid lg:grid-cols-4">
+      <div
+        className="mt-12 hidden overflow-hidden rounded-lg border border-charcoal/10 bg-charcoal/10 lg:grid lg:grid-cols-4"
+        data-testid="home-service-cards-desktop"
+      >
         {services.map((service, index) => (
           <AnimatedReveal
             className="service-card group relative min-h-[32rem] overflow-hidden bg-surface transition duration-500 hover:z-10 hover:-translate-y-1 hover:bg-charcoal focus-within:z-10 focus-within:-translate-y-1 focus-within:bg-charcoal"
+            data-testid="home-service-card-desktop"
             key={service.slug}
             delay={index * 0.04}
           >
             <Link
               className="focus-ring relative flex min-h-[32rem] flex-col p-6 text-charcoal transition duration-500 group-hover:text-white group-focus-within:text-white"
+              data-testid="home-service-card-desktop-link"
               href={`/services#${service.slug}`}
               aria-label={`Explore ${service.title}`}
             >
@@ -173,10 +186,16 @@ export function HomeServiceCards({ services }: HomeServiceCardsProps) {
                 />
               </span>
               <span className="relative z-20 mt-auto grid gap-5">
-                <h3 className="balanced max-w-[13rem] text-2xl font-black leading-tight transition duration-500 group-hover:text-white group-focus-within:text-white sm:text-3xl lg:text-2xl xl:text-3xl">
+                <h3
+                  className="balanced max-w-[13rem] text-2xl font-black leading-tight transition duration-500 group-hover:text-white group-focus-within:text-white sm:text-3xl lg:text-2xl xl:text-3xl"
+                  data-testid="home-service-card-title"
+                >
                   {service.title}
                 </h3>
-                <span className="service-card-copy-track block max-h-0 overflow-hidden border-t border-white/10 pt-0 opacity-0 transition-all duration-500 ease-out group-hover:max-h-52 group-hover:pt-7 group-hover:opacity-100 group-focus-within:max-h-52 group-focus-within:pt-7 group-focus-within:opacity-100">
+                <span
+                  className="service-card-copy-track block max-h-0 overflow-hidden border-t border-white/10 pt-0 opacity-0 transition-all duration-500 ease-out group-hover:max-h-52 group-hover:pt-7 group-hover:opacity-100 group-focus-within:max-h-52 group-focus-within:pt-7 group-focus-within:opacity-100"
+                  data-testid="home-service-card-copy-track"
+                >
                   <span className="relative block h-40">
                     <span className="service-card-copy-slide pretty absolute inset-0 block text-base leading-7 text-white/76">
                       {service.description}

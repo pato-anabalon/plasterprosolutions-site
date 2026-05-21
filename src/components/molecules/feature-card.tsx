@@ -25,10 +25,14 @@ export function FeatureCard({
   return (
     <AnimatedReveal
       className={`rounded-lg border p-6 ${cardClasses}`}
+      data-testid="feature-card"
       delay={delay}
     >
       <Icon className="text-spicy-orange" size={24} aria-hidden="true" />
-      <h3 className="balanced mt-5 text-2xl font-black leading-tight">
+      <h3
+        className="balanced mt-5 text-2xl font-black leading-tight"
+        data-testid="feature-card-title"
+      >
         {title}
       </h3>
       <p className={`pretty mt-4 text-base font-bold leading-7 ${bodyClasses}`}>

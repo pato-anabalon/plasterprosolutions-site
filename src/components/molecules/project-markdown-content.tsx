@@ -102,7 +102,11 @@ function renderBlock(block: MarkdownBlock, index: number): ReactNode {
     const Tag = block.level === 2 ? "h2" : "h3";
 
     return (
-      <Tag className={className} key={`${block.type}-${index}`}>
+      <Tag
+        className={className}
+        data-testid={`project-markdown-heading-${block.level}`}
+        key={`${block.type}-${index}`}
+      >
         {block.text}
       </Tag>
     );
@@ -112,6 +116,7 @@ function renderBlock(block: MarkdownBlock, index: number): ReactNode {
     return (
       <ul
         className="mt-6 grid gap-3 border-l-2 border-spicy-orange pl-5 text-lg leading-8 text-muted"
+        data-testid="project-markdown-list"
         key={`${block.type}-${index}`}
       >
         {block.items.map((item) => (
@@ -124,6 +129,7 @@ function renderBlock(block: MarkdownBlock, index: number): ReactNode {
   return (
     <p
       className="mt-6 text-lg leading-8 text-muted sm:text-xl sm:leading-9"
+      data-testid="project-markdown-paragraph"
       key={`${block.type}-${index}`}
     >
       {block.text}
@@ -132,5 +138,9 @@ function renderBlock(block: MarkdownBlock, index: number): ReactNode {
 }
 
 export function ProjectMarkdownContent({ markdown }: ProjectMarkdownContentProps) {
-  return <div>{parseMarkdown(markdown).map(renderBlock)}</div>;
+  return (
+    <div data-testid="project-markdown-content">
+      {parseMarkdown(markdown).map(renderBlock)}
+    </div>
+  );
 }

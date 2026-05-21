@@ -70,6 +70,7 @@ export function ProjectGalleryLightbox({
       aria-label={`${activePhoto.title} full-size image`}
       aria-modal="true"
       className="fixed inset-0 z-[90] grid bg-charcoal/94 p-3 text-white backdrop-blur-md sm:p-6"
+      data-testid="project-gallery-lightbox"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
           onClose();
@@ -77,8 +78,11 @@ export function ProjectGalleryLightbox({
       }}
       role="dialog"
     >
-      <div className="relative grid min-h-0 grid-rows-[auto_1fr_auto] gap-4">
-        <div className="flex items-center justify-between gap-4">
+      <div
+        className="relative grid min-h-0 grid-rows-[auto_1fr_auto] gap-4"
+        data-testid="project-gallery-lightbox-content"
+      >
+        <div className="flex items-center justify-between gap-4" data-testid="project-gallery-lightbox-header">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-spicy-orange">
               {activePhoto.category}
@@ -90,6 +94,7 @@ export function ProjectGalleryLightbox({
           <button
             aria-label="Close project image"
             className="focus-ring grid size-11 shrink-0 place-items-center rounded-full border border-white/14 bg-white/10 text-white transition hover:border-spicy-orange hover:bg-spicy-orange"
+            data-testid="project-gallery-lightbox-close"
             onClick={onClose}
             ref={closeButtonRef}
             type="button"
@@ -98,10 +103,14 @@ export function ProjectGalleryLightbox({
           </button>
         </div>
 
-        <div className="relative min-h-0 overflow-hidden rounded-lg border border-white/12 bg-black/34">
+        <div
+          className="relative min-h-0 overflow-hidden rounded-lg border border-white/12 bg-black/34"
+          data-testid="project-gallery-lightbox-image-frame"
+        >
           <Image
             alt={activePhoto.title}
             className="object-contain"
+            data-testid="project-gallery-lightbox-image"
             fill
             priority
             sizes="100vw"
@@ -111,6 +120,7 @@ export function ProjectGalleryLightbox({
           <button
             aria-label="Previous project image"
             className="focus-ring absolute left-3 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full border border-white/14 bg-charcoal/70 text-white backdrop-blur transition hover:border-spicy-orange hover:bg-spicy-orange sm:left-5 sm:size-12"
+            data-testid="project-gallery-lightbox-previous"
             onClick={onPrevious}
             type="button"
           >
@@ -119,6 +129,7 @@ export function ProjectGalleryLightbox({
           <button
             aria-label="Next project image"
             className="focus-ring absolute right-3 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full border border-white/14 bg-charcoal/70 text-white backdrop-blur transition hover:border-spicy-orange hover:bg-spicy-orange sm:right-5 sm:size-12"
+            data-testid="project-gallery-lightbox-next"
             onClick={onNext}
             type="button"
           >
@@ -126,7 +137,10 @@ export function ProjectGalleryLightbox({
           </button>
         </div>
 
-        <div className="flex flex-col justify-between gap-2 text-sm font-extrabold uppercase tracking-[0.16em] text-white/58 sm:flex-row sm:items-center">
+        <div
+          className="flex flex-col justify-between gap-2 text-sm font-extrabold uppercase tracking-[0.16em] text-white/58 sm:flex-row sm:items-center"
+          data-testid="project-gallery-lightbox-footer"
+        >
           <span>{activePhoto.location}</span>
           <span>
             {String(activeIndex + 1).padStart(2, "0")} /{" "}

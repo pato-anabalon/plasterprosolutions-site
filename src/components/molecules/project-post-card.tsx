@@ -42,10 +42,12 @@ export function ProjectPostCard({ featured = false, post }: ProjectPostCardProps
           ? 'group h-full min-h-[34rem] overflow-hidden rounded-lg bg-charcoal text-white shadow-[0_18px_48px_rgb(25_23_20/0.1)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_34px_90px_rgb(227_65_15/0.22)]'
           : 'group h-full min-h-[30rem] overflow-hidden rounded-lg bg-charcoal text-white shadow-[0_18px_48px_rgb(25_23_20/0.1)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_34px_90px_rgb(227_65_15/0.18)]'
       }
+      data-testid={featured ? 'project-post-card-featured' : 'project-post-card'}
     >
       <Link
         aria-label={`Read project story: ${post.title}`}
         className="focus-ring relative flex h-full overflow-hidden"
+        data-testid="project-post-card-link"
         href={`/projects/${post.slug}`}
         onClick={() => {
           track('Project Card Clicked', {
@@ -57,24 +59,32 @@ export function ProjectPostCard({ featured = false, post }: ProjectPostCardProps
         <Image
           alt={post.title}
           className="scale-[1.0] object-cover transition duration-700 ease-out group-hover:scale-[1.06] group-focus-visible:scale-[1.06]"
+          data-testid="project-post-card-image"
           fill
           sizes={featured ? '(max-width: 1024px) 100vw, 66vw' : '(max-width: 1024px) 100vw, 33vw'}
           src={post.heroImage}
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(25_23_20/0.02)_0%,rgb(25_23_20/0.08)_34%,rgb(25_23_20/0.82)_100%)]" />
 
-        <span className="absolute left-4 top-4 rounded-full border border-white/18 bg-white/88 px-3 py-1 text-[0.66rem] font-black uppercase tracking-[0.1em] text-[#191714] shadow-[0_10px_28px_rgb(25_23_20/0.16)] backdrop-blur-md">
+        <span
+          className="absolute left-4 top-4 rounded-full border border-white/18 bg-white/88 px-3 py-1 text-[0.66rem] font-black uppercase tracking-[0.1em] text-[#191714] shadow-[0_10px_28px_rgb(25_23_20/0.16)] backdrop-blur-md"
+          data-testid="project-post-card-location"
+        >
           {post.location}
         </span>
 
-        <div className="absolute inset-x-0 bottom-0 p-2">
-          <div className="flex min-h-[13rem] flex-col rounded-lg border border-white/14 bg-charcoal/28 p-4 text-white shadow-[0_24px_70px_rgb(0_0_0/0.28)] backdrop-blur-xl sm:min-h-[13.5rem] sm:p-5">
+        <div className="absolute inset-x-0 bottom-0 p-2" data-testid="project-post-card-panel-wrap">
+          <div
+            className="flex min-h-[13rem] flex-col rounded-lg border border-white/14 bg-charcoal/28 p-4 text-white shadow-[0_24px_70px_rgb(0_0_0/0.28)] backdrop-blur-xl sm:min-h-[13.5rem] sm:p-5"
+            data-testid="project-post-card-panel"
+          >
             <h2
               className={
                 featured
                   ? 'text-[length:var(--text-3xl)] font-black leading-tight text-white sm:text-[length:var(--text-4xl)]'
                   : 'text-[length:var(--text-xl)] font-black leading-tight text-white'
               }
+              data-testid="project-post-card-title"
             >
               {post.title}
             </h2>
@@ -84,10 +94,14 @@ export function ProjectPostCard({ featured = false, post }: ProjectPostCardProps
                   ? 'mt-4 line-clamp-3 text-[length:var(--text-base)] font-semibold leading-7 text-white/72'
                   : 'mt-3 line-clamp-3 text-[length:var(--text-xs)] font-semibold leading-5 text-white/72'
               }
+              data-testid="project-post-card-excerpt"
             >
               {post.excerpt}
             </p>
-            <p className="mt-auto border-t border-white/12 pt-3 text-[0.625rem] font-extrabold uppercase tracking-[0.12em] text-white/62">
+            <p
+              className="mt-auto border-t border-white/12 pt-3 text-[0.625rem] font-extrabold uppercase tracking-[0.12em] text-white/62"
+              data-testid="project-post-card-meta"
+            >
               By PlasterPro Solution · {formatPublishedAge(post.publishedAt)}
             </p>
           </div>

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { ContactDetails } from '@/components/organisms/contact-details';
 import { QuoteRequestForm } from '@/components/organisms/quote-request-form';
 import { InnerPageHero } from '@/components/templates/inner-page-hero';
-import { siteConfig } from '@/data/site';
 
 export const metadata: Metadata = {
   title: 'Contact',

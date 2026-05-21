@@ -26,6 +26,7 @@ export function ProjectShareButton({ slug, title }: ProjectShareButtonProps) {
   return (
     <button
       className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-surface px-4 text-sm font-extrabold text-foreground transition hover:border-spicy-orange hover:text-spicy-orange"
+      data-testid="project-share-button"
       onClick={handleCopy}
       type="button"
     >

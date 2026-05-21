@@ -31,31 +31,43 @@ export function ReviewCard({
   return (
     <article
       className={`group relative flex min-h-[20rem] flex-col justify-between overflow-hidden rounded-lg border p-6 transition duration-300 hover:-translate-y-1 ${cardClasses}`}
+      data-testid="review-card"
     >
       <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-spicy-orange transition duration-500 group-hover:scale-x-100" />
       <div>
         <div className="flex items-center justify-between gap-4">
-          <div className="flex gap-1 text-spicy-orange" aria-hidden="true">
+          <div
+            className="flex gap-1 text-spicy-orange"
+            data-testid="review-card-stars"
+            aria-hidden="true"
+          >
             {Array.from({ length: 5 }).map((_, index) => (
               <Star className="fill-current" key={index} size={16} />
             ))}
           </div>
           <span
             className={`rounded-full border px-3 py-1 text-xs font-black ${ratingClasses}`}
+            data-testid="review-card-rating"
           >
             {rating}
           </span>
         </div>
 
-        <h3 className="balanced mt-8 text-2xl font-black leading-tight">
+        <h3
+          className="balanced mt-8 text-2xl font-black leading-tight"
+          data-testid="review-card-title"
+        >
           {title}
         </h3>
-        <p className={`pretty mt-4 text-base font-bold leading-7 ${bodyClasses}`}>
+        <p
+          className={`pretty mt-4 text-base font-bold leading-7 ${bodyClasses}`}
+          data-testid="review-card-body"
+        >
           {body}
         </p>
       </div>
 
-      <footer className={`mt-8 border-t pt-4 ${footerClasses}`}>
+      <footer className={`mt-8 border-t pt-4 ${footerClasses}`} data-testid="review-card-footer">
         <p className="text-sm font-black">{name}</p>
         <p
           className={`mt-1 text-xs font-extrabold uppercase tracking-[0.16em] ${metaClasses}`}

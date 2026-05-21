@@ -195,62 +195,77 @@ export function QuoteRequestForm() {
   return (
     <form
       className="surface-panel grid gap-5 rounded-lg p-6 sm:p-8"
+      data-testid="quote-request-form"
       encType="multipart/form-data"
       onSubmit={handleSubmit}
       ref={formRef}
     >
-      <label className="sr-only">
+      <label className="sr-only" data-testid="quote-request-form-honeypot">
         Website
         <input name="website" tabIndex={-1} autoComplete="off" />
       </label>
 
-      <label className="field-label">
+      <label className="field-label" data-testid="quote-request-form-subject-field">
         Subject
         <input
           className="field-control"
           name="subject"
+          data-testid="quote-request-form-subject-input"
           placeholder="e.g. Exterior plastering quote"
           required
         />
       </label>
 
-      <label className="field-label">
+      <label className="field-label" data-testid="quote-request-form-message-field">
         Message
         <textarea
           className="field-control min-h-40 py-3"
           name="message"
+          data-testid="quote-request-form-message-input"
           placeholder="Tell us about the property, finish, timeline, and access notes."
           required
         />
       </label>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="field-label">
+        <label className="field-label" data-testid="quote-request-form-first-name-field">
           First name
-          <input className="field-control" name="firstName" required />
+          <input
+            className="field-control"
+            data-testid="quote-request-form-first-name-input"
+            name="firstName"
+            required
+          />
         </label>
-        <label className="field-label">
+        <label className="field-label" data-testid="quote-request-form-last-name-field">
           Last name
-          <input className="field-control" name="lastName" required />
+          <input
+            className="field-control"
+            data-testid="quote-request-form-last-name-input"
+            name="lastName"
+            required
+          />
         </label>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="field-label">
+        <label className="field-label" data-testid="quote-request-form-email-field">
           Email
           <input
             autoComplete="email"
             className="field-control"
+            data-testid="quote-request-form-email-input"
             name="email"
             required
             type="email"
           />
         </label>
-        <label className="field-label">
+        <label className="field-label" data-testid="quote-request-form-phone-field">
           Phone
           <input
             autoComplete="tel"
             className="field-control"
+            data-testid="quote-request-form-phone-input"
             name="phone"
             required
             type="tel"
@@ -258,31 +273,34 @@ export function QuoteRequestForm() {
         </label>
       </div>
 
-      <label className="field-label">
+      <label className="field-label" data-testid="quote-request-form-company-field">
         Company
         <input
           autoComplete="organization"
           className="field-control"
+          data-testid="quote-request-form-company-input"
           name="company"
         />
       </label>
 
-      <label className="field-label">
+      <label className="field-label" data-testid="quote-request-form-address-field">
         Address
         <input
           autoComplete="street-address"
           className="field-control"
+          data-testid="quote-request-form-address-input"
           name="address"
           placeholder="Property address"
           required
         />
       </label>
 
-      <label className="field-label">
+      <label className="field-label" data-testid="quote-request-form-files-field">
         Add files
         <input
           accept={acceptedQuoteFileTypes}
           className="field-control cursor-pointer py-3 text-muted file:mr-4 file:rounded-full file:border-0 file:bg-spicy-orange file:px-4 file:py-2 file:text-sm file:font-extrabold file:text-white file:shadow-[0_10px_24px_rgba(227,65,15,0.18)]"
+          data-testid="quote-request-form-files-input"
           disabled={isSubmitting}
           multiple
           name="files"
@@ -297,13 +315,14 @@ export function QuoteRequestForm() {
       </label>
 
       {selectedFiles.length ? (
-        <div className="grid gap-2" aria-live="polite">
+        <div className="grid gap-2" data-testid="quote-request-form-file-list" aria-live="polite">
           {selectedFiles.map((file) => {
             const fileKey = getFileKey(file);
 
             return (
               <div
                 className="flex items-center justify-between gap-3 rounded-md border border-[var(--field-border)] bg-[var(--field-background)] px-3 py-2 text-sm text-foreground shadow-sm"
+                data-testid="quote-request-form-file-item"
                 key={fileKey}
               >
                 <span className="min-w-0">
@@ -317,6 +336,7 @@ export function QuoteRequestForm() {
                 <button
                   aria-label={`Remove ${file.name}`}
                   className="grid size-9 shrink-0 place-items-center rounded-full border border-[var(--field-border)] text-muted transition hover:border-spicy-orange hover:text-spicy-orange disabled:cursor-not-allowed disabled:opacity-50"
+                  data-testid="quote-request-form-remove-file"
                   disabled={isSubmitting}
                   onClick={() => handleRemoveFile(fileKey)}
                   type="button"
@@ -336,13 +356,19 @@ export function QuoteRequestForm() {
               ? "bg-oxide-green/12 text-oxide-green"
               : "bg-spicy-orange/12 text-spicy-orange"
           }`}
+          data-testid="quote-request-form-status"
           role="status"
         >
           {status.message}
         </p>
       ) : null}
 
-      <Button className="w-full sm:w-fit" disabled={isSubmitting} type="submit">
+      <Button
+        className="w-full sm:w-fit"
+        data-testid="quote-request-form-submit"
+        disabled={isSubmitting}
+        type="submit"
+      >
         {isSubmitting ? submitLabel : "Send Request"}
       </Button>
     </form>

@@ -43,11 +43,15 @@ export function BrandLogo({
     sizes ?? (variant === "large" ? "(max-width: 640px) 10rem, 12rem" : "23rem");
 
   return (
-    <span className={`relative block ${logo.aspect} ${className}`}>
+    <span
+      className={`relative block ${logo.aspect} ${className}`}
+      data-testid={`brand-logo-${variant}`}
+    >
       {theme === "auto" ? (
         <>
           <Image
             className={`theme-logo-light object-contain ${imageClassName}`}
+            data-testid="brand-logo-light-image"
             src={logo.lightMode}
             alt={alt}
             fill
@@ -56,6 +60,7 @@ export function BrandLogo({
           />
           <Image
             className={`theme-logo-dark object-contain ${imageClassName}`}
+            data-testid="brand-logo-dark-image"
             src={logo.darkMode}
             alt=""
             fill
@@ -67,6 +72,7 @@ export function BrandLogo({
       ) : (
         <Image
           className={`object-contain ${imageClassName}`}
+          data-testid="brand-logo-image"
           src={theme === "dark" ? logo.darkMode : logo.lightMode}
           alt={alt}
           fill

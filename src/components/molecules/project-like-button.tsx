@@ -61,6 +61,7 @@ export function ProjectLikeButton({
       aria-label={liked ? "Project liked" : "Like this project"}
       aria-pressed={liked}
       className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-surface px-4 text-sm font-extrabold text-foreground transition hover:border-spicy-orange hover:text-spicy-orange disabled:cursor-not-allowed disabled:opacity-55"
+      data-testid="project-like-button"
       disabled={!enabled || liked || isPending}
       onClick={handleLike}
       type="button"
@@ -70,7 +71,7 @@ export function ProjectLikeButton({
         className={liked ? "fill-spicy-orange text-spicy-orange" : ""}
         size={18}
       />
-      <span>{count}</span>
+      <span data-testid="project-like-button-count">{count}</span>
     </button>
   );
 }

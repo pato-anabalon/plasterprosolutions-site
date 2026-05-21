@@ -15,7 +15,10 @@ export function TeamMemberCard({ index, member }: TeamMemberCardProps) {
   const memberNumber = String(index + 1).padStart(2, "0");
 
   return (
-    <article className="group relative min-h-[34rem] overflow-hidden rounded-lg border border-charcoal/10 bg-[var(--charcoal-panel)] shadow-[0_24px_70px_rgba(25,23,20,0.12)] transition duration-500 hover:-translate-y-1 hover:border-spicy-orange/70 hover:shadow-[0_30px_90px_rgba(25,23,20,0.2)]">
+    <article
+      className="group relative min-h-[34rem] overflow-hidden rounded-lg border border-charcoal/10 bg-[var(--charcoal-panel)] shadow-[0_24px_70px_rgba(25,23,20,0.12)] transition duration-500 hover:-translate-y-1 hover:border-spicy-orange/70 hover:shadow-[0_30px_90px_rgba(25,23,20,0.2)]"
+      data-testid="team-member-card"
+    >
       <Image
         className={`object-cover transition duration-700 ease-out ${
           isOpen
@@ -27,6 +30,7 @@ export function TeamMemberCard({ index, member }: TeamMemberCardProps) {
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         style={{ objectPosition: member.imagePosition ?? "center" }}
+        data-testid="team-member-card-image"
       />
 
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(25,23,20,0.04)_18%,rgba(25,23,20,0.32)_52%,rgba(25,23,20,0.92)_100%)]" />
@@ -34,7 +38,7 @@ export function TeamMemberCard({ index, member }: TeamMemberCardProps) {
         <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(227,65,15,0.12),transparent_42%)]" />
       </div>
 
-      <div className="absolute left-5 top-5 flex items-center gap-3">
+      <div className="absolute left-5 top-5 flex items-center gap-3" data-testid="team-member-card-badge">
         <span className="rounded-full border border-white/18 bg-white/12 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-white/80 backdrop-blur-md">
           Team / {memberNumber}
         </span>
@@ -42,6 +46,7 @@ export function TeamMemberCard({ index, member }: TeamMemberCardProps) {
 
       <button
         className="focus-ring absolute right-5 top-5 z-30 grid size-11 place-items-center rounded-full border border-white/20 bg-surface text-charcoal shadow-[0_16px_42px_rgba(0,0,0,0.18)] transition duration-300 hover:bg-spicy-orange hover:text-white"
+        data-testid="team-member-card-toggle"
         type="button"
         aria-label={`${isOpen ? "Close" : "Open"} ${member.name} profile`}
         aria-expanded={isOpen}
@@ -59,6 +64,7 @@ export function TeamMemberCard({ index, member }: TeamMemberCardProps) {
           isOpen ? "translate-y-6 opacity-0" : "translate-y-0 opacity-100"
         }`}
         aria-hidden={isOpen}
+        data-testid="team-member-card-summary"
       >
         <p className="text-xs font-black uppercase tracking-[0.18em] text-spicy-orange">
           {member.role}
@@ -78,6 +84,7 @@ export function TeamMemberCard({ index, member }: TeamMemberCardProps) {
             : "pointer-events-none translate-y-8 opacity-0"
         }`}
         aria-hidden={!isOpen}
+        data-testid="team-member-card-details"
       >
         <div className="mb-auto mt-14">
           <p className="text-xs font-black uppercase tracking-[0.18em] text-spicy-orange">

@@ -65,11 +65,18 @@ export function SitePreloader() {
     <div
       ref={scope}
       className="fixed inset-0 z-50 grid place-items-center bg-surface text-charcoal"
+      data-testid="site-preloader"
       aria-label="Loading PlasterProSolution"
       role="status"
     >
-      <div className="preloader-mark grid w-[min(78vw,23rem)] gap-7 text-center opacity-0">
-        <div className="relative mx-auto aspect-[1023/376] w-full">
+      <div
+        className="preloader-mark grid w-[min(78vw,23rem)] gap-7 text-center opacity-0"
+        data-testid="site-preloader-content"
+      >
+        <div
+          className="relative mx-auto aspect-[1023/376] w-full"
+          data-testid="site-preloader-logo"
+        >
           <BrandLogo
             alt=""
             className="absolute inset-0 w-full"
@@ -86,11 +93,17 @@ export function SitePreloader() {
           </div>
         </div>
 
-        <div className="h-2 overflow-hidden rounded-full bg-charcoal/12">
-          <div className="preloader-bar-fill h-full origin-left scale-x-0 rounded-full bg-spicy-orange shadow-[0_0_28px_rgba(227,65,15,0.5)]" />
+        <div className="h-2 overflow-hidden rounded-full bg-charcoal/12" data-testid="site-preloader-bar">
+          <div
+            className="preloader-bar-fill h-full origin-left scale-x-0 rounded-full bg-spicy-orange shadow-[0_0_28px_rgba(227,65,15,0.5)]"
+            data-testid="site-preloader-bar-fill"
+          />
         </div>
 
-        <p className="preloader-copy translate-y-2 text-sm font-black uppercase tracking-[0.22em] text-charcoal/58 opacity-0">
+        <p
+          className="preloader-copy translate-y-2 text-sm font-black uppercase tracking-[0.22em] text-charcoal/58 opacity-0"
+          data-testid="site-preloader-copy"
+        >
           Preparing the finish
         </p>
       </div>

@@ -19,17 +19,26 @@ export function SectionHeading({
   return (
     <div
       className={`max-w-3xl ${align === "center" ? "mx-auto text-center" : ""}`}
+      data-testid="section-heading"
     >
       {eyebrow ? (
-        <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.2em] text-spicy-orange">
+        <p
+          className="mb-3 text-sm font-extrabold uppercase tracking-[0.2em] text-spicy-orange"
+          data-testid="section-heading-eyebrow"
+        >
           {eyebrow}
         </p>
       ) : null}
-      <h2 className={`text-3xl font-black leading-tight sm:text-4xl lg:text-5xl ${titleColor}`}>
+      <h2
+        className={`text-3xl font-black leading-tight sm:text-4xl lg:text-5xl ${titleColor}`}
+        data-testid="section-heading-title"
+      >
         {title}
       </h2>
       {body ? (
-        <p className={`mt-5 text-lg leading-8 ${bodyColor}`}>{body}</p>
+        <p className={`mt-5 text-lg leading-8 ${bodyColor}`} data-testid="section-heading-body">
+          {body}
+        </p>
       ) : null}
     </div>
   );

@@ -12,22 +12,22 @@ const values = [
 
 export function AboutStorySection() {
   return (
-    <section className="py-20 sm:py-28">
-      <div className="site-shell grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <AnimatedReveal>
+    <section className="py-20 sm:py-28" data-testid="about-story-section">
+      <div className="site-shell grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center" data-testid="about-story-section-layout">
+        <AnimatedReveal data-testid="about-story-section-content">
           <SectionHeading
             eyebrow="We work for people"
             title="The finish matters, but so does the way the project feels."
             body="Plastering and painting can be disruptive when communication is loose. The team is built around practical scheduling, tidy preparation, and the kind of follow-through that gives clients confidence from first visit to handover."
           />
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2" data-testid="about-story-section-values">
             {values.map((value) => (
               <CheckListItem key={value}>{value}</CheckListItem>
             ))}
           </div>
         </AnimatedReveal>
 
-        <AnimatedReveal delay={0.08}>
+        <AnimatedReveal data-testid="about-story-section-images" delay={0.08}>
           <StaggeredImagePair
             primary={{
               alt: 'Completed PlasterPro Solution exterior finish in Auckland',

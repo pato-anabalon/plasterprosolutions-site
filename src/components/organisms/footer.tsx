@@ -6,9 +6,15 @@ import { siteConfig } from "@/data/site";
 
 export function Footer() {
   return (
-    <footer className="border-t border-charcoal/10 bg-charcoal text-white">
-      <div className="site-shell grid gap-10 py-12 lg:grid-cols-[1.3fr_0.7fr_0.7fr]">
-        <div>
+    <footer
+      className="border-t border-charcoal/10 bg-charcoal text-white"
+      data-testid="site-footer"
+    >
+      <div
+        className="site-shell grid gap-10 py-12 lg:grid-cols-[1.3fr_0.7fr_0.7fr]"
+        data-testid="site-footer-grid"
+      >
+        <div data-testid="site-footer-brand">
           <BrandLogo className="w-44" theme="dark" />
           <p className="mt-5 max-w-md text-base leading-7 text-white/70">
             Auckland plastering, painting, gib stopping, and property
@@ -18,7 +24,7 @@ export function Footer() {
           <SocialLinks className="mt-7" />
         </div>
 
-        <div>
+        <div data-testid="site-footer-contact">
           <h2 className="text-sm font-black uppercase tracking-[0.16em] text-white/50">
             Contact
           </h2>
@@ -54,6 +60,7 @@ export function Footer() {
           </h2>
           <nav
             className="mt-5 grid gap-2 text-sm text-white/75"
+            data-testid="site-footer-navigation"
             aria-label="Footer navigation"
           >
             {siteConfig.navigation.map((item) => (
@@ -71,7 +78,10 @@ export function Footer() {
           </nav>
         </div>
       </div>
-      <div className="border-t border-white/10 py-5 text-center text-xs font-bold uppercase tracking-[0.14em] text-white/45">
+      <div
+        className="border-t border-white/10 py-5 text-center text-xs font-bold uppercase tracking-[0.14em] text-white/45"
+        data-testid="site-footer-copyright"
+      >
         <span>Copyright {new Date().getFullYear()} PlasterPro Solution.</span>
         <span className="mt-2 block sm:mt-0 sm:inline">
           {" "}

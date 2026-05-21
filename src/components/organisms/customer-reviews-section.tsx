@@ -25,10 +25,16 @@ export function CustomerReviewsSection({
   const sourceMetaClasses = isDark ? "text-white/58" : "text-muted";
 
   return (
-    <section className={`py-20 sm:py-28 ${sectionClasses} ${className}`}>
+    <section
+      className={`py-20 sm:py-28 ${sectionClasses} ${className}`}
+      data-testid="customer-reviews-section"
+    >
       <div className="site-shell">
-        <div className="grid gap-8 lg:grid-cols-[0.8fr_0.6fr] lg:items-end">
-          <AnimatedReveal>
+        <div
+          className="grid gap-8 lg:grid-cols-[0.8fr_0.6fr] lg:items-end"
+          data-testid="customer-reviews-section-header"
+        >
+          <AnimatedReveal data-testid="customer-reviews-section-heading">
             <SectionHeading
               eyebrow="Customer reviews"
               title="Proof from Auckland properties, not just promises."
@@ -37,9 +43,10 @@ export function CustomerReviewsSection({
             />
           </AnimatedReveal>
 
-          <AnimatedReveal delay={0.05}>
+          <AnimatedReveal data-testid="customer-reviews-section-source" delay={0.05}>
             <a
               className={`group ml-auto grid max-w-sm gap-5 rounded-lg border p-5 transition duration-300 hover:-translate-y-1 ${sourceCardClasses}`}
+              data-testid="customer-reviews-source-card"
               href={siteConfig.reviewSource.href}
               rel="noreferrer noopener"
               target="_blank"
@@ -52,6 +59,7 @@ export function CustomerReviewsSection({
                     height={56}
                     src={siteConfig.reviewSource.logo}
                     width={56}
+                    data-testid="customer-reviews-source-logo"
                   />
                 </span>
                 <ArrowUpRight
@@ -79,9 +87,9 @@ export function CustomerReviewsSection({
           </AnimatedReveal>
         </div>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
+        <div className="mt-12 grid gap-5 md:grid-cols-3" data-testid="customer-reviews-grid">
           {siteConfig.customerReviews.map((review, index) => (
-            <AnimatedReveal key={review.title} delay={index * 0.05}>
+            <AnimatedReveal data-testid="customer-reviews-item" key={review.title} delay={index * 0.05}>
               <ReviewCard {...review} tone={tone} />
             </AnimatedReveal>
           ))}

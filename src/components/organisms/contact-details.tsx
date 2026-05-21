@@ -4,9 +4,11 @@ import { siteConfig } from "@/data/site";
 
 export function ContactDetails() {
   return (
-    <aside className="surface-panel rounded-lg p-8">
-      <h2 className="text-2xl font-black text-charcoal">Contact details</h2>
-      <ul className="mt-6 grid gap-5 text-muted">
+    <aside className="surface-panel rounded-lg p-8" data-testid="contact-details">
+      <h2 className="text-2xl font-black text-charcoal" data-testid="contact-details-title">
+        Contact details
+      </h2>
+      <ul className="mt-6 grid gap-5 text-muted" data-testid="contact-details-list">
         <li className="flex gap-3">
           <Phone className="text-spicy-orange" size={20} aria-hidden="true" />
           <a href={`tel:${siteConfig.phone.replaceAll(" ", "")}`}>
@@ -23,7 +25,7 @@ export function ContactDetails() {
         </li>
       </ul>
 
-      <div className="mt-8 border-t border-charcoal/10 pt-6">
+      <div className="mt-8 border-t border-charcoal/10 pt-6" data-testid="contact-details-direct-contacts">
         <h3 className="text-sm font-black uppercase tracking-[0.16em] text-spicy-orange">
           Direct contacts
         </h3>
@@ -34,7 +36,7 @@ export function ContactDetails() {
         </div>
       </div>
 
-      <div className="mt-8 border-t border-charcoal/10 pt-6">
+      <div className="mt-8 border-t border-charcoal/10 pt-6" data-testid="contact-details-note">
         <div className="flex gap-3">
           <Clock
             className="mt-1 shrink-0 text-spicy-orange"

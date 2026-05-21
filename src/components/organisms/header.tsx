@@ -91,11 +91,15 @@ export function Header() {
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-full opacity-100"
       }`}
+      data-testid="mobile-navigation-panel"
       id="mobile-menu"
       aria-hidden={!isMobileMenuOpen}
     >
-      <div className="flex min-h-full flex-col justify-between px-6 pb-8 pt-7">
-        <nav className="grid" aria-label="Mobile and tablet navigation">
+      <div
+        className="flex min-h-full flex-col justify-between px-6 pb-8 pt-7"
+        data-testid="mobile-navigation-content"
+      >
+        <nav className="grid" data-testid="mobile-navigation" aria-label="Mobile and tablet navigation">
           {visibleNavigation.map((item, index) => (
             <Link
               className={`flex items-end justify-between gap-5 border-b border-white/10 py-4 text-4xl font-black leading-none text-white transition duration-300 ease-out ${
@@ -105,6 +109,7 @@ export function Header() {
               }`}
               href={item.href}
               key={item.href}
+              data-testid={`mobile-navigation-link-${item.href === "/" ? "home" : item.href.replace("/", "")}`}
               onClick={() => setIsMobileMenuOpen(false)}
               style={{
                 transitionDelay: isMobileMenuOpen
@@ -125,6 +130,7 @@ export function Header() {
               ? "translate-y-0 opacity-100"
               : "translate-y-3 opacity-0"
           }`}
+          data-testid="mobile-navigation-footer"
           style={{
             transitionDelay: isMobileMenuOpen ? "430ms" : "0ms",
           }}
@@ -148,11 +154,18 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-charcoal/10 bg-surface/92 backdrop-blur-xl">
-      <div className="grid min-h-20 grid-cols-[2.75rem_1fr_2.75rem] items-center gap-4 px-5 sm:px-8 lg:grid-cols-[minmax(13rem,1fr)_auto_minmax(13rem,1fr)] lg:px-10 xl:px-12">
+      <header
+        className="sticky top-0 z-40 border-b border-charcoal/10 bg-surface/92 backdrop-blur-xl"
+        data-testid="site-header"
+      >
+      <div
+        className="grid min-h-20 grid-cols-[2.75rem_1fr_2.75rem] items-center gap-4 px-5 sm:px-8 lg:grid-cols-[minmax(13rem,1fr)_auto_minmax(13rem,1fr)] lg:px-10 xl:px-12"
+        data-testid="site-header-layout"
+      >
         <span className="h-11 lg:hidden" aria-hidden="true" />
         <Link
           className="focus-ring col-start-2 inline-flex w-fit items-center justify-self-center transition lg:col-start-auto lg:justify-self-start"
+          data-testid="site-header-logo-link"
           href="/"
           aria-label="PlasterPro Solution home"
           onClick={() => setIsMobileMenuOpen(false)}
@@ -162,6 +175,7 @@ export function Header() {
 
         <nav
           className="relative hidden items-center gap-1 justify-self-center rounded-full border border-charcoal/10 bg-surface/78 p-1 lg:flex"
+          data-testid="desktop-navigation"
           aria-label="Primary navigation"
           ref={navRef}
           onBlur={(event) => {
@@ -177,6 +191,7 @@ export function Header() {
         >
           <span
             className="pointer-events-none absolute bottom-1 top-1 rounded-full bg-charcoal-brown shadow-[0_10px_28px_rgba(65,63,61,0.18)] transition-[left,width,opacity] duration-300 ease-out"
+            data-testid="desktop-navigation-indicator"
             ref={navIndicatorRef}
             style={{ left: 0, opacity: 0, width: 0 }}
             aria-hidden="true"
@@ -192,6 +207,7 @@ export function Header() {
               }`}
               href={item.href}
               key={item.href}
+              data-testid={`desktop-navigation-link-${item.href === "/" ? "home" : item.href.replace("/", "")}`}
               ref={(node) => {
                 linkRefs.current[item.href] = node;
               }}
@@ -210,10 +226,14 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden items-center justify-self-end gap-3 lg:flex">
+        <div
+          className="hidden items-center justify-self-end gap-3 lg:flex"
+          data-testid="site-header-actions"
+        >
           <ThemeToggle />
           <a
             className="focus-ring inline-flex size-12 items-center justify-center rounded-full border border-charcoal/12 bg-surface text-charcoal transition hover:border-spicy-orange hover:text-spicy-orange"
+            data-testid="site-header-phone-link"
             href={`tel:${siteConfig.phone.replaceAll(" ", "")}`}
             aria-label={`Call PlasterPro Solution at ${siteConfig.phone}`}
           >
@@ -225,6 +245,7 @@ export function Header() {
         <div className="col-start-3 justify-self-end lg:hidden">
           <button
             className="focus-ring relative z-50 grid size-11 place-items-center rounded-full border border-charcoal/15 bg-surface text-charcoal transition hover:border-spicy-orange hover:text-spicy-orange"
+            data-testid="mobile-navigation-toggle"
             type="button"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}

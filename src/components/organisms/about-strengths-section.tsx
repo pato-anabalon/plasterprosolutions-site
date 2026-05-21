@@ -16,16 +16,22 @@ export function AboutStrengthsSection({
   strengths,
 }: AboutStrengthsSectionProps) {
   return (
-    <section className="bg-charcoal py-20 text-white sm:py-28">
+    <section
+      className="bg-charcoal py-20 text-white sm:py-28"
+      data-testid="about-strengths-section"
+    >
       <div className="site-shell">
-        <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+        <div
+          className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end"
+          data-testid="about-strengths-section-layout"
+        >
           <SectionHeading
             eyebrow="What we bring to every site"
             title="A trade team shaped around preparation, durability, and clear delivery."
             body="The work spans residential homes, commercial spaces, rental handovers, real estate make-ready projects, and active construction sites across Auckland."
             tone="dark"
           />
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2" data-testid="about-strengths-section-grid">
             {strengths.map((strength, index) => (
               <FeatureCard
                 body={strength.body}

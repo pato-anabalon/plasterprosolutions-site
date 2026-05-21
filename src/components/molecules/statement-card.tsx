@@ -25,6 +25,7 @@ export function StatementCard({
   return (
     <AnimatedReveal
       className={`relative overflow-hidden rounded-lg p-8 sm:p-10 ${cardClasses}`}
+      data-testid="statement-card"
       delay={delay}
     >
       <CircleDot
@@ -32,13 +33,21 @@ export function StatementCard({
         size={26}
         aria-hidden="true"
       />
-      <p className="text-sm font-black uppercase tracking-[0.2em] text-spicy-orange">
+      <p
+        className="text-sm font-black uppercase tracking-[0.2em] text-spicy-orange"
+        data-testid="statement-card-eyebrow"
+      >
         {eyebrow}
       </p>
-      <h2 className="balanced mt-8 text-3xl font-black leading-tight sm:text-4xl">
+      <h2
+        className="balanced mt-8 text-3xl font-black leading-tight sm:text-4xl"
+        data-testid="statement-card-title"
+      >
         {title}
       </h2>
-      <p className={`pretty mt-6 text-lg leading-8 ${bodyClasses}`}>{body}</p>
+      <p className={`pretty mt-6 text-lg leading-8 ${bodyClasses}`} data-testid="statement-card-body">
+        {body}
+      </p>
     </AnimatedReveal>
   );
 }

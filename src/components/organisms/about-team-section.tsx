@@ -9,10 +9,10 @@ type AboutTeamSectionProps = {
 
 export function AboutTeamSection({ members }: AboutTeamSectionProps) {
   return (
-    <section className="py-20 sm:py-28">
+    <section className="py-20 sm:py-28" data-testid="about-team-section">
       <div className="site-shell">
         <div className="grid gap-10">
-          <AnimatedReveal className="max-w-3xl">
+          <AnimatedReveal className="max-w-3xl" data-testid="about-team-section-heading">
             <SectionHeading
               eyebrow="The team behind the finish"
               title="Hands-on people, practical coordination, and pride in the details."
@@ -20,9 +20,10 @@ export function AboutTeamSection({ members }: AboutTeamSectionProps) {
             />
           </AnimatedReveal>
 
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3" data-testid="about-team-section-grid">
             {members.map((member, index) => (
               <AnimatedReveal
+                data-testid="about-team-section-member"
                 delay={(index % 3) * 0.05}
                 key={member.name}
               >

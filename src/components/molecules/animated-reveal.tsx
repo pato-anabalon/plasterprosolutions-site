@@ -11,12 +11,14 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 type AnimatedRevealProps = {
   children: React.ReactNode;
   className?: string;
+  "data-testid"?: string;
   delay?: number;
 } & HTMLAttributes<HTMLDivElement>;
 
 export function AnimatedReveal({
   children,
   className = "",
+  "data-testid": dataTestId = "animated-reveal",
   delay = 0,
   ...props
 }: AnimatedRevealProps) {
@@ -56,7 +58,12 @@ export function AnimatedReveal({
   );
 
   return (
-    <div ref={scope} className={`motion-safe ${className}`} {...props}>
+    <div
+      ref={scope}
+      className={`motion-safe ${className}`}
+      data-testid={dataTestId}
+      {...props}
+    >
       {children}
     </div>
   );

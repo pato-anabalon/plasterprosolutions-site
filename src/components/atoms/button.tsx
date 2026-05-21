@@ -6,6 +6,7 @@ type ButtonProps = {
   href?: string;
   variant?: "primary" | "secondary" | "dark" | "ghost";
   className?: string;
+  "data-testid"?: string;
 } & ComponentPropsWithoutRef<"button">;
 
 const variants = {
@@ -23,6 +24,7 @@ export function Button({
   href,
   variant = "primary",
   className = "",
+  "data-testid": dataTestId,
   type = "button",
   ...props
 }: ButtonProps) {
@@ -30,14 +32,19 @@ export function Button({
 
   if (href) {
     return (
-      <Link className={classes} href={href}>
+      <Link className={classes} data-testid={dataTestId ?? "button-link"} href={href}>
         {children}
       </Link>
     );
   }
 
   return (
-    <button className={classes} type={type} {...props}>
+    <button
+      className={classes}
+      data-testid={dataTestId ?? "button"}
+      type={type}
+      {...props}
+    >
       {children}
     </button>
   );

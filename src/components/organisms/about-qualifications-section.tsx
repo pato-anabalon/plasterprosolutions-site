@@ -15,9 +15,12 @@ export function AboutQualificationsSection({
   qualifications,
 }: AboutQualificationsSectionProps) {
   return (
-    <section className="overflow-hidden bg-[linear-gradient(180deg,#191714_0%,#24211d_100%)] py-20 text-white sm:py-24">
-      <div className="site-shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-        <AnimatedReveal>
+    <section
+      className="overflow-hidden bg-[linear-gradient(180deg,#191714_0%,#24211d_100%)] py-20 text-white sm:py-24"
+      data-testid="about-qualifications-section"
+    >
+      <div className="site-shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center" data-testid="about-qualifications-section-layout">
+        <AnimatedReveal data-testid="about-qualifications-section-heading">
           <SectionHeading
             eyebrow="Qualifications and partners"
             title="Recognised systems, trusted suppliers, proven standards."
@@ -26,8 +29,8 @@ export function AboutQualificationsSection({
           />
         </AnimatedReveal>
 
-        <AnimatedReveal className="lg:pl-6" delay={0.08}>
-          <div className="border-y border-white/10 py-5">
+        <AnimatedReveal className="lg:pl-6" data-testid="about-qualifications-section-marquee" delay={0.08}>
+          <div className="border-y border-white/10 py-5" data-testid="about-qualifications-section-marquee-frame">
             <LogoMarquee
               ariaLabel="PlasterPro Solution qualifications and supplier logos"
               items={qualifications}

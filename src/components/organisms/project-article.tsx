@@ -23,12 +23,17 @@ function ArticleImageStrip({ post }: { post: ProjectPost }) {
   }
 
   return (
-    <div className="mt-10 grid gap-3 sm:grid-cols-3">
+    <div className="mt-10 grid gap-3 sm:grid-cols-3" data-testid="project-article-image-strip">
       {images.map((image) => (
-        <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-charcoal/8" key={image.image}>
+        <div
+          className="relative aspect-[4/3] overflow-hidden rounded-lg bg-charcoal/8"
+          data-testid="project-article-image-strip-item"
+          key={image.image}
+        >
           <Image
             alt={image.alt}
             className="object-cover"
+            data-testid="project-article-image-strip-image"
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
             src={image.image}
@@ -42,17 +47,24 @@ function ArticleImageStrip({ post }: { post: ProjectPost }) {
 function ProjectArticleBody({ post }: { post: ProjectPost }) {
   if (post.layoutVariant === 'feature-left') {
     return (
-      <div className="site-shell grid gap-10 py-16 lg:grid-cols-[0.78fr_1fr] lg:py-24">
-        <div className="relative min-h-[24rem] overflow-hidden rounded-lg bg-charcoal/8 lg:sticky lg:top-28 lg:h-[calc(100vh-9rem)]">
+      <div
+        className="site-shell grid gap-10 py-16 lg:grid-cols-[0.78fr_1fr] lg:py-24"
+        data-testid="project-article-body-feature-left"
+      >
+        <div
+          className="relative min-h-[24rem] overflow-hidden rounded-lg bg-charcoal/8 lg:sticky lg:top-28 lg:h-[calc(100vh-9rem)]"
+          data-testid="project-article-feature-image"
+        >
           <Image
             alt={post.title}
             className="object-cover"
+            data-testid="project-article-feature-image-img"
             fill
             sizes="(max-width: 1024px) 100vw, 42vw"
             src={post.heroImage}
           />
         </div>
-        <div className="max-w-3xl">
+        <div className="max-w-3xl" data-testid="project-article-content">
           <ProjectMarkdownContent markdown={post.bodyMarkdown} />
         </div>
       </div>
@@ -61,9 +73,9 @@ function ProjectArticleBody({ post }: { post: ProjectPost }) {
 
   if (post.layoutVariant === 'gallery-led') {
     return (
-      <div className="site-shell py-16 lg:py-24">
+      <div className="site-shell py-16 lg:py-24" data-testid="project-article-body-gallery-led">
         <ArticleImageStrip post={post} />
-        <div className="mx-auto mt-14 max-w-3xl">
+        <div className="mx-auto mt-14 max-w-3xl" data-testid="project-article-content">
           <ProjectMarkdownContent markdown={post.bodyMarkdown} />
         </div>
       </div>
@@ -71,16 +83,24 @@ function ProjectArticleBody({ post }: { post: ProjectPost }) {
   }
 
   return (
-    <div className="site-shell grid gap-10 py-16 lg:grid-cols-[1fr_0.72fr] lg:py-24">
-      <div className="max-w-3xl">
+    <div
+      className="site-shell grid gap-10 py-16 lg:grid-cols-[1fr_0.72fr] lg:py-24"
+      data-testid="project-article-body-editorial-split"
+    >
+      <div className="max-w-3xl" data-testid="project-article-content">
         <ProjectMarkdownContent markdown={post.bodyMarkdown} />
       </div>
-      <div className="grid content-start gap-3">
+      <div className="grid content-start gap-3" data-testid="project-article-side-images">
         {post.images.slice(1, 3).map((image) => (
-          <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-charcoal/8" key={image.image}>
+          <div
+            className="relative aspect-[4/3] overflow-hidden rounded-lg bg-charcoal/8"
+            data-testid="project-article-side-image"
+            key={image.image}
+          >
             <Image
               alt={image.alt}
               className="object-cover"
+              data-testid="project-article-side-image-img"
               fill
               sizes="(max-width: 1024px) 100vw, 38vw"
               src={image.image}
@@ -104,10 +124,15 @@ function ProjectNavigation({
   }
 
   return (
-    <nav aria-label="Project story navigation" className="site-shell grid gap-3 py-12 sm:grid-cols-2">
+    <nav
+      aria-label="Project story navigation"
+      className="site-shell grid gap-3 py-12 sm:grid-cols-2"
+      data-testid="project-article-navigation"
+    >
       {previousPost ? (
         <Link
           className="surface-panel focus-ring group rounded-lg p-5 transition hover:-translate-y-1 hover:border-spicy-orange"
+          data-testid="project-article-previous-link"
           href={`/projects/${previousPost.slug}`}
         >
           <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-spicy-orange">
@@ -123,6 +148,7 @@ function ProjectNavigation({
       {nextPost ? (
         <Link
           className="surface-panel focus-ring group rounded-lg p-5 text-right transition hover:-translate-y-1 hover:border-spicy-orange"
+          data-testid="project-article-next-link"
           href={`/projects/${nextPost.slug}`}
         >
           <span className="inline-flex items-center justify-end gap-2 text-xs font-black uppercase tracking-[0.16em] text-spicy-orange">
@@ -138,8 +164,14 @@ function ProjectNavigation({
 
 function ProjectArticleCta() {
   return (
-    <section className="bg-spicy-orange py-16 text-white sm:py-20">
-      <div className="site-shell grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+    <section
+      className="bg-spicy-orange py-16 text-white sm:py-20"
+      data-testid="project-article-cta"
+    >
+      <div
+        className="site-shell grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end"
+        data-testid="project-article-cta-layout"
+      >
         <div>
           <p className="text-xs font-black uppercase tracking-[0.18em] text-white/70">Start your project</p>
           <h2 className="mt-4 max-w-3xl text-4xl font-black leading-tight sm:text-6xl">
@@ -163,10 +195,14 @@ export function ProjectArticle({ nextPost, post, previousPost }: ProjectArticleP
   return (
     <>
       <ProjectPostViewTracker slug={post.slug} title={post.title} />
-      <article>
-        <header className="bg-surface py-14 sm:py-20">
+      <article data-testid="project-article">
+        <header className="bg-surface py-14 sm:py-20" data-testid="project-article-header">
           <div className="site-shell">
-            <nav aria-label="Breadcrumb" className="text-xs font-black uppercase tracking-[0.16em] text-muted">
+            <nav
+              aria-label="Breadcrumb"
+              className="text-xs font-black uppercase tracking-[0.16em] text-muted"
+              data-testid="project-article-breadcrumb"
+            >
               <Link className="transition hover:text-spicy-orange" href="/projects">
                 Projects
               </Link>
@@ -174,22 +210,44 @@ export function ProjectArticle({ nextPost, post, previousPost }: ProjectArticleP
               <span>{post.location}</span>
             </nav>
 
-            <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_0.72fr] lg:items-end">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-spicy-orange">{post.category}</p>
-                <h1 className="mt-5 max-w-5xl text-5xl font-black leading-[0.95] text-foreground sm:text-7xl">
+            <div
+              className="mt-10 grid gap-10 lg:grid-cols-[1fr_0.72fr] lg:items-end"
+              data-testid="project-article-hero"
+            >
+              <div data-testid="project-article-hero-copy">
+                <p
+                  className="text-xs font-black uppercase tracking-[0.18em] text-spicy-orange"
+                  data-testid="project-article-category"
+                >
+                  {post.category}
+                </p>
+                <h1
+                  className="mt-5 max-w-5xl text-5xl font-black leading-[0.95] text-foreground sm:text-7xl"
+                  data-testid="project-article-title"
+                >
                   {post.title}
                 </h1>
-                <p className="mt-6 max-w-3xl text-lg leading-8 text-muted sm:text-xl">{post.excerpt}</p>
+                <p
+                  className="mt-6 max-w-3xl text-lg leading-8 text-muted sm:text-xl"
+                  data-testid="project-article-excerpt"
+                >
+                  {post.excerpt}
+                </p>
               </div>
 
-              <div className="grid gap-4 rounded-lg border border-border bg-background p-5">
-                <div className="grid gap-3 text-sm font-extrabold uppercase tracking-[0.12em] text-muted">
+              <div
+                className="grid gap-4 rounded-lg border border-border bg-background p-5"
+                data-testid="project-article-meta-card"
+              >
+                <div
+                  className="grid gap-3 text-sm font-extrabold uppercase tracking-[0.12em] text-muted"
+                  data-testid="project-article-meta-list"
+                >
                   <span>{post.location}</span>
                   <span>{post.service}</span>
                   <span>{post.readingTimeMinutes} min read</span>
                 </div>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3" data-testid="project-article-actions">
                   <ProjectLikeButton
                     enabled={hasProjectPostsDatabase()}
                     initialCount={post.likeCount}

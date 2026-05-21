@@ -9,7 +9,11 @@ type SocialLinksProps = {
 
 export function SocialLinks({ tone = "dark", className = "" }: SocialLinksProps) {
   return (
-    <div className={`flex items-center gap-3 ${className}`} aria-label="Social networks">
+    <div
+      className={`flex items-center gap-3 ${className}`}
+      data-testid="social-links"
+      aria-label="Social networks"
+    >
       {siteConfig.socials.map((social) => (
         <SocialIconLink
           href={social.href}
