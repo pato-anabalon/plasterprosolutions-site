@@ -145,7 +145,7 @@ export const siteConfig = {
       title: 'Character home preparation',
       service: 'Exterior plastering',
       location: 'Auckland renovation',
-      image: '/assets/a46a48_398500fe98134ce6a16874006268d43c~mv2.png'
+      image: '/assets/home-projects-2.jpeg'
     },
     {
       title: 'Photo-ready exterior presentation',
@@ -157,19 +157,19 @@ export const siteConfig = {
       title: 'Commercial site preparation',
       service: 'Commercial plastering',
       location: 'Active construction site',
-      image: '/assets/a46a48_b7934af479ff4252a047931e053e3dcdf000.jpg'
+      image: '/assets/home-projects-4.jpeg'
     },
     {
       title: 'Large exterior coating system',
       service: 'Painting',
       location: 'Premium residential property',
-      image: '/assets/a46a48_644e77d22b314902982b549fba5fad95~mv2.png'
+      image: '/assets/home-projects-5.jpeg'
     },
     {
       title: 'Exterior make-good works',
       service: 'Plaster repair and repainting',
       location: 'Auckland property',
-      image: '/assets/a46a48_bb809f9602fc47748012d66ef5cc671c~mv2.jpg'
+      image: '/assets/home-projects-6.jpeg'
     },
     {
       title: 'Freemans Bay interior finish',
