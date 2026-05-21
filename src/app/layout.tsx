@@ -8,6 +8,13 @@ import { siteConfig } from "@/data/site";
 import "@fontsource-variable/manrope";
 import "./globals.css";
 
+const defaultOgImage = {
+  alt: "PlasterProSolution Auckland plastering and painting specialists",
+  height: 909,
+  url: "/assets/og/plasterpro-og.png",
+  width: 1731,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
@@ -25,9 +32,10 @@ export const metadata: Metadata = {
     "real estate property maintenance Auckland",
   ],
   openGraph: {
-    title: "PlasterProSolution",
+    title: "PlasterProSolution | Auckland Plastering & Painting Specialists",
     description:
       "Premium plastering, painting, and property presentation services across Auckland.",
+    images: [defaultOgImage],
     url: siteConfig.url,
     siteName: "PlasterProSolution",
     locale: "en_NZ",
@@ -40,6 +48,13 @@ export const metadata: Metadata = {
   icons: {
     icon: "/assets/shortcut-icon.png",
     shortcut: "/assets/shortcut-icon.png",
+  },
+  twitter: {
+    card: "summary_large_image",
+    description:
+      "Premium plastering, painting, and property presentation services across Auckland.",
+    images: [defaultOgImage.url],
+    title: "PlasterProSolution | Auckland Plastering & Painting Specialists",
   },
 };
 
