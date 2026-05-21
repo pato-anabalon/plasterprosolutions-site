@@ -1,8 +1,8 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-export function setupUser() {
-  return userEvent.setup();
+export function setupUser(options?: Parameters<typeof userEvent.setup>[0]) {
+  return userEvent.setup(options);
 }
 
 export function createTestFile(

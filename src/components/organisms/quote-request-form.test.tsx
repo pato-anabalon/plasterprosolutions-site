@@ -1,4 +1,5 @@
 import { upload } from "@vercel/blob/client";
+import { act } from "@testing-library/react";
 import { QuoteRequestForm } from "./quote-request-form";
 import {
   createTestFile,
@@ -31,6 +32,10 @@ describe("QuoteRequestForm", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     global.fetch = jest.fn();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it("should render required fields and optional fields", () => {
@@ -157,6 +162,28 @@ describe("QuoteRequestForm", () => {
 
     expect(await screen.findByText(/upload failed/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /send request/i })).toBeEnabled();
+  });
+
+  it("should show a timeout error when a file upload does not finish", async () => {
+    jest.useFakeTimers();
+    const user = setupUser({ advanceTimers: jest.advanceTimersByTime });
+
+    render(<QuoteRequestForm />);
+    mockedUpload.mockReturnValue(
+      new Promise(() => {}) as ReturnType<typeof upload>,
+    );
+
+    await fillRequiredFields(user);
+    await user.upload(screen.getByLabelText(/add files/i), createTestFile("slow.jpg"));
+    await user.click(screen.getByRole("button", { name: /send request/i }));
+
+    act(() => {
+      jest.advanceTimersByTime(45_000);
+    });
+
+    expect(await screen.findByText(/the upload timed out/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /send request/i })).toBeEnabled();
+
   });
 
   it("should show API errors and restore the submit button", async () => {
