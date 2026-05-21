@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Clock3, Hammer, MapPin } from 'lucide-react';
 import { Button } from '@/components/atoms/button';
+import { ProjectArticleHeroMedia } from '@/components/molecules/project-article-hero-media';
 import { ProjectLikeButton } from '@/components/molecules/project-like-button';
 import { ProjectMarkdownContent } from '@/components/molecules/project-markdown-content';
 import { ProjectPostViewTracker } from '@/components/molecules/project-post-view-tracker';
@@ -14,6 +15,14 @@ type ProjectArticleProps = {
   post: ProjectPost;
   previousPost: ProjectPost | null;
 };
+
+function getArticleHeaderHero(post: ProjectPost) {
+  return post.images.find((image) => image.isHero) ?? null;
+}
+
+function getNavigationImage(post: ProjectPost) {
+  return getArticleHeaderHero(post)?.image ?? post.heroImage;
+}
 
 function ArticleImageStrip({ post }: { post: ProjectPost }) {
   const images = post.images.slice(1, 4);
@@ -126,20 +135,39 @@ function ProjectNavigation({
   return (
     <nav
       aria-label="Project story navigation"
-      className="site-shell grid gap-3 py-12 sm:grid-cols-2"
+      className="site-shell grid gap-4 py-12 sm:grid-cols-2"
       data-testid="project-article-navigation"
     >
       {previousPost ? (
         <Link
-          className="surface-panel focus-ring group rounded-lg p-5 transition hover:-translate-y-1 hover:border-spicy-orange"
+          className="focus-ring group relative flex min-h-[18rem] overflow-hidden rounded-lg border border-border bg-charcoal text-white shadow-[0_24px_72px_rgb(25_23_20/0.14)] transition duration-500 hover:-translate-y-1 hover:border-spicy-orange hover:shadow-[0_34px_90px_rgb(227_65_15/0.18)]"
           data-testid="project-article-previous-link"
           href={`/projects/${previousPost.slug}`}
         >
-          <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-spicy-orange">
-            <ArrowLeft size={16} aria-hidden="true" />
-            Previous project
+          <Image
+            alt=""
+            className="object-cover opacity-74 transition duration-700 ease-out group-hover:scale-105 group-hover:opacity-92"
+            data-testid="project-article-previous-image"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            src={getNavigationImage(previousPost)}
+          />
+          <span className="absolute inset-0 bg-[linear-gradient(180deg,rgb(25_23_20/0.18)_0%,rgb(25_23_20/0.58)_48%,rgb(25_23_20/0.94)_100%)] transition duration-500 group-hover:bg-[linear-gradient(180deg,rgb(25_23_20/0.08)_0%,rgb(25_23_20/0.46)_48%,rgb(25_23_20/0.9)_100%)]" />
+          <span className="absolute inset-x-0 top-0 h-1 origin-right scale-x-0 bg-spicy-orange transition duration-500 group-hover:scale-x-100" />
+          <span className="absolute left-5 top-5 grid size-11 place-items-center rounded-full border border-white/16 bg-white/10 text-white backdrop-blur transition duration-300 group-hover:border-spicy-orange group-hover:bg-spicy-orange">
+            <ArrowLeft size={20} aria-hidden="true" />
           </span>
-          <span className="mt-3 block text-xl font-black text-foreground">{previousPost.title}</span>
+          <span className="relative z-10 mt-auto grid gap-4 self-end p-5 sm:p-6">
+            <span className="text-xs font-black uppercase tracking-[0.18em] text-spicy-orange">
+              Previous project
+            </span>
+            <span className="balanced block max-w-xl text-[length:var(--text-2xl)] font-black leading-tight text-white">
+              {previousPost.title}
+            </span>
+            <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-white/58">
+              {previousPost.location}
+            </span>
+          </span>
         </Link>
       ) : (
         <span />
@@ -147,15 +175,34 @@ function ProjectNavigation({
 
       {nextPost ? (
         <Link
-          className="surface-panel focus-ring group rounded-lg p-5 text-right transition hover:-translate-y-1 hover:border-spicy-orange"
+          className="focus-ring group relative flex min-h-[18rem] overflow-hidden rounded-lg border border-border bg-charcoal text-right text-white shadow-[0_24px_72px_rgb(25_23_20/0.14)] transition duration-500 hover:-translate-y-1 hover:border-spicy-orange hover:shadow-[0_34px_90px_rgb(227_65_15/0.18)]"
           data-testid="project-article-next-link"
           href={`/projects/${nextPost.slug}`}
         >
-          <span className="inline-flex items-center justify-end gap-2 text-xs font-black uppercase tracking-[0.16em] text-spicy-orange">
-            Next project
-            <ArrowRight size={16} aria-hidden="true" />
+          <Image
+            alt=""
+            className="object-cover opacity-74 transition duration-700 ease-out group-hover:scale-105 group-hover:opacity-92"
+            data-testid="project-article-next-image"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            src={getNavigationImage(nextPost)}
+          />
+          <span className="absolute inset-0 bg-[linear-gradient(180deg,rgb(25_23_20/0.18)_0%,rgb(25_23_20/0.58)_48%,rgb(25_23_20/0.94)_100%)] transition duration-500 group-hover:bg-[linear-gradient(180deg,rgb(25_23_20/0.08)_0%,rgb(25_23_20/0.46)_48%,rgb(25_23_20/0.9)_100%)]" />
+          <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-spicy-orange transition duration-500 group-hover:scale-x-100" />
+          <span className="absolute right-5 top-5 grid size-11 place-items-center rounded-full border border-white/16 bg-white/10 text-white backdrop-blur transition duration-300 group-hover:border-spicy-orange group-hover:bg-spicy-orange">
+            <ArrowRight size={20} aria-hidden="true" />
           </span>
-          <span className="mt-3 block text-xl font-black text-foreground">{nextPost.title}</span>
+          <span className="relative z-10 ml-auto mt-auto grid gap-4 self-end p-5 sm:p-6">
+            <span className="text-xs font-black uppercase tracking-[0.18em] text-spicy-orange">
+              Next project
+            </span>
+            <span className="balanced block max-w-xl text-[length:var(--text-2xl)] font-black leading-tight text-white">
+              {nextPost.title}
+            </span>
+            <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-white/58">
+              {nextPost.location}
+            </span>
+          </span>
         </Link>
       ) : null}
     </nav>
@@ -164,10 +211,7 @@ function ProjectNavigation({
 
 function ProjectArticleCta() {
   return (
-    <section
-      className="bg-spicy-orange py-16 text-white sm:py-20"
-      data-testid="project-article-cta"
-    >
+    <section className="bg-spicy-orange py-16 text-white sm:py-20" data-testid="project-article-cta">
       <div
         className="site-shell grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end"
         data-testid="project-article-cta-layout"
@@ -191,44 +235,54 @@ function ProjectArticleCta() {
 
 export function ProjectArticle({ nextPost, post, previousPost }: ProjectArticleProps) {
   const galleryPhotos = toProjectGalleryPhotos(post);
+  const headerHero = getArticleHeaderHero(post);
 
   return (
     <>
       <ProjectPostViewTracker slug={post.slug} title={post.title} />
       <article data-testid="project-article">
-        <header className="bg-surface py-14 sm:py-20" data-testid="project-article-header">
-          <div className="site-shell">
+        <header
+          className="relative isolate min-h-[calc(100svh-80px)] overflow-hidden bg-charcoal py-8 text-white sm:py-10 lg:min-h-[42rem]"
+          data-testid="project-article-header"
+        >
+          <ProjectArticleHeroMedia alt={headerHero?.alt ?? post.title} src={headerHero?.image ?? post.heroImage} />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(25_23_20/0.88)_0%,rgb(25_23_20/0.64)_46%,rgb(25_23_20/0.28)_100%)]" />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(25_23_20/0.32)_0%,rgb(25_23_20/0.08)_34%,rgb(25_23_20/0.92)_100%)]" />
+          <div className="absolute inset-0 -z-10 opacity-[0.16] [background-image:linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:92px_92px]" />
+          <div className="absolute inset-x-0 bottom-0 -z-10 h-px bg-white/14" />
+
+          <div className="site-shell flex min-h-[calc(100svh-144px)] flex-col justify-between gap-14 lg:min-h-[35rem]">
             <nav
               aria-label="Breadcrumb"
-              className="text-xs font-black uppercase tracking-[0.16em] text-muted"
+              className="flex flex-wrap items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-white/62"
               data-testid="project-article-breadcrumb"
             >
               <Link className="transition hover:text-spicy-orange" href="/projects">
                 Projects
               </Link>
-              <span className="mx-2 text-spicy-orange">/</span>
-              <span>{post.location}</span>
+              <span className="text-spicy-orange">/</span>
+              <span className="text-white/82">{post.location}</span>
             </nav>
 
             <div
-              className="mt-10 grid gap-10 lg:grid-cols-[1fr_0.72fr] lg:items-end"
+              className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.42fr)] lg:items-end"
               data-testid="project-article-hero"
             >
-              <div data-testid="project-article-hero-copy">
+              <div className="max-w-5xl" data-testid="project-article-hero-copy">
                 <p
-                  className="text-xs font-black uppercase tracking-[0.18em] text-spicy-orange"
+                  className="inline-flex rounded-full border border-white/16 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-spicy-orange shadow-[0_18px_46px_rgb(0_0_0/0.2)] backdrop-blur-md"
                   data-testid="project-article-category"
                 >
                   {post.category}
                 </p>
                 <h1
-                  className="mt-5 max-w-5xl text-5xl font-black leading-[0.95] text-foreground sm:text-7xl"
+                  className="mt-6 max-w-5xl text-5xl font-black leading-[0.92] text-white sm:text-7xl lg:text-8xl"
                   data-testid="project-article-title"
                 >
                   {post.title}
                 </h1>
                 <p
-                  className="mt-6 max-w-3xl text-lg leading-8 text-muted sm:text-xl"
+                  className="pretty mt-6 max-w-3xl text-lg font-semibold leading-8 text-white/74 sm:text-xl sm:leading-9"
                   data-testid="project-article-excerpt"
                 >
                   {post.excerpt}
@@ -236,16 +290,31 @@ export function ProjectArticle({ nextPost, post, previousPost }: ProjectArticleP
               </div>
 
               <div
-                className="grid gap-4 rounded-lg border border-border bg-background p-5"
+                className="grid gap-5 rounded-lg border border-white/14 bg-charcoal/34 p-5 shadow-[0_24px_80px_rgb(0_0_0/0.3)] backdrop-blur-xl"
                 data-testid="project-article-meta-card"
               >
                 <div
-                  className="grid gap-3 text-sm font-extrabold uppercase tracking-[0.12em] text-muted"
+                  className="grid gap-3 text-sm font-extrabold uppercase tracking-[0.12em] text-white/72"
                   data-testid="project-article-meta-list"
                 >
-                  <span>{post.location}</span>
-                  <span>{post.service}</span>
-                  <span>{post.readingTimeMinutes} min read</span>
+                  <span className="flex items-center gap-3" data-testid="project-article-location">
+                    <span className="grid size-9 shrink-0 place-items-center rounded-full border border-white/12 bg-white/8 text-spicy-orange">
+                      <MapPin size={16} strokeWidth={2.4} aria-hidden="true" />
+                    </span>
+                    {post.location}
+                  </span>
+                  <span className="flex items-center gap-3" data-testid="project-article-service">
+                    <span className="grid size-9 shrink-0 place-items-center rounded-full border border-white/12 bg-white/8 text-spicy-orange">
+                      <Hammer size={16} strokeWidth={2.4} aria-hidden="true" />
+                    </span>
+                    {post.service}
+                  </span>
+                  <span className="flex items-center gap-3" data-testid="project-article-reading-time">
+                    <span className="grid size-9 shrink-0 place-items-center rounded-full border border-white/12 bg-white/8 text-spicy-orange">
+                      <Clock3 size={16} strokeWidth={2.4} aria-hidden="true" />
+                    </span>
+                    {post.readingTimeMinutes} min read
+                  </span>
                 </div>
                 <div className="flex flex-wrap gap-3" data-testid="project-article-actions">
                   <ProjectLikeButton
@@ -263,9 +332,9 @@ export function ProjectArticle({ nextPost, post, previousPost }: ProjectArticleP
 
         <ProjectArticleBody post={post} />
       </article>
-      <ProjectArticleCta />
       <ProjectMosaicGallery photos={galleryPhotos} />
       <ProjectNavigation nextPost={nextPost} previousPost={previousPost} />
+      <ProjectArticleCta />
     </>
   );
 }

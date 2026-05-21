@@ -11,7 +11,7 @@ export function Footer() {
       data-testid="site-footer"
     >
       <div
-        className="site-shell grid gap-10 py-12 lg:grid-cols-[1.3fr_0.7fr_0.7fr]"
+        className="mx-auto grid w-[calc(100%_-_32px)] max-w-[1200px] gap-10 py-12 lg:w-full lg:max-w-none lg:grid-cols-[1.3fr_0.7fr_0.7fr] lg:px-10 xl:px-12"
         data-testid="site-footer-grid"
       >
         <div data-testid="site-footer-brand">
@@ -54,12 +54,12 @@ export function Footer() {
           </ul>
         </div>
 
-        <div>
+        <div className="lg:text-right">
           <h2 className="text-sm font-black uppercase tracking-[0.16em] text-white/50">
             Explore
           </h2>
           <nav
-            className="mt-5 grid gap-2 text-sm text-white/75"
+            className="mt-5 grid gap-2 text-sm text-white/75 lg:justify-items-end"
             data-testid="site-footer-navigation"
             aria-label="Footer navigation"
           >

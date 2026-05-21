@@ -27,4 +27,27 @@ describe('ProjectArticle', () => {
       expect(screen.getByRole('link', { name: /request a quote/i })).toHaveAttribute('href', '/contact');
     }
   );
+
+  it('should use the project_post_images hero image for the article header background', () => {
+    const posts = getSeedProjectPosts();
+    const post = {
+      ...posts[0],
+      heroImage: '/assets/projects/card-optimised-image.jpeg',
+      images: posts[0].images.map((image, index) => ({
+        ...image,
+        image:
+          index === 2
+            ? '/assets/projects/header-hero-from-images.jpeg'
+            : image.image,
+        isHero: index === 2
+      }))
+    };
+
+    render(<ProjectArticle nextPost={null} post={post} previousPost={null} />);
+
+    expect(screen.getByTestId('project-article-hero-image')).toHaveAttribute(
+      'src',
+      '/assets/projects/header-hero-from-images.jpeg'
+    );
+  });
 });

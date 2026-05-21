@@ -3,7 +3,7 @@ import { ProjectLikeButton } from "@/components/molecules/project-like-button";
 import { ProjectPostCard } from "@/components/molecules/project-post-card";
 import { ProjectShareButton } from "@/components/molecules/project-share-button";
 import { getSeedProjectPosts } from "@/lib/project-posts";
-import { render, screen, setupUser } from "@/test/test-utils";
+import { render, screen, setupUser, waitFor } from "@/test/test-utils";
 
 const post = getSeedProjectPosts()[0];
 
@@ -42,11 +42,14 @@ describe("project blog components", () => {
 
   it("should update the visible like count after a successful like", async () => {
     const user = setupUser();
+    let resolveLike: (value: Response) => void = jest.fn();
 
-    global.fetch = jest.fn().mockResolvedValue({
-      json: async () => ({ count: 8, ok: true }),
-      ok: true,
-    } as Response);
+    global.fetch = jest.fn(
+      () =>
+        new Promise<Response>((resolve) => {
+          resolveLike = resolve;
+        }),
+    );
 
     render(
       <ProjectLikeButton
@@ -59,7 +62,24 @@ describe("project blog components", () => {
 
     await user.click(screen.getByRole("button", { name: /like this project/i }));
 
+    expect(screen.getByTestId("project-like-button-heart")).toHaveClass(
+      "project-like-heart-pending",
+    );
+
+    resolveLike({
+      json: async () => ({ count: 8, ok: true }),
+      ok: true,
+    } as Response);
+
     expect(await screen.findByText("8")).toBeInTheDocument();
+    expect(screen.getByTestId("project-like-button-burst")).toHaveClass(
+      "is-active",
+    );
+    await waitFor(() =>
+      expect(screen.getByTestId("project-like-button-heart")).not.toHaveClass(
+        "project-like-heart-pending",
+      ),
+    );
     expect(window.localStorage.getItem(`plasterpro-project-like:${post.slug}`)).toBe(
       "true",
     );
