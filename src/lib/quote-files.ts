@@ -45,6 +45,16 @@ const allowedFileTypes: Record<string, string[]> = {
   ".webp": ["image/webp"],
 };
 
+const canonicalFileTypes: Record<string, string> = {
+  ".heic": "image/heic",
+  ".heif": "image/heif",
+  ".jpeg": "image/jpeg",
+  ".jpg": "image/jpeg",
+  ".pdf": "application/pdf",
+  ".png": "image/png",
+  ".webp": "image/webp",
+};
+
 export function sanitizeQuoteFileName(fileName: string) {
   const fallbackName = "attachment";
   const baseName = fileName.replace(/\0/g, "").split(/[\\/]/).pop();
@@ -72,6 +82,10 @@ export function isAllowedQuoteFileType(file: QuoteFileLike) {
   }
 
   return !file.type || allowedMimeTypes.includes(file.type);
+}
+
+export function getQuoteUploadContentType(file: Pick<QuoteFileLike, "name" | "type">) {
+  return file.type || canonicalFileTypes[getQuoteFileExtension(file.name)];
 }
 
 export function validateQuoteFiles(files: QuoteFileLike[]) {

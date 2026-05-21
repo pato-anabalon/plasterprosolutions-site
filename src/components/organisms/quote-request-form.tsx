@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { Button } from "@/components/atoms/button";
 import {
   acceptedQuoteFileTypes,
+  getQuoteUploadContentType,
   getQuoteUploadFileName,
   getQuoteUploadFolder,
   getQuoteUploadPath,
@@ -22,6 +23,8 @@ const initialStatus: FormStatus = {
   type: "idle",
 };
 
+const quoteFileUploadTimeoutMs = 45_000;
+
 function getFileKey(file: File) {
   return `${file.name}-${file.size}-${file.lastModified}`;
 }
@@ -32,6 +35,28 @@ function formatFileSize(size: number) {
   }
 
   return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+async function withUploadTimeout<T>(uploadPromise: Promise<T>, fileName: string) {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => {
+      reject(
+        new Error(
+          `The upload timed out while sending ${sanitizeQuoteFileName(fileName)}. Please try again or send fewer files.`,
+        ),
+      );
+    }, quoteFileUploadTimeoutMs);
+  });
+
+  try {
+    return await Promise.race([uploadPromise, timeoutPromise]);
+  } finally {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  }
 }
 
 export function QuoteRequestForm() {
@@ -121,14 +146,13 @@ export function QuoteRequestForm() {
       const uploadedFiles = await Promise.all(
         selectedFiles.map(async (file, index) => {
           const uploadFileName = getQuoteUploadFileName(file.name, index);
-          const blob = await upload(
-            getQuoteUploadPath(uploadFolder, uploadFileName),
-            file,
-            {
+          const blob = await withUploadTimeout(
+            upload(getQuoteUploadPath(uploadFolder, uploadFileName), file, {
               access: "public",
-              contentType: file.type || undefined,
+              contentType: getQuoteUploadContentType(file),
               handleUploadUrl: "/api/quote/upload",
-            },
+            }),
+            file.name,
           );
 
           return {
