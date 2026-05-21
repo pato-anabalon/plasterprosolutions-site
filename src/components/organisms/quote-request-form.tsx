@@ -140,7 +140,7 @@ export function QuoteRequestForm() {
           const uploadFileName = getQuoteUploadFileName(file.name, index);
           const blob = await withUploadTimeout(
             upload(getQuoteUploadPath(uploadFolder, uploadFileName), file, {
-              access: 'private',
+              access: 'public',
               contentType: getQuoteUploadContentType(file),
               handleUploadUrl: '/api/quote/upload'
             }),
