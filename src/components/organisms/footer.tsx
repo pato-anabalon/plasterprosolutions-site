@@ -85,7 +85,15 @@ export function Footer() {
         <span>Copyright {new Date().getFullYear()} PlasterPro Solution.</span>
         <span className="mt-2 block sm:mt-0 sm:inline">
           {" "}
-          Built with 💜 by Nodo.co.nz
+          Built with 💜 by{" "}
+          <a
+            className="transition hover:text-white"
+            href="https://www.nodo.co.nz/"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            Nodo.co.nz
+          </a>
         </span>
       </div>
     </footer>

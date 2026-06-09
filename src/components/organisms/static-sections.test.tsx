@@ -146,6 +146,10 @@ describe("static site sections", () => {
       "href",
       "/terms-of-service",
     );
+    expect(screen.getByRole("link", { name: /nodo.co.nz/i })).toHaveAttribute(
+      "href",
+      "https://www.nodo.co.nz/",
+    );
   });
 
   it("should render HomeHero headline and primary links", () => {
