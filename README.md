@@ -91,8 +91,9 @@ public/assets/docs/
 
 ### Contact Page
 
-- Replaced the old `mailto:`-only behaviour with a quote request form that posts to a Next.js route handler.
-- Added `/api/quote` for forwarding quote requests to a Zapier webhook.
+- Replaced the old `mailto:`-only behaviour with the official embedded Quotient lead form.
+- Preserved the custom quote form as hidden, noindex backup workflows at `/contact/direct-quotient-backup` and `/contact/zapier-backup`.
+- Added `/api/quote` for the direct Quotient POST backup and `/api/quote/zapier` for the Zapier backup.
 - Aligned form fields with the current Quotient form:
   - subject
   - message
@@ -153,21 +154,21 @@ public/assets/docs/
 - Disabled the `X-Powered-By` header.
 - Added best-effort rate limiting to `/api/quote`.
 - Added payload size limits, field length limits, phone validation, and stricter webhook URL validation.
-- Added a timeout around the Zapier webhook request.
-- Added Vercel Blob client uploads for quote request attachments before forwarding file URLs to Zapier.
+- Added a timeout around the Quotient and Zapier backup requests.
+- Added Vercel Blob client uploads for quote request attachments before forwarding file URLs to Quotient.
 - Added `noopener` to external review links.
 
 ## Environment Variables
 
-The quote form expects this variable when the Zapier integration is ready:
+The public contact form is embedded from Quotient and does not need local quote-form environment variables. Vercel Blob and Zapier are only needed for hidden backup workflows:
 
 ```bash
-ZAPIER_QUOTE_WEBHOOK_URL=
 BLOB_READ_WRITE_TOKEN=
 DATABASE_URL=
+ZAPIER_QUOTE_WEBHOOK_URL=
 ```
 
-If `ZAPIER_QUOTE_WEBHOOK_URL` is not configured, the API route will return an error instead of silently losing quote requests. `BLOB_READ_WRITE_TOKEN` is required for the browser-to-Blob upload token route used by file attachments. `DATABASE_URL` is required for editable project posts and persistent project likes; without it, project pages fall back to the versioned Markdown seeds and the like button is disabled.
+`BLOB_READ_WRITE_TOKEN` is required for the custom backup form's browser-to-Blob upload token route. `ZAPIER_QUOTE_WEBHOOK_URL` is optional and only used by `/contact/zapier-backup`. `DATABASE_URL` is required for editable project posts and persistent project likes; without it, project pages fall back to the versioned Markdown seeds and the like button is disabled.
 
 ## Commands
 
@@ -195,12 +196,13 @@ If port `3000` is busy, Next.js may use `3001`.
 ## Deployment Notes
 
 - Target platform: Vercel.
-- Ensure `ZAPIER_QUOTE_WEBHOOK_URL` is configured in Vercel before testing live quote submissions.
-- Connect Vercel Blob to the project so `BLOB_READ_WRITE_TOKEN` is available in Production, Preview, and Development as needed.
+- Allow `https://www.quotientapp.com` in `frame-src` so the public `/contact` embed can load.
+- Connect Vercel Blob to the project if either hidden custom quote form backup is used.
+- The hidden `/contact/zapier-backup` route remains available only if `ZAPIER_QUOTE_WEBHOOK_URL` is configured.
 - Quote file uploads use direct client uploads to avoid Vercel Function body-size limits.
 - Quote file uploads accept JPG, PNG, WebP, HEIC, HEIF, and PDF files, up to 5 files, 10 MB each, and 25 MB total.
 - Quote attachments are grouped in Blob paths such as `quote-requests/YYYY-MM-DD/first-last-address-a1b2c3/file.pdf`.
-- Map the `fileUrls` and `uploadFolder` fields from Zapier into Quotient notes or attachment fields, depending on the Quotient Zap action options.
+- The direct Quotient backup sends uploaded files as public Blob URLs appended to the lead message.
 - Connect Neon Postgres to the Vercel project and run `npm run seed:project-posts` locally or from a trusted environment with `DATABASE_URL` available before relying on DB-backed project content.
 
 ## Brand Notes

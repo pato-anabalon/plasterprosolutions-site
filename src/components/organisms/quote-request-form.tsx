@@ -23,6 +23,10 @@ const initialStatus: FormStatus = {
 
 const quoteFileUploadTimeoutMs = 45_000;
 
+type QuoteRequestFormProps = {
+  submitEndpoint?: string;
+};
+
 function getFileKey(file: File) {
   return `${file.name}-${file.size}-${file.lastModified}`;
 }
@@ -57,7 +61,7 @@ async function withUploadTimeout<T>(uploadPromise: Promise<T>, fileName: string)
   }
 }
 
-export function QuoteRequestForm() {
+export function QuoteRequestForm({ submitEndpoint = '/api/quote' }: QuoteRequestFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -158,7 +162,7 @@ export function QuoteRequestForm() {
 
       setSubmitLabel('Sending...');
 
-      const response = await fetch('/api/quote', {
+      const response = await fetch(submitEndpoint, {
         body: JSON.stringify({
           address,
           company,

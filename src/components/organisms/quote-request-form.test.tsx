@@ -18,6 +18,13 @@ function setup() {
   return { user };
 }
 
+function setupWithEndpoint(submitEndpoint: string) {
+  const user = setupUser();
+  render(<QuoteRequestForm submitEndpoint={submitEndpoint} />);
+
+  return { user };
+}
+
 async function fillRequiredFields(user: ReturnType<typeof setupUser>) {
   await user.type(screen.getByLabelText(/subject/i), "Exterior quote");
   await user.type(screen.getByLabelText(/message/i), "Please quote this work.");
@@ -201,5 +208,24 @@ describe("QuoteRequestForm", () => {
       await screen.findByText(/the quote request could not be sent/i),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /send request/i })).toBeEnabled();
+  });
+
+  it("should submit to a custom endpoint when configured", async () => {
+    const { user } = setupWithEndpoint("/api/quote/zapier");
+    const fetchMock = jest.mocked(global.fetch);
+    fetchMock.mockResolvedValue({
+      json: async () => ({ ok: true }),
+      ok: true,
+    } as Response);
+
+    await fillRequiredFields(user);
+    await user.click(screen.getByRole("button", { name: /send request/i }));
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/api/quote/zapier",
+        expect.objectContaining({ method: "POST" }),
+      );
+    });
   });
 });

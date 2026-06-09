@@ -1,9 +1,9 @@
 import {
-  type QuotePayload,
   type QuoteRequestBody,
   asCleanString,
   createInMemoryRateLimiter,
   getClientKey,
+  parseWebhookUrl,
   quoteWebhookTimeoutMs,
   rateLimitMaxRequests,
   rateLimitWindowMs,
@@ -11,43 +11,10 @@ import {
   validateQuotePayload,
 } from "@/lib/quote-request";
 
-const quotientLeadFormPostUrl =
-  "https://www.quotientapp.com/e/17251-dc26ea1bb5ec4fe6b9bb86531d1d0cdb/form/post?embed";
-
 const isRateLimited = createInMemoryRateLimiter(
   rateLimitWindowMs,
   rateLimitMaxRequests,
 );
-
-function buildQuotientMessage(payload: QuotePayload) {
-  const details = [
-    `Message: ${payload.message}`,
-    `Address: ${payload.address}`,
-    payload.fileUrls ? `Files:\n${payload.fileUrls}` : "",
-    payload.uploadFolder ? `Upload folder: ${payload.uploadFolder}` : "",
-    `Source: ${payload.source}`,
-    `Page: ${payload.page}`,
-    `Submitted at: ${payload.submittedAt}`,
-  ].filter(Boolean);
-
-  return details.join("\n\n");
-}
-
-function createQuotientFormBody(payload: QuotePayload) {
-  const formBody = new URLSearchParams();
-
-  formBody.set("leadR[_s][lead_subject]", payload.subject);
-  formBody.set("leadR[_s][lead_message]", buildQuotientMessage(payload));
-  formBody.set("leadR[_s][lead_name_first]", payload.firstName);
-  formBody.set("leadR[_s][lead_name_last]", payload.lastName);
-  formBody.set("leadR[_s][lead_email]", payload.email);
-  formBody.set("leadR[_s][lead_company]", payload.company);
-  formBody.set("leadR[_s][lead_phone]", payload.phone);
-  formBody.set("attach_key", "");
-  formBody.set("attach_name", "");
-
-  return formBody;
-}
 
 export async function POST(request: Request) {
   const clientKey = getClientKey(request);
@@ -86,14 +53,23 @@ export async function POST(request: Request) {
     return Response.json({ error: result.error }, { status: result.status });
   }
 
+  const webhookUrl = parseWebhookUrl(process.env.ZAPIER_QUOTE_WEBHOOK_URL);
+
+  if (!webhookUrl) {
+    return Response.json(
+      { error: "The quote request service is not configured yet." },
+      { status: 503 },
+    );
+  }
+
   let response: Response;
 
   try {
-    response = await fetch(quotientLeadFormPostUrl, {
-      body: createQuotientFormBody(result.payload),
+    response = await fetch(webhookUrl, {
+      body: JSON.stringify(result.payload),
       cache: "no-store",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
       method: "POST",
       signal: AbortSignal.timeout(quoteWebhookTimeoutMs),

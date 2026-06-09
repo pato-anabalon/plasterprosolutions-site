@@ -4,7 +4,10 @@ import { siteConfig } from "@/data/site";
 
 export function ContactDetails() {
   return (
-    <aside className="surface-panel rounded-lg p-8" data-testid="contact-details">
+    <aside
+      className="surface-panel self-start rounded-lg p-8 lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto"
+      data-testid="contact-details"
+    >
       <h2 className="text-2xl font-black text-charcoal" data-testid="contact-details-title">
         Contact details
       </h2>
