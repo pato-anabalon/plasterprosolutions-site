@@ -32,6 +32,17 @@ export const teamMembers: TeamMember[] = [
       "Running, fishing, reading, and exploring new cultures, languages, and cuisines.",
   },
   {
+    name: "Pablo Riquelme",
+    role: "Finance & Operations Coordinator",
+    image: "/assets/team/pablo-riquelme.jpg",
+    imagePosition: "center top",
+    shortBio:
+      "Brings analytical structure, financial discipline, and property-sector experience to the operations behind each project.",
+    bio: "Originally from Santiago, Chile, Pablo began hands-on in painting before moving into the administrative and financial side of the business. With a degree in Accounting & Auditing, finance and business qualifications from Chile and New Zealand, and four years in property management, he supports PlasterPro Solution with a precise, structured, and detail-focused approach behind the scenes.",
+    outsideWork:
+      "Football with Metro Football Club in Mt Albert, morning cycling, following sports, and studying history and philosophy.",
+  },
+  {
     name: "Javier Cuadra",
     role: "Site Manager",
     image: "/assets/team/javier-cuadra.avif",
