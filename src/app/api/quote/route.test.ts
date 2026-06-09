@@ -14,50 +14,58 @@ async function readJson(response: Response) {
 }
 
 describe("/api/quote", () => {
-  const originalEnv = process.env;
-
   beforeEach(() => {
-    process.env = { ...originalEnv };
-    process.env.ZAPIER_QUOTE_WEBHOOK_URL = "https://hooks.zapier.com/test";
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
     } as Response);
   });
 
   afterEach(() => {
-    process.env = originalEnv;
     jest.clearAllMocks();
   });
 
-  it("should return 200 for a valid quote and forward the sanitized payload", async () => {
+  it("should return 200 for a valid quote and forward form data to Quotient", async () => {
     const POST = await loadPost();
     const response = await POST(
       createJsonRequest({
         ...validQuotePayload,
+        files: [
+          {
+            name: "file-1.jpg",
+            size: 100,
+            type: "image/jpeg",
+            url: "https://store.public.blob.vercel-storage.com/quote-requests/2026-05-13/patricio-anabalon-address/file-1.jpg",
+          },
+        ],
         firstName: "  Patricio\u0000  ",
+        uploadFolder: "quote-requests/2026-05-13/patricio-anabalon-address",
       }),
     );
 
     expect(response.status).toBe(200);
     expect(await readJson(response)).toEqual({ ok: true });
     expect(global.fetch).toHaveBeenCalledWith(
-      "https://hooks.zapier.com/test",
+      "https://www.quotientapp.com/e/17251-dc26ea1bb5ec4fe6b9bb86531d1d0cdb/form/post?embed",
       expect.objectContaining({
-        body: expect.any(String),
+        body: expect.any(URLSearchParams),
         method: "POST",
       }),
     );
 
     const [, init] = jest.mocked(global.fetch).mock.calls[0];
-    const payload = JSON.parse(String(init?.body));
+    const formBody = init?.body as URLSearchParams;
 
-    expect(payload).toEqual(
-      expect.objectContaining({
-        email: validQuotePayload.email,
-        fileUrls: "",
-        firstName: "Patricio",
-        submittedAt: expect.any(String),
-      }),
+    expect(init?.headers).toEqual({
+      "Content-Type": "application/x-www-form-urlencoded",
+    });
+    expect(formBody.get("leadR[_s][lead_email]")).toBe(validQuotePayload.email);
+    expect(formBody.get("leadR[_s][lead_name_first]")).toBe("Patricio");
+    expect(formBody.get("leadR[_s][lead_subject]")).toBe(validQuotePayload.subject);
+    expect(formBody.get("leadR[_s][lead_message]")).toEqual(
+      expect.stringContaining(validQuotePayload.address),
+    );
+    expect(formBody.get("leadR[_s][lead_message]")).toEqual(
+      expect.stringContaining("file-1.jpg: https://store.public.blob.vercel-storage.com"),
     );
   });
 
@@ -148,17 +156,6 @@ describe("/api/quote", () => {
     expect(response.status).toBe(400);
     expect(await readJson(response)).toEqual({
       error: "The uploaded files do not match the quote folder.",
-    });
-  });
-
-  it("should return 503 when the Zapier webhook URL is not configured", async () => {
-    delete process.env.ZAPIER_QUOTE_WEBHOOK_URL;
-    const POST = await loadPost();
-    const response = await POST(createJsonRequest(validQuotePayload));
-
-    expect(response.status).toBe(503);
-    expect(await readJson(response)).toEqual({
-      error: "The quote request service is not configured yet.",
     });
   });
 
