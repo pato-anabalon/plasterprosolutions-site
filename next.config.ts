@@ -2,19 +2,25 @@ import type { NextConfig } from "next";
 
 const isProduction = process.env.NODE_ENV === "production";
 
+const googleTagScriptSources = "https://www.googletagmanager.com";
+const googleTagConnectSources =
+  "https://www.google-analytics.com https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net";
+const googleTagImageSources =
+  "https://www.google-analytics.com https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net";
+
 const contentSecurityPolicy = [
   "default-src 'self'",
   isProduction
-    ? "script-src 'self' 'unsafe-inline'"
-    : "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+    ? `script-src 'self' 'unsafe-inline' ${googleTagScriptSources}`
+    : `script-src 'self' 'unsafe-inline' 'unsafe-eval' ${googleTagScriptSources}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  `img-src 'self' data: blob: ${googleTagImageSources}`,
   "font-src 'self'",
   "media-src 'self'",
   "frame-src 'self' https://www.quotientapp.com",
   isProduction
-    ? "connect-src 'self' https://vitals.vercel-insights.com https://vercel.com https://*.blob.vercel-storage.com"
-    : "connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https://vitals.vercel-insights.com https://vercel.com https://*.blob.vercel-storage.com",
+    ? `connect-src 'self' https://vitals.vercel-insights.com https://vercel.com https://*.blob.vercel-storage.com ${googleTagConnectSources}`
+    : `connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https://vitals.vercel-insights.com https://vercel.com https://*.blob.vercel-storage.com ${googleTagConnectSources}`,
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

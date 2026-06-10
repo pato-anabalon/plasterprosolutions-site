@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Script from "next/script";
 import { Footer } from "@/components/organisms/footer";
 import { Header } from "@/components/organisms/header";
 import { SitePreloader } from "@/components/organisms/site-preloader";
@@ -14,6 +15,8 @@ const defaultOgImage = {
   url: "/assets/og/plasterpro-og.png",
   width: 1731,
 };
+
+const googleAdsTagId = "AW-18085731907";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -102,6 +105,19 @@ export default function RootLayout({
               "try{var t=localStorage.getItem('plasterpro-theme');var theme=t==='dark'?'dark':'light';document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;}catch(e){document.documentElement.dataset.theme='light';document.documentElement.style.colorScheme='light';}",
           }}
         />
+        <Script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${googleAdsTagId}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${googleAdsTagId}');
+          `}
+        </Script>
         <SitePreloader />
         <Header />
         <main className="flex-1">{children}</main>
