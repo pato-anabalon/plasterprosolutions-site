@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+import { ReviewBodyScroller } from "@/components/molecules/review-body-scroller";
 
 type ReviewCardProps = {
   body: string;
@@ -30,7 +31,7 @@ export function ReviewCard({
 
   return (
     <article
-      className={`group relative flex min-h-[20rem] flex-col justify-between overflow-hidden rounded-lg border p-6 transition duration-300 hover:-translate-y-1 ${cardClasses}`}
+      className={`group relative flex h-full min-h-[20rem] flex-col justify-between overflow-hidden rounded-lg border p-6 transition duration-300 hover:-translate-y-1 ${cardClasses}`}
       data-testid="review-card"
     >
       <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-spicy-orange transition duration-500 group-hover:scale-x-100" />
@@ -54,17 +55,12 @@ export function ReviewCard({
         </div>
 
         <h3
-          className="balanced mt-8 text-2xl font-black leading-tight"
+          className="balanced mt-8 min-h-[60px] text-2xl font-black leading-tight"
           data-testid="review-card-title"
         >
           {title}
         </h3>
-        <p
-          className={`pretty mt-4 text-base font-bold leading-7 ${bodyClasses}`}
-          data-testid="review-card-body"
-        >
-          {body}
-        </p>
+        <ReviewBodyScroller body={body} className={bodyClasses} tone={tone} />
       </div>
 
       <footer className={`mt-8 border-t pt-4 ${footerClasses}`} data-testid="review-card-footer">

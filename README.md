@@ -110,7 +110,14 @@ public/assets/docs/
 ### Reviews
 
 - Added a reusable `CustomerReviewsSection`.
-- Added curated review highlights attributed to NoCowboys.
+- Added `/api/customer-reviews` to load the latest NoCowboys reviews from the business ratings JSON endpoint.
+- The live reviews flow filters for `100%` ratings and returns the latest three reviews.
+- Added `CustomerReviewsLiveGrid` to render static fallback reviews first, then refresh from `/api/customer-reviews` every 10 minutes in the browser.
+- Preserved static curated reviews in `src/data/site.ts` as the fallback if the NoCowboys request fails or returns no usable reviews.
+- Preserved paragraph and line breaks from NoCowboys review text so longer comments remain readable.
+- Added a fixed-height internal review text scroller to keep cards aligned while allowing full review text to be read.
+- Desktop review text auto-scrolls slowly on hover or keyboard focus, while mobile keeps manual internal scrolling.
+- Standardized review card heights and added a minimum title height so review body text starts at a consistent vertical position.
 - Added NoCowboys logo and approval summary.
 - Used a dark version on Home and a light version on Services to avoid blending into the footer.
 
@@ -204,6 +211,7 @@ If port `3000` is busy, Next.js may use `3001`.
 - Quote attachments are grouped in Blob paths such as `quote-requests/YYYY-MM-DD/first-last-address-a1b2c3/file.pdf`.
 - The direct Quotient backup sends uploaded files as public Blob URLs appended to the lead message.
 - Connect Neon Postgres to the Vercel project and run `npm run seed:project-posts` locally or from a trusted environment with `DATABASE_URL` available before relying on DB-backed project content.
+- The customer reviews section depends on the public NoCowboys ratings JSON endpoint. If that endpoint changes or becomes unavailable, `/api/customer-reviews` falls back to `siteConfig.customerReviews` so the page still renders stable review cards.
 
 ## Brand Notes
 
