@@ -301,6 +301,7 @@ export const siteConfig = {
     { name: 'Alto Paints', src: '/assets/qualifications/altopaint-logo.png' },
     { name: 'Specialized Construction Products', src: '/assets/qualifications/specialized-logo.png' },
     { name: 'NoCowboys', src: '/assets/qualifications/no-cowboys-logo.png' },
-    { name: 'BCITO', src: '/assets/qualifications/bcito-logo.jpeg' }
+    { name: 'BCITO', src: '/assets/qualifications/bcito-logo.jpeg' },
+    { name: 'Dulux Accredited', src: '/assets/qualifications/dulux-accredited.avif' }
   ]
 };
