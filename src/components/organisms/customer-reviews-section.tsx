@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { AnimatedReveal } from "@/components/molecules/animated-reveal";
-import { ReviewCard } from "@/components/molecules/review-card";
+import { CustomerReviewsLiveGrid } from "@/components/organisms/customer-reviews-live-grid";
 import { SectionHeading } from "@/components/molecules/section-heading";
 import { siteConfig } from "@/data/site";
 
@@ -43,9 +43,9 @@ export function CustomerReviewsSection({
             />
           </AnimatedReveal>
 
-          <AnimatedReveal data-testid="customer-reviews-section-source" delay={0.05}>
+          <AnimatedReveal className="w-full" data-testid="customer-reviews-section-source" delay={0.05}>
             <a
-              className={`group ml-auto grid max-w-sm gap-5 rounded-lg border p-5 transition duration-300 hover:-translate-y-1 ${sourceCardClasses}`}
+              className={`group grid w-full gap-5 rounded-lg border p-5 transition duration-300 hover:-translate-y-1 lg:ml-auto lg:max-w-sm ${sourceCardClasses}`}
               data-testid="customer-reviews-source-card"
               href={siteConfig.reviewSource.href}
               rel="noreferrer noopener"
@@ -87,13 +87,7 @@ export function CustomerReviewsSection({
           </AnimatedReveal>
         </div>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-3" data-testid="customer-reviews-grid">
-          {siteConfig.customerReviews.map((review, index) => (
-            <AnimatedReveal data-testid="customer-reviews-item" key={review.title} delay={index * 0.05}>
-              <ReviewCard {...review} tone={tone} />
-            </AnimatedReveal>
-          ))}
-        </div>
+        <CustomerReviewsLiveGrid initialReviews={siteConfig.customerReviews} tone={tone} />
       </div>
     </section>
   );

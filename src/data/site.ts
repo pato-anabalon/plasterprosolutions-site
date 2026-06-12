@@ -35,8 +35,8 @@ export const siteConfig = {
     label: 'NoCowboys authenticated ratings',
     href: 'https://www.nocowboys.co.nz/businesses/plasterpro-solution',
     logo: '/assets/qualifications/no-cowboys-logo.png',
-    approval: '97.3%',
-    count: '109'
+    approval: '97.4%',
+    count: '111'
   },
   customerReviews: [
     {
