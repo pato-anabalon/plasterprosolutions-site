@@ -83,9 +83,7 @@ export default function RootLayout({
     telephone: siteConfig.phone,
     address: {
       "@type": "PostalAddress",
-      streetAddress: siteConfig.address,
-      addressLocality: "Auckland",
-      addressCountry: "NZ",
+      ...siteConfig.postalAddress,
     },
     areaServed: "Auckland, New Zealand",
     serviceType: siteConfig.services.map((service) => service.title),

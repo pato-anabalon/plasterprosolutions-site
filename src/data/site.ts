@@ -3,7 +3,14 @@ export const siteConfig = {
   url: 'https://www.plasterprosolution.co.nz',
   email: 'sales@plasterprosolution.co.nz',
   phone: '021 742 300',
-  address: '19 Marywil Crescent, Hauraki, Auckland',
+  address: '23 Orton Street, Glenfield, Auckland 0627',
+  postalAddress: {
+    streetAddress: '23 Orton Street',
+    addressLocality: 'Glenfield',
+    addressRegion: 'Auckland',
+    postalCode: '0627',
+    addressCountry: 'NZ'
+  },
   navigation: [
     { label: 'Home', href: '/' },
     { label: 'Services', href: '/services' },
