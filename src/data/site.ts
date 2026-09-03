@@ -2,6 +2,7 @@ export const siteConfig = {
   name: 'PlasterProSolution',
   url: 'https://www.plasterprosolution.co.nz',
   email: 'sales@plasterprosolution.co.nz',
+  infoEmail: 'info@plasterprosolution.co.nz',
   phone: '021 742 300',
   address: '23 Orton Street, Glenfield, Auckland 0627',
   postalAddress: {
@@ -306,6 +307,7 @@ export const siteConfig = {
     { name: 'Resene Construction Systems', src: '/assets/qualifications/resene-construction-logo.png' },
     { name: 'Resene', src: '/assets/qualifications/resene-logo.jpg' },
     { name: 'Alto Paints', src: '/assets/qualifications/altopaint-logo.png' },
+    { name: 'Wattyl', src: '/assets/qualifications/wattyl-logo.jpeg' },
     { name: 'Specialized Construction Products', src: '/assets/qualifications/specialized-logo.png' },
     { name: 'NoCowboys', src: '/assets/qualifications/no-cowboys-logo.png' },
     { name: 'BCITO', src: '/assets/qualifications/bcito-logo.jpeg' },
