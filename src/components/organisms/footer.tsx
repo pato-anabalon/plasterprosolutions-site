@@ -42,6 +42,15 @@ export function Footer() {
               <Mail size={18} aria-hidden="true" />
               <a
                 className="hover:text-white"
+                href={`mailto:${siteConfig.infoEmail}`}
+              >
+                {siteConfig.infoEmail}
+              </a>
+            </li>
+            <li className="flex gap-3">
+              <Mail size={18} aria-hidden="true" />
+              <a
+                className="hover:text-white"
                 href={`mailto:${siteConfig.email}`}
               >
                 {siteConfig.email}

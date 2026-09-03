@@ -20,6 +20,10 @@ export function ContactDetails() {
         </li>
         <li className="flex gap-3">
           <Mail className="text-spicy-orange" size={20} aria-hidden="true" />
+          <a href={`mailto:${siteConfig.infoEmail}`}>{siteConfig.infoEmail}</a>
+        </li>
+        <li className="flex gap-3">
+          <Mail className="text-spicy-orange" size={20} aria-hidden="true" />
           <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
         </li>
         <li className="flex gap-3">
