@@ -1,9 +1,12 @@
+import { siteConfig } from "@/data/site";
 import {
   type QuotePayload,
   type QuoteRequestBody,
   asCleanString,
   createInMemoryRateLimiter,
   getClientKey,
+  parseLeadsApiUrl,
+  parseSubmissionId,
   quoteWebhookTimeoutMs,
   rateLimitMaxRequests,
   rateLimitWindowMs,
@@ -11,42 +14,43 @@ import {
   validateQuotePayload,
 } from "@/lib/quote-request";
 
-const quotientLeadFormPostUrl =
-  "https://www.quotientapp.com/e/17251-dc26ea1bb5ec4fe6b9bb86531d1d0cdb/form/post?embed";
-
 const isRateLimited = createInMemoryRateLimiter(
   rateLimitWindowMs,
   rateLimitMaxRequests,
 );
 
-function buildQuotientMessage(payload: QuotePayload) {
-  const details = [
-    `Message: ${payload.message}`,
-    `Address: ${payload.address}`,
-    payload.fileUrls ? `Files:\n${payload.fileUrls}` : "",
-    payload.uploadFolder ? `Upload folder: ${payload.uploadFolder}` : "",
-    `Source: ${payload.source}`,
-    `Page: ${payload.page}`,
-    `Submitted at: ${payload.submittedAt}`,
-  ].filter(Boolean);
-
-  return details.join("\n\n");
+function createLeadBody(payload: QuotePayload) {
+  return {
+    address: payload.address,
+    company: payload.company,
+    email: payload.email,
+    files: payload.files,
+    firstName: payload.firstName,
+    lastName: payload.lastName,
+    message: payload.message,
+    page: new URL(payload.page, siteConfig.url).toString(),
+    phone: payload.phone,
+    source: payload.source,
+    subject: payload.subject,
+  };
 }
 
-function createQuotientFormBody(payload: QuotePayload) {
-  const formBody = new URLSearchParams();
+function createLeadHeaders(apiKey: string, clientKey: string, submissionId: string) {
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${apiKey}`,
+    "Content-Type": "application/json",
+  };
 
-  formBody.set("leadR[_s][lead_subject]", payload.subject);
-  formBody.set("leadR[_s][lead_message]", buildQuotientMessage(payload));
-  formBody.set("leadR[_s][lead_name_first]", payload.firstName);
-  formBody.set("leadR[_s][lead_name_last]", payload.lastName);
-  formBody.set("leadR[_s][lead_email]", payload.email);
-  formBody.set("leadR[_s][lead_company]", payload.company);
-  formBody.set("leadR[_s][lead_phone]", payload.phone);
-  formBody.set("attach_key", "");
-  formBody.set("attach_name", "");
+  // The CRM sees this server's IP, so it is told the visitor's instead.
+  if (clientKey !== "unknown") {
+    headers["X-Client-Ip"] = clientKey;
+  }
 
-  return formBody;
+  if (submissionId) {
+    headers["Idempotency-Key"] = submissionId;
+  }
+
+  return headers;
 }
 
 export async function POST(request: Request) {
@@ -86,15 +90,23 @@ export async function POST(request: Request) {
     return Response.json({ error: result.error }, { status: result.status });
   }
 
+  const leadsApiUrl = parseLeadsApiUrl(process.env.NODO_CRM_LEADS_URL);
+  const apiKey = asCleanString(process.env.NODO_CRM_API_KEY);
+
+  if (!leadsApiUrl || !apiKey) {
+    return Response.json(
+      { error: "The quote request service is not configured yet." },
+      { status: 503 },
+    );
+  }
+
   let response: Response;
 
   try {
-    response = await fetch(quotientLeadFormPostUrl, {
-      body: createQuotientFormBody(result.payload),
+    response = await fetch(leadsApiUrl, {
+      body: JSON.stringify(createLeadBody(result.payload)),
       cache: "no-store",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+      headers: createLeadHeaders(apiKey, clientKey, parseSubmissionId(body.submissionId)),
       method: "POST",
       signal: AbortSignal.timeout(quoteWebhookTimeoutMs),
     });

@@ -91,9 +91,9 @@ public/assets/docs/
 
 ### Contact Page
 
-- Replaced the old `mailto:`-only behaviour with the official embedded Quotient lead form.
-- Preserved the custom quote form as hidden, noindex backup workflows at `/contact/direct-quotient-backup` and `/contact/zapier-backup`.
-- Added `/api/quote` for the direct Quotient POST backup and `/api/quote/zapier` for the Zapier backup.
+- The custom quote form is live on `/contact` and posts to `/api/quote`, which forwards each lead (with its uploaded file links) to the nodo CRM leads API using a secret key.
+- The embedded Quotient lead form is kept as a hidden, noindex backup at `/contact/quotient-backup`.
+- Older backups stay hidden and noindex: `/contact/direct-quotient-backup` (via `/api/quote/quotient`) and `/contact/zapier-backup` (via `/api/quote/zapier`).
 - Aligned form fields with the current Quotient form:
   - subject
   - message
@@ -167,15 +167,15 @@ public/assets/docs/
 
 ## Environment Variables
 
-The public contact form is embedded from Quotient and does not need local quote-form environment variables. Vercel Blob and Zapier are only needed for hidden backup workflows:
-
 ```bash
 BLOB_READ_WRITE_TOKEN=
 DATABASE_URL=
+NODO_CRM_LEADS_URL=
+NODO_CRM_API_KEY=
 ZAPIER_QUOTE_WEBHOOK_URL=
 ```
 
-`BLOB_READ_WRITE_TOKEN` is required for the custom backup form's browser-to-Blob upload token route. `ZAPIER_QUOTE_WEBHOOK_URL` is optional and only used by `/contact/zapier-backup`. `DATABASE_URL` is required for editable project posts and persistent project likes; without it, project pages fall back to the versioned Markdown seeds and the like button is disabled.
+`NODO_CRM_LEADS_URL` is the CRM's `/api/v1/leads` endpoint (https in production; http is accepted outside production for a local CRM) and `NODO_CRM_API_KEY` is a **secret** `nodo_sk_` key from the company's Settings → Leads API. Without both, `/api/quote` answers 503. `BLOB_READ_WRITE_TOKEN` is required for the quote form's browser-to-Blob upload token route. `ZAPIER_QUOTE_WEBHOOK_URL` is optional and only used by `/contact/zapier-backup`. `DATABASE_URL` is required for editable project posts and persistent project likes; without it, project pages fall back to the versioned Markdown seeds and the like button is disabled.
 
 ## Commands
 
@@ -204,7 +204,7 @@ If port `3000` is busy, Next.js may use `3001`.
 
 - Target platform: Vercel.
 - Allow `https://www.quotientapp.com` in `frame-src` so the public `/contact` embed can load.
-- Connect Vercel Blob to the project if either hidden custom quote form backup is used.
+- Connect Vercel Blob to the project: the public quote form uploads attachments there before sending their links to the CRM, which copies them into its own store.
 - The hidden `/contact/zapier-backup` route remains available only if `ZAPIER_QUOTE_WEBHOOK_URL` is configured.
 - Quote file uploads use direct client uploads to avoid Vercel Function body-size limits.
 - Quote file uploads accept JPG, PNG, WebP, HEIC, HEIF, and PDF files, up to 5 files, 10 MB each, and 25 MB total.

@@ -17,6 +17,7 @@ export type QuoteRequestBody = {
   phone?: string;
   source?: string;
   subject?: string;
+  submissionId?: string;
   uploadFolder?: string;
   website?: string;
 };
@@ -133,6 +134,39 @@ export function parseWebhookUrl(value: string | undefined) {
   } catch {
     return null;
   }
+}
+
+/**
+ * The lead intake URL, https only in production. Local development talks to a
+ * CRM running over plain http on the network, so http is allowed there.
+ */
+export function parseLeadsApiUrl(
+  value: string | undefined,
+  allowHttp = process.env.NODE_ENV !== "production",
+) {
+  if (!value) {
+    return null;
+  }
+
+  try {
+    const url = new URL(value);
+    const isAllowedProtocol =
+      url.protocol === "https:" || (allowHttp && url.protocol === "http:");
+
+    return isAllowedProtocol ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The browser's per-submission id, used as the CRM's Idempotency-Key so a retry
+ * or double click never creates the same lead twice.
+ */
+export function parseSubmissionId(value: unknown) {
+  const submissionId = asCleanString(value);
+
+  return /^[a-zA-Z0-9-]{8,64}$/.test(submissionId) ? submissionId : "";
 }
 
 export async function readQuoteRequest(request: Request) {
