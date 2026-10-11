@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { ComponentPropsWithRef, ReactNode } from "react";
 
 type ButtonProps = {
   children: ReactNode;
@@ -7,7 +7,7 @@ type ButtonProps = {
   variant?: "primary" | "secondary" | "dark" | "ghost";
   className?: string;
   "data-testid"?: string;
-} & ComponentPropsWithoutRef<"button">;
+} & ComponentPropsWithRef<"button">;
 
 const variants = {
   primary:

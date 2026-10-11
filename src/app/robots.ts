@@ -6,7 +6,11 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/contact/direct-quotient-backup", "/contact/zapier-backup"],
+      disallow: [
+        "/contact/direct-quotient-backup",
+        "/contact/quotient-backup",
+        "/contact/zapier-backup",
+      ],
     },
     sitemap: `${siteConfig.url}/sitemap.xml`,
   };
