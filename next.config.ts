@@ -17,7 +17,7 @@ const contentSecurityPolicy = [
   `img-src 'self' data: blob: ${googleTagImageSources}`,
   "font-src 'self'",
   "media-src 'self'",
-  "frame-src 'self' https://www.quotientapp.com",
+  "frame-src 'self'",
   isProduction
     ? `connect-src 'self' https://vitals.vercel-insights.com https://vercel.com https://*.blob.vercel-storage.com ${googleTagConnectSources}`
     : `connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https://vitals.vercel-insights.com https://vercel.com https://*.blob.vercel-storage.com ${googleTagConnectSources}`,

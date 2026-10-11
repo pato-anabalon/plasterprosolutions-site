@@ -361,7 +361,7 @@ describe("QuoteRequestForm", () => {
   });
 
   it("should submit to a custom endpoint when configured", async () => {
-    const { user } = setupWithEndpoint("/api/quote/zapier");
+    const { user } = setupWithEndpoint("/api/quote/custom");
     const fetchMock = jest.mocked(global.fetch);
     fetchMock.mockResolvedValue({
       json: async () => ({ ok: true }),
@@ -373,7 +373,7 @@ describe("QuoteRequestForm", () => {
 
     await waitFor(() => {
       expect(fetchMock).toHaveBeenCalledWith(
-        "/api/quote/zapier",
+        "/api/quote/custom",
         expect.objectContaining({ method: "POST" }),
       );
     });

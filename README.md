@@ -92,9 +92,7 @@ public/assets/docs/
 ### Contact Page
 
 - The custom quote form is live on `/contact` and posts to `/api/quote`, which forwards each lead (with its uploaded file links) to the nodo CRM leads API using a secret key.
-- The embedded Quotient lead form is kept as a hidden, noindex backup at `/contact/quotient-backup`.
-- Older backups stay hidden and noindex: `/contact/direct-quotient-backup` (via `/api/quote/quotient`) and `/contact/zapier-backup` (via `/api/quote/zapier`).
-- Aligned form fields with the current Quotient form:
+- Form fields:
   - subject
   - message
   - first name
@@ -161,8 +159,8 @@ public/assets/docs/
 - Disabled the `X-Powered-By` header.
 - Added best-effort rate limiting to `/api/quote`.
 - Added payload size limits, field length limits, phone validation, and stricter webhook URL validation.
-- Added a timeout around the Quotient and Zapier backup requests.
-- Added Vercel Blob client uploads for quote request attachments before forwarding file URLs to Quotient.
+- Added a timeout around the nodo CRM leads request.
+- Added Vercel Blob client uploads for quote request attachments before forwarding file URLs to the nodo CRM.
 - Added `noopener` to external review links.
 
 ## Environment Variables
@@ -172,10 +170,9 @@ BLOB_READ_WRITE_TOKEN=
 DATABASE_URL=
 NODO_CRM_LEADS_URL=
 NODO_CRM_API_KEY=
-ZAPIER_QUOTE_WEBHOOK_URL=
 ```
 
-`NODO_CRM_LEADS_URL` is the CRM's `/api/v1/leads` endpoint (https in production; http is accepted outside production for a local CRM) and `NODO_CRM_API_KEY` is a **secret** `nodo_sk_` key from the company's Settings → Leads API. Without both, `/api/quote` answers 503. `BLOB_READ_WRITE_TOKEN` is required for the quote form's browser-to-Blob upload token route. `ZAPIER_QUOTE_WEBHOOK_URL` is optional and only used by `/contact/zapier-backup`. `DATABASE_URL` is required for editable project posts and persistent project likes; without it, project pages fall back to the versioned Markdown seeds and the like button is disabled.
+`NODO_CRM_LEADS_URL` is the CRM's `/api/v1/leads` endpoint (https in production; http is accepted outside production for a local CRM) and `NODO_CRM_API_KEY` is a **secret** `nodo_sk_` key from the company's Settings → Leads API. Without both, `/api/quote` answers 503. `BLOB_READ_WRITE_TOKEN` is required for the quote form's browser-to-Blob upload token route. `DATABASE_URL` is required for editable project posts and persistent project likes; without it, project pages fall back to the versioned Markdown seeds and the like button is disabled.
 
 ## Commands
 
@@ -203,13 +200,10 @@ If port `3000` is busy, Next.js may use `3001`.
 ## Deployment Notes
 
 - Target platform: Vercel.
-- Allow `https://www.quotientapp.com` in `frame-src` so the public `/contact` embed can load.
 - Connect Vercel Blob to the project: the public quote form uploads attachments there before sending their links to the CRM, which copies them into its own store.
-- The hidden `/contact/zapier-backup` route remains available only if `ZAPIER_QUOTE_WEBHOOK_URL` is configured.
 - Quote file uploads use direct client uploads to avoid Vercel Function body-size limits.
 - Quote file uploads accept JPG, PNG, WebP, HEIC, HEIF, and PDF files, up to 5 files, 10 MB each, and 25 MB total.
 - Quote attachments are grouped in Blob paths such as `quote-requests/YYYY-MM-DD/first-last-address-a1b2c3/file.pdf`.
-- The direct Quotient backup sends uploaded files as public Blob URLs appended to the lead message.
 - Connect Neon Postgres to the Vercel project and run `npm run seed:project-posts` locally or from a trusted environment with `DATABASE_URL` available before relying on DB-backed project content.
 - The customer reviews section depends on the public NoCowboys ratings JSON endpoint. If that endpoint changes or becomes unavailable, `/api/customer-reviews` falls back to `siteConfig.customerReviews` so the page still renders stable review cards.
 
