@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { ContactDetails } from '@/components/organisms/contact-details';
-import { QuotientLeadForm } from '@/components/organisms/quotient-lead-form';
+import { QuoteRequestForm } from '@/components/organisms/quote-request-form';
 import { InnerPageHero } from '@/components/templates/inner-page-hero';
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export default function ContactPage() {
       <section className="py-20 sm:py-28">
         <div className="site-shell grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
           <ContactDetails />
-          <QuotientLeadForm />
+          <QuoteRequestForm />
         </div>
       </section>
     </>

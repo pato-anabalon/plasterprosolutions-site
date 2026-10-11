@@ -27,7 +27,7 @@ export default function DirectQuotientQuoteBackupPage() {
       <section className="py-20 sm:py-28">
         <div className="site-shell grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
           <ContactDetails />
-          <QuoteRequestForm />
+          <QuoteRequestForm submitEndpoint="/api/quote/quotient" />
         </div>
       </section>
     </>

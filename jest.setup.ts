@@ -64,6 +64,10 @@ jest.mock("gsap/ScrollTrigger", () => ({
   ScrollTrigger: {},
 }));
 
+jest.mock("gsap/MorphSVGPlugin", () => ({
+  MorphSVGPlugin: {},
+}));
+
 jest.mock("@vercel/blob/client", () => ({
   handleUpload: jest.fn(),
   upload: jest.fn(),

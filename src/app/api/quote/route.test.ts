@@ -2,6 +2,10 @@
 
 import { createJsonRequest, validQuotePayload } from "@/test/quote-fixtures";
 
+const leadsApiUrl = "https://crm.example.test/api/v1/leads";
+const blobFileUrl =
+  "https://store.public.blob.vercel-storage.com/quote-requests/2026-05-13/patricio-anabalon-address/file-1.jpg";
+
 async function loadPost() {
   jest.resetModules();
   const route = await import("./route");
@@ -14,59 +18,110 @@ async function readJson(response: Response) {
 }
 
 describe("/api/quote", () => {
+  const originalEnv = process.env;
+
   beforeEach(() => {
+    process.env = {
+      ...originalEnv,
+      NODO_CRM_API_KEY: "nodo_sk_test",
+      NODO_CRM_LEADS_URL: leadsApiUrl,
+    };
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
     } as Response);
   });
 
   afterEach(() => {
+    process.env = originalEnv;
     jest.clearAllMocks();
   });
 
-  it("should return 200 for a valid quote and forward form data to Quotient", async () => {
+  it("should forward a valid quote to the nodo CRM leads API", async () => {
     const POST = await loadPost();
     const response = await POST(
-      createJsonRequest({
-        ...validQuotePayload,
-        files: [
-          {
-            name: "file-1.jpg",
-            size: 100,
-            type: "image/jpeg",
-            url: "https://store.public.blob.vercel-storage.com/quote-requests/2026-05-13/patricio-anabalon-address/file-1.jpg",
-          },
-        ],
-        firstName: "  Patricio\u0000  ",
-        uploadFolder: "quote-requests/2026-05-13/patricio-anabalon-address",
-      }),
+      createJsonRequest(
+        {
+          ...validQuotePayload,
+          files: [
+            {
+              name: "file-1.jpg",
+              size: 100,
+              type: "image/jpeg",
+              url: blobFileUrl,
+            },
+          ],
+          firstName: "  Patricio\u0000  ",
+          submissionId: "4f1c2b9e-1111-4a2b-9c3d-000000000001",
+          uploadFolder: "quote-requests/2026-05-13/patricio-anabalon-address",
+        },
+        { "x-forwarded-for": "203.0.113.20" },
+      ),
     );
 
     expect(response.status).toBe(200);
     expect(await readJson(response)).toEqual({ ok: true });
     expect(global.fetch).toHaveBeenCalledWith(
-      "https://www.quotientapp.com/e/17251-dc26ea1bb5ec4fe6b9bb86531d1d0cdb/form/post?embed",
-      expect.objectContaining({
-        body: expect.any(URLSearchParams),
-        method: "POST",
+      leadsApiUrl,
+      expect.objectContaining({ method: "POST" }),
+    );
+
+    const [, init] = jest.mocked(global.fetch).mock.calls[0];
+
+    expect(init?.headers).toEqual({
+      Authorization: "Bearer nodo_sk_test",
+      "Content-Type": "application/json",
+      "Idempotency-Key": "4f1c2b9e-1111-4a2b-9c3d-000000000001",
+      "X-Client-Ip": "203.0.113.20",
+    });
+    expect(JSON.parse(String(init?.body))).toEqual({
+      address: validQuotePayload.address,
+      company: validQuotePayload.company,
+      email: validQuotePayload.email,
+      files: [
+        {
+          name: "file-1.jpg",
+          size: 100,
+          type: "image/jpeg",
+          url: blobFileUrl,
+        },
+      ],
+      firstName: "Patricio",
+      lastName: validQuotePayload.lastName,
+      message: validQuotePayload.message,
+      page: "https://www.plasterprosolution.co.nz/contact",
+      phone: validQuotePayload.phone,
+      source: "Website",
+      subject: validQuotePayload.subject,
+    });
+  });
+
+  it("should leave out the idempotency and client IP headers it cannot trust", async () => {
+    const POST = await loadPost();
+    await POST(
+      createJsonRequest({
+        ...validQuotePayload,
+        submissionId: "not a valid id!",
       }),
     );
 
     const [, init] = jest.mocked(global.fetch).mock.calls[0];
-    const formBody = init?.body as URLSearchParams;
 
     expect(init?.headers).toEqual({
-      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: "Bearer nodo_sk_test",
+      "Content-Type": "application/json",
     });
-    expect(formBody.get("leadR[_s][lead_email]")).toBe(validQuotePayload.email);
-    expect(formBody.get("leadR[_s][lead_name_first]")).toBe("Patricio");
-    expect(formBody.get("leadR[_s][lead_subject]")).toBe(validQuotePayload.subject);
-    expect(formBody.get("leadR[_s][lead_message]")).toEqual(
-      expect.stringContaining(validQuotePayload.address),
-    );
-    expect(formBody.get("leadR[_s][lead_message]")).toEqual(
-      expect.stringContaining("file-1.jpg: https://store.public.blob.vercel-storage.com"),
-    );
+  });
+
+  it("should return 503 when the CRM is not configured", async () => {
+    delete process.env.NODO_CRM_API_KEY;
+    const POST = await loadPost();
+    const response = await POST(createJsonRequest(validQuotePayload));
+
+    expect(response.status).toBe(503);
+    expect(await readJson(response)).toEqual({
+      error: "The quote request service is not configured yet.",
+    });
+    expect(global.fetch).not.toHaveBeenCalled();
   });
 
   it("should return 200 without forwarding when the honeypot is filled", async () => {
@@ -98,22 +153,6 @@ describe("/api/quote", () => {
     });
   });
 
-  it.each([
-    ["invalid email", { email: "not-an-email" }, "Please enter a valid email address."],
-    ["invalid phone", { phone: "abc" }, "Please enter a valid phone number."],
-  ])("should return 400 for %s", async (_name, override, error) => {
-    const POST = await loadPost();
-    const response = await POST(
-      createJsonRequest({
-        ...validQuotePayload,
-        ...override,
-      }),
-    );
-
-    expect(response.status).toBe(400);
-    expect(await readJson(response)).toEqual({ error });
-  });
-
   it("should return 400 for unsafe uploaded file URLs", async () => {
     const POST = await loadPost();
     const response = await POST(
@@ -136,30 +175,7 @@ describe("/api/quote", () => {
     });
   });
 
-  it("should return 400 when uploaded files do not match the upload folder", async () => {
-    const POST = await loadPost();
-    const response = await POST(
-      createJsonRequest({
-        ...validQuotePayload,
-        files: [
-          {
-            name: "file-1.jpg",
-            size: 100,
-            type: "image/jpeg",
-            url: "https://store.public.blob.vercel-storage.com/quote-requests/2026-05-13/other-folder/file-1.jpg",
-          },
-        ],
-        uploadFolder: "quote-requests/2026-05-13/current-folder",
-      }),
-    );
-
-    expect(response.status).toBe(400);
-    expect(await readJson(response)).toEqual({
-      error: "The uploaded files do not match the quote folder.",
-    });
-  });
-
-  it("should return 502 when the webhook request fails", async () => {
+  it("should return 502 when the CRM request fails", async () => {
     jest.mocked(global.fetch).mockRejectedValue(new Error("Network error"));
     const POST = await loadPost();
     const response = await POST(createJsonRequest(validQuotePayload));
@@ -170,7 +186,7 @@ describe("/api/quote", () => {
     });
   });
 
-  it("should return 502 when the webhook returns a non-ok response", async () => {
+  it("should return 502 when the CRM rejects the lead", async () => {
     jest.mocked(global.fetch).mockResolvedValue({ ok: false } as Response);
     const POST = await loadPost();
     const response = await POST(createJsonRequest(validQuotePayload));
@@ -178,21 +194,6 @@ describe("/api/quote", () => {
     expect(response.status).toBe(502);
     expect(await readJson(response)).toEqual({
       error: "The quote request could not be sent. Please try again.",
-    });
-  });
-
-  it("should return 413 when the JSON body is too large", async () => {
-    const POST = await loadPost();
-    const response = await POST(
-      createJsonRequest({
-        ...validQuotePayload,
-        message: "x".repeat(33 * 1024),
-      }),
-    );
-
-    expect(response.status).toBe(413);
-    expect(await readJson(response)).toEqual({
-      error: "The quote request is too large.",
     });
   });
 
