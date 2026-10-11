@@ -123,19 +123,6 @@ export function getClientKey(request: Request) {
   );
 }
 
-export function parseWebhookUrl(value: string | undefined) {
-  if (!value) {
-    return null;
-  }
-
-  try {
-    const url = new URL(value);
-    return url.protocol === "https:" ? url.toString() : null;
-  } catch {
-    return null;
-  }
-}
-
 /**
  * The lead intake URL, https only in production. Local development talks to a
  * CRM running over plain http on the network, so http is allowed there.
