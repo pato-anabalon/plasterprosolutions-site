@@ -8,5 +8,3 @@
 ## Launch QA
 
 - Run one final end-to-end quote request test from the production domain after DNS is connected, including lead creation and attachment copy in the nodo CRM.
-- If the direct Quotient POST backup is revisited, test `/contact/direct-quotient-backup` against a disposable lead before trusting it.
-- If Zapier is reactivated later, test `/contact/zapier-backup` separately before exposing it to the client.

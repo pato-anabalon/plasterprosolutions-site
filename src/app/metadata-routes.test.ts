@@ -8,11 +8,6 @@ describe("metadata routes", () => {
       rules: {
         userAgent: "*",
         allow: "/",
-        disallow: [
-          "/contact/direct-quotient-backup",
-          "/contact/quotient-backup",
-          "/contact/zapier-backup",
-        ],
       },
       sitemap: `${siteConfig.url}/sitemap.xml`,
     });
@@ -42,8 +37,5 @@ describe("metadata routes", () => {
       ]),
     );
     expect(entries[0].lastModified).toBeInstanceOf(Date);
-    expect(entries.some((entry) => entry.url === `${siteConfig.url}/contact/zapier-backup`)).toBe(false);
-    expect(entries.some((entry) => entry.url === `${siteConfig.url}/contact/direct-quotient-backup`)).toBe(false);
-    expect(entries.some((entry) => entry.url === `${siteConfig.url}/contact/quotient-backup`)).toBe(false);
   });
 });

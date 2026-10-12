@@ -47,7 +47,6 @@ const defaultMinFlightMs = 2_600;
 type QuoteRequestFormProps = {
   /** Shortest time the send animation flies before showing the outcome. */
   minFlightMs?: number;
-  submitEndpoint?: string;
 };
 
 function wait(ms: number) {
@@ -99,8 +98,7 @@ async function withUploadTimeout<T>(uploadPromise: Promise<T>, fileName: string)
 }
 
 export function QuoteRequestForm({
-  minFlightMs = defaultMinFlightMs,
-  submitEndpoint = '/api/quote'
+  minFlightMs = defaultMinFlightMs
 }: QuoteRequestFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -210,7 +208,7 @@ export function QuoteRequestForm({
 
     setCaption('Sending your request...');
 
-    const response = await fetch(submitEndpoint, {
+    const response = await fetch('/api/quote', {
       body: JSON.stringify({
         address: String(formData.get('address') ?? ''),
         company: String(formData.get('company') ?? ''),
