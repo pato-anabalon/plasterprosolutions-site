@@ -1,3 +1,4 @@
+import { resolveLeadSource } from "@/lib/lead-source";
 import {
   type QuoteFileAttachment,
   isSafeQuoteBlobUrl,
@@ -199,7 +200,7 @@ export function validateQuotePayload(body: QuoteRequestBody): QuoteValidationRes
     message: asCleanString(body.message),
     page: asCleanString(body.page) || "/contact",
     phone: asCleanString(body.phone),
-    source: asCleanString(body.source) || "Website",
+    source: resolveLeadSource(asCleanString(body.source)),
     subject: asCleanString(body.subject),
     files,
     fileUrls: files.map((file) => `${file.name}: ${file.url}`).join("\n"),
