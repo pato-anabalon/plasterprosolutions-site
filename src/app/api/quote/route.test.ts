@@ -95,6 +95,31 @@ describe("/api/quote", () => {
     });
   });
 
+  it("should forward the way the customer found the company", async () => {
+    const POST = await loadPost();
+    await POST(createJsonRequest({ ...validQuotePayload, source: "NoCowboys" }));
+
+    const [, init] = jest.mocked(global.fetch).mock.calls[0];
+
+    expect(JSON.parse(String(init?.body))).toEqual(
+      expect.objectContaining({ source: "NoCowboys" }),
+    );
+  });
+
+  it.each([undefined, "", "something nobody offers"])(
+    "should send Website as the source when the form says %p",
+    async (source) => {
+      const POST = await loadPost();
+      await POST(createJsonRequest({ ...validQuotePayload, source }));
+
+      const [, init] = jest.mocked(global.fetch).mock.calls[0];
+
+      expect(JSON.parse(String(init?.body))).toEqual(
+        expect.objectContaining({ source: "Website" }),
+      );
+    },
+  );
+
   it("should leave out the idempotency and client IP headers it cannot trust", async () => {
     const POST = await loadPost();
     await POST(

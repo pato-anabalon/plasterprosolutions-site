@@ -1,7 +1,7 @@
 'use client';
 
 import { upload } from '@vercel/blob/client';
-import { Mail, X } from 'lucide-react';
+import { ChevronDown, Mail, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { Button } from '@/components/atoms/button';
 import {
@@ -10,6 +10,7 @@ import {
   QuoteSendOverlay,
   useQuoteSendAnimation
 } from '@/components/organisms/quote-send-overlay';
+import { leadSourceOptions } from '@/lib/lead-source';
 import {
   acceptedQuoteFileTypes,
   getQuoteUploadContentType,
@@ -219,7 +220,7 @@ export function QuoteRequestForm({
         message: String(formData.get('message') ?? ''),
         page: '/contact',
         phone: String(formData.get('phone') ?? ''),
-        source: 'Website',
+        source: String(formData.get('source') ?? ''),
         subject: String(formData.get('subject') ?? ''),
         submissionId: submissionIdRef.current,
         uploadFolder,
@@ -410,6 +411,33 @@ export function QuoteRequestForm({
             placeholder="Property address"
             required
           />
+        </label>
+
+        <label className="field-label" data-testid="quote-request-form-source-field">
+          How did you hear about us?
+          {/* The browser draws its own caret flush against the border and ignores
+              padding; it is dropped and drawn here instead, where it can have room. */}
+          <span className="relative block">
+            <select
+              className="field-control appearance-none pr-12"
+              data-testid="quote-request-form-source-select"
+              defaultValue=""
+              name="source"
+            >
+              <option value="">Select an option</option>
+              {leadSourceOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown
+              aria-hidden="true"
+              className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-muted"
+              size={18}
+              strokeWidth={2.4}
+            />
+          </span>
         </label>
 
         <label className="field-label" data-testid="quote-request-form-files-field">
