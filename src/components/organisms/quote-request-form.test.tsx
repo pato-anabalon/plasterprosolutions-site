@@ -97,6 +97,56 @@ describe("QuoteRequestForm", () => {
     expect(screen.getByLabelText(/address/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/company/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/add files/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/how did you hear about us/i)).toBeInTheDocument();
+  });
+
+  describe("how did you hear about us", () => {
+    async function submitWith(choose?: string) {
+      const { user } = setup();
+      const fetchMock = jest.mocked(global.fetch);
+      fetchMock.mockResolvedValue({
+        json: async () => ({ ok: true }),
+        ok: true,
+      } as Response);
+
+      await fillRequiredFields(user);
+      if (choose) {
+        await user.selectOptions(screen.getByLabelText(/how did you hear about us/i), choose);
+      }
+      await user.click(screen.getByRole("button", { name: /send request/i }));
+      await waitFor(() => expect(fetchMock).toHaveBeenCalled());
+
+      const [, requestInit] = fetchMock.mock.calls[0];
+      return JSON.parse(String(requestInit?.body)) as { source: string };
+    }
+
+    it("should be optional and offer an empty choice first", () => {
+      setup();
+      const select = screen.getByLabelText(/how did you hear about us/i);
+
+      expect(select).not.toBeRequired();
+      expect(select).toHaveValue("");
+      expect(screen.getByRole("option", { name: /select an option/i })).toBeInTheDocument();
+    });
+
+    it("should send the option the customer chose", async () => {
+      const payload = await submitWith("NoCowboys");
+
+      expect(payload.source).toBe("NoCowboys");
+    });
+
+    it("should send the CRM's name for an option labelled differently", async () => {
+      const payload = await submitWith("Other Social Network");
+
+      expect(screen.getByRole("option", { name: "Other Social Network" })).toBeInTheDocument();
+      expect(payload.source).toBe("Social media");
+    });
+
+    it("should send nothing when the customer chose nothing, leaving the CRM to say Website", async () => {
+      const payload = await submitWith();
+
+      expect(payload.source).toBe("");
+    });
   });
 
   it("should accumulate files added in separate selections", async () => {
